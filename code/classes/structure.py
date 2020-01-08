@@ -1,5 +1,5 @@
-import csv
-import random
+
+import csv, os, cs50, random
 
 class Game():
     """
@@ -11,6 +11,7 @@ class Game():
         # gridsize and grid creation
 
         self.gridsize = gridsize
+        self.gridexit = int((gridsize / 2) + 1)
         self.grid = []
         for i in range(self.gridsize):
             gridrow = []
@@ -32,6 +33,8 @@ class Game():
             y = self.coordinates[1]
             newcar = Car(car, orientation, x, y, length)
             self.cars.append(newcar)
+            if car == 'X':
+                self.redcar = newcar
 
         # fills grid with car id's
         for car in self.cars:
@@ -45,7 +48,23 @@ class Game():
                 for i in range(car.length):
                     self.grid[x][y] = car.id
                     x += 1
-        print(self.grid)
+
+    def win(self):
+        """
+            Returns True if the game is won, otherwise false.
+        """
+        if self.redcar.x == gridsize - 2 and self.redcar.y == self.gridexit:
+            return True
+        else:
+            return False
+
+
+    def __str__(self):
+        """
+            Returns the grid of the game.
+        """
+
+        return self.grid
 
 
     # def random(self):
@@ -124,6 +143,33 @@ class Car():
         self.y = int(y)
         self.length = int(length)
 
+class Play():
+    """
+        Plays the game.
+    """
+
+    def __init__(self):
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = cs50.get_int("What is the gridsize?")
+        csvfile = cs50.get_string("Which CSV file should we use?")
+        correctfile = False
+        while correctfile == False:
+            if (os.path.exists(csvfile)):
+                game = Game(csvfile, gridsize)
+                correctfile = True
+            else:
+                csvfile = cs50.get_string("CSV file does not exist. Which CSV file should we use?")
+        print("OK, let's go!")
+
+        # dit moet aangepast worden
+        moves = 0
+        gamewon = False
+        while gamewon == False:
+            game.move()
+            frame(game)
+            gamewon = game.win()
+            moves += 1
+        print(f"Done! It took {moves} moves to win the game")
+
 if __name__ == "__main__":
-    game = Game("Rushhour9x9_1.csv", 9)
-    item = game.move    ()
+    Play()
