@@ -8,6 +8,7 @@ class Game():
     def __init__(self, csvfile, gridsize):
 
         # gridsize and grid creation
+
         self.gridsize = gridsize
         self.gridexit = int((gridsize / 2) + 1)
         self.grid = []
@@ -63,6 +64,50 @@ class Game():
         """
 
         return self.grid
+
+        #
+        # def manual(self):
+        #     sd
+
+
+    def random(self):
+
+        car = random.choice(self.cars)
+        carlist = []
+        carlist.append(car)
+        print(carlist)
+        print("hoi")
+        return carlist
+
+    def updatecar(self):
+        """
+        liz doet dit
+        """
+
+    def move(self, car, direction):
+        """
+        de input hier is een keuze in auto en een keuze van - of +
+        """
+
+        """
+        For moving the board, check Orientation,
+        If Orientation is H only alteration of X is allowed, ergo only Y alteration is allowed if orientation is V
+
+        - Start with steps of 1.
+
+        - Prompt user for input (find the number game)
+        - ask which car they want to move (A/Z)
+        - Direction? (- or +)
+        - All grids with identity of car, check if block next to them is either 0 or the same identity.
+        - If not cancel move and return INVALID MOVE!
+        - otherwise change the grid
+        - change the coordinates in the item car.
+        -random is basically, a loop that just selects a car at random,
+        selects movement at random
+        TADAAA
+        - Next step is if the road to the exit is empty finish the game!
+        """
+
 
 class Car():
     """
