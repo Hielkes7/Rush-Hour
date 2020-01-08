@@ -1,4 +1,5 @@
 import csv
+import random
 
 class Game():
     """
@@ -46,29 +47,50 @@ class Game():
                     x += 1
         print(self.grid)
 
+
+    # def random(self):
+    #
+    #
+    #
+    #
+    # def updatecar(self):
+    #     """
+    #     liz doet dit
+    #     """
+
+    def move(self):
+        """
+        instructies van LI
+        """
+        random_car = random.choice(self.cars)
+        print("car:", random_car.id)
+        # the range of the grid is assuming the grid is equal length and width
+        gridlength = len(self.grid)
+        car_coordinates = []
+        for i in range(gridlength):
+            for j in range(gridlength):
+                if self.grid[i][j] == random_car.id:
+                    car_coordinates.append({i, j})
+
+
+        print(car_coordinates)
+
+
+
+
+
+        # if random_car.orientation == "V":
+        #     vh
         #
-        # def manual(self):
-        #     sd
+        # elif random_car.orientation == "H":
+        #     df
 
 
-    def random(self):
 
-        car = random.choice(self.cars)
-        carlist = []
-        carlist.append(car)
-        print(carlist)
-        print("hoi")
-        return carlist
 
-    def updatecar(self):
-        """
-        liz doet dit
-        """
 
-    def move(self, car, direction):
-        """
-        de input hier is een keuze in auto en een keuze van - of +
-        """
+
+
 
         """
         For moving the board, check Orientation,
@@ -104,4 +126,4 @@ class Car():
 
 if __name__ == "__main__":
     game = Game("Rushhour9x9_1.csv", 9)
-    item = game.random()
+    item = game.move    ()
