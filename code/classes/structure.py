@@ -1,5 +1,4 @@
-
-import csv, os, cs50, random
+import csv, os, cs50
 
 class Game():
     """
@@ -9,7 +8,6 @@ class Game():
     def __init__(self, csvfile, gridsize):
 
         # gridsize and grid creation
-
         self.gridsize = gridsize
         self.gridexit = int((gridsize / 2) + 1)
         self.grid = []
@@ -53,7 +51,7 @@ class Game():
         """
             Returns True if the game is won, otherwise false.
         """
-        if self.redcar.x == gridsize - 2 and self.redcar.y == self.gridexit:
+        if self.redcar.x == gridsize - 2 && self.redcar.y == self.gridexit:
             return True
         else:
             return False
@@ -66,50 +64,45 @@ class Game():
 
         return self.grid
 
-
-    # def random(self):
-    #
-    #
-    #
-    #
-    # def updatecar(self):
-    #     """
-    #     liz doet dit
-    #     """
-
-    def move(self):
-        """
-        instructies van LI
-        """
-        random_car = random.choice(self.cars)
-        print("car:", random_car.id)
-        # the range of the grid is assuming the grid is equal length and width
-        gridlength = len(self.grid)
-        car_coordinates = []
-        for i in range(gridlength):
-            for j in range(gridlength):
-                if self.grid[i][j] == random_car.id:
-                    car_coordinates.append({i, j})
-
-
-        print(car_coordinates)
-
-
-
-
-
-        # if random_car.orientation == "V":
-        #     vh
         #
-        # elif random_car.orientation == "H":
-        #     df
+        # def manual(self):
+        #     sd
 
 
+    def random(self):
 
+        car = random.choice(self.cars)
+        carlist = []
+        carlist.append(car)
+        print(carlist)
+        print("hoi")
+        return carlist
 
+    def update(self, game, car, x, y):
+        """
+            Updates the coordinates of a car and the grid.
+        """
+            car.x = x
+            car.y = y
+            for i in range(game.gridsize):
+                for j in range(game.gridsize):
+                    if grid[i][j] == car.id:
+                        grid[i][j] = 0
+            temporary_x = car.x - 1
+            temporary_y = car.y - 1
+            if car.orientation == "V":
+                for i in range(car.length):
+                    self.grid[x][y] = car.id
+                    y += 1
+            else:
+                for i in range(car.length):
+                    self.grid[x][y] = car.id
+                    x += 1
 
-
-
+    def move(self, car, direction):
+        """
+        de input hier is een keuze in auto en een keuze van - of +
+        """
 
         """
         For moving the board, check Orientation,
