@@ -112,6 +112,14 @@ def plot(grid):
     plt.show()
     plt.cla()
 
+def print_grid_terminal(grid):
+    grid_size = len(grid)
+
+    for i in range(grid_size):
+        for j in range(grid_size):
+            print(grid[i][j], " ", end="")
+        print()
+
 def save_plot(grid, file_name):
     """
     This function saves the plot of the given grid
@@ -144,7 +152,7 @@ def save_plot(grid, file_name):
             }
     grid_size = len(grid)
 
-    fig = plt.figure()
+    plt.figure()
     ax = plt.axes()
     for x in range(grid_size):
         for y in range(grid_size):
