@@ -36,8 +36,8 @@ class Game():
 
         # fills grid with car id's
         for car in self.cars:
-            x = car.x - 1
-            y = car.y - 1
+            x = car.x
+            y = car.y
             if car.orientation == "V":
                 for i in range(car.length):
                     self.grid[x][y] = car.id
@@ -51,7 +51,7 @@ class Game():
         """
             Returns True if the game is won, otherwise false.
         """
-        if self.redcar.x == gridsize - 2 and self.redcar.y == self.gridexit:
+        if self.redcar.x == self.gridsize - 2 and self.redcar.y == self.gridexit:
             return True
         else:
             return False
@@ -73,17 +73,15 @@ class Game():
         car.y = y
         for i in range(self.gridsize):
             for j in range(self.gridsize):
-                if grid[i][j] == car.id:
-                    grid[i][j] = 0
-        temporary_x = car.x - 1
-        temporary_y = car.y - 1
+                if self.grid[i][j] == car.id:
+                    self.grid[i][j] = 0
         if car.orientation == "V":
             for i in range(car.length):
-                self.grid[x][y] = car.id
+                self.grid[car.x][car.y] = car.id
                 y += 1
         else:
             for i in range(car.length):
-                self.grid[x][y] = car.id
+                self.grid[car.x][car.y] = car.id
                 x += 1
 
     def random_move(self):
@@ -97,20 +95,20 @@ class Game():
             move_x_negative = False
 
             #onderstaande code geeft nog een foutmelding
-
+            print(car.x, car.y, car.orientation)
             if car.orientation == 'V':
-                if self.grid[car.x][car.y+car.length]:
+                if car.y + car.length < self.gridsize:
                     if self.grid[car.x][car.y+car.length] == 0:
                         move_y_positive = True
-                if self.grid[car.x][car.y-1]:
+                if car.y - 1 >= 0:
                     if self.grid[car.x][car.y-1] == 0:
                         move_y_negative = True
 
             if car.orientation == 'H':
-                if self.grid[car.x+car.length][car.y]:
+                if car.x + car.length < self.gridsize:
                     if self.grid[car.x+car.length][car.y] == 0:
                         move_x_positive = True
-                if self.grid[car.x-1][car.y]:
+                if car.x - 1 >= 0:
                     if self.grid[car.x-1][car.y] == 0:
                         move_x_negative = True
 
@@ -132,7 +130,7 @@ class Game():
                 self.update(car, x, y)
 
             elif move_y_negative:
-                y = car.y - 1
+                y = car.y
                 self.update(car, x, y)
 
         if move_x_positive or move_x_negative:
@@ -151,7 +149,7 @@ class Game():
                 self.update(car, x, y)
 
             elif move_x_negative:
-                x = car.x - 1
+                x = car.x
                 self.update(car, x, y)
 
 class Car():
@@ -162,8 +160,8 @@ class Car():
     def __init__(self, car, orientation, x, y, length):
         self.id = car
         self.orientation = orientation
-        self.x = int(x)
-        self.y = int(y)
+        self.x = int(x) - 1
+        self.y = int(y) - 1
         self.length = int(length)
 
 class Play():
