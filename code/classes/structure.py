@@ -155,6 +155,17 @@ class Game():
 
         # print(f"go {car.x}, {car.y}, {car.orientation}" )
 
+    def print_grid_terminal(self, grid):
+        """
+        puur voor visualising grid
+        """
+        grid_size = len(grid)
+
+        for i in range(grid_size):
+            for j in range(grid_size):
+                print(grid[i][j], " ", end="")
+            print()
+
 class Car():
     """
         Creates a car object that is used for a game.
@@ -195,6 +206,9 @@ class Play():
             game.random_move()
             gamewon = game.win()
             moves += 1
+            print(moves)
+            if moves % 100 == 0:
+                game.print_grid_terminal(game.grid)
         print(f"Done! It took {moves} moves to win the game")
 
 if __name__ == "__main__":
