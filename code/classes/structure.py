@@ -47,6 +47,13 @@ class Game():
                     self.grid[x][y] = car.id
                     x += 1
 
+    def __str__(self):
+        """
+            Returns the grid of the game.
+        """
+
+        return self.grid
+
     def win(self):
         """
             Returns True if the game is won, otherwise false.
@@ -56,13 +63,6 @@ class Game():
         else:
             return False
 
-
-    def __str__(self):
-        """
-            Returns the grid of the game.
-        """
-
-        return self.grid
 
     def update(self, car, x, y):
         """
@@ -75,6 +75,7 @@ class Game():
             for j in range(self.gridsize):
                 if self.grid[i][j] == car.id:
                     self.grid[i][j] = 0
+
         if car.orientation == "V":
             for i in range(car.length):
                 self.grid[car.x][car.y] = car.id

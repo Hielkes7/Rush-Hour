@@ -18,7 +18,6 @@ grid = [['Q', 'Q', 'L', 'I', 'I', 'E',  0,  'B', 'B'],
         ['U',  0,   0,  'K',  0,  'G',  0,  'C',  0],
         ['U', 'P', 'P', 'P', 'H', 'H', 'H', 'C',  0]]
 
-
 def frame(grid):
     """
     This function returns a plot of the given grid
