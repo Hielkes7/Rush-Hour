@@ -163,7 +163,7 @@ class Game():
 
         for i in range(grid_size):
             for j in range(grid_size):
-                print(grid[i][j], " ", end="")
+                print(grid[j][i], " ", end="")
             print()
 
 class Car():
@@ -202,14 +202,23 @@ class Play():
         game = Game(csvfile, gridsize)
         moves = 0
         gamewon = False
+        print("initial board state:")
+
+        game.print_grid_terminal(game.grid)
+        print()
+
 
         while gamewon == False:
             game.random_move()
             gamewon = game.win()
             moves += 1
-            print(moves)
+            # print(moves)
             if moves % 100 == 0:
                 game.print_grid_terminal(game.grid)
+                print(moves)
+            if moves > 10000:
+                print("run out of moves")
+                break
         print(f"Done! It took {moves} moves to win the game")
 
 if __name__ == "__main__":
