@@ -58,7 +58,7 @@ class Game():
         """
             Returns True if the game is won, otherwise false.
         """
-        if self.redcar.x == self.gridsize - 2 and self.redcar.y == self.gridexit:
+        if (self.redcar.x == self.gridsize - 1) and (self.redcar.y == self.gridexit):
             return True
         else:
             return False
@@ -78,11 +78,11 @@ class Game():
 
         if car.orientation == "V":
             for i in range(car.length):
-                self.grid[car.x][car.y] = car.id
+                self.grid[x-1][y-1] = car.id
                 y += 1
         else:
             for i in range(car.length):
-                self.grid[car.x][car.y] = car.id
+                self.grid[x-1][y-1] = car.id
                 x += 1
 
     def random_move(self):
@@ -96,7 +96,7 @@ class Game():
             move_x_negative = False
 
             #onderstaande code geeft nog een foutmelding
-            print(car.x, car.y, car.orientation)
+            # print(car.x, car.y, car.orientation, car.length)
             if car.orientation == 'V':
                 if car.y + car.length < self.gridsize:
                     if self.grid[car.x][car.y+car.length] == 0:
@@ -153,6 +153,8 @@ class Game():
                 x = car.x
                 self.update(car, x, y)
 
+        # print(f"go {car.x}, {car.y}, {car.orientation}" )
+
 class Car():
     """
         Creates a car object that is used for a game.
@@ -193,7 +195,6 @@ class Play():
             game.random_move()
             gamewon = game.win()
             moves += 1
-            print(moves)
         print(f"Done! It took {moves} moves to win the game")
 
 if __name__ == "__main__":
