@@ -1,4 +1,6 @@
 import csv, os, random
+import matplotlib.pyplot as plt
+
 
 class Game():
     """
@@ -178,15 +180,95 @@ class Car():
         self.y = int(y) - 1
         self.length = int(length)
 
-class Play():
+def save_plot(grid, file_name):
     """
-        Plays the game.
+    This function saves the plot of the given grid
     """
+
     def __init__(self):
         print("Hi! Let's play Rush-Hour!")
 
         gridsize = 6
         csvfile = "Rushhour6x6_1.csv"
+
+    colors = {'A': "#cc3399",
+              'B': "#FFF000",
+              'C': "#008000",
+              'D': "#0000FF",
+              'E': "#000000",
+              'F': "#00FFFF",
+              'G': "#FF00FF",
+              'H': "#FFA500",
+              'I': "#FFE455",
+              'J': "#BC8F8F",
+              'K': "#DA70D6",
+              'L': "#00ff00",
+              'M': "#0066ff",
+              'N': "#663300",
+              'O': "#003366",
+              'P': "#660066",
+              'Q': "#666699",
+              'R': "#339966",
+              'S': "#666633",
+              'T': "#00cc00",
+              'U': "#ff0066",
+              'V': "#cc3300",
+              'W': "#ff9999",
+              'X': "#FF0000",
+              'Y': "#99cc00"
+            }
+    grid_size = len(grid)
+
+    plt.figure()
+    ax = plt.axes()
+    for x in range(grid_size):
+        for y in range(grid_size):
+            if grid[x][y] != 0:
+                block = plt.Rectangle((x, y), 1, 1, fc=colors[grid[x][y]])
+                ax.add_patch(block)
+
+    plt.axis('scaled')
+    plt.xlim(0, grid_size)
+    plt.ylim(0, grid_size)
+    plt.grid()
+    plt.savefig(file_name)
+    plt.cla()
+
+gridsize = 6
+csvfile = "Rushhour6x6_1.csv"
+
+game = Game(csvfile, gridsize)
+moves = 0
+gamewon = False
+
+save_plot(game.grid, "frame1.png")
+game.random_move()
+
+save_plot(game.grid, "frame2.png")
+game.random_move()
+
+save_plot(game.grid, "frame3.png")
+game.random_move()
+
+save_plot(game.grid, "frame4.png")
+game.random_move()
+
+save_plot(game.grid, "frame5.png")
+game.random_move()
+
+save_plot(game.grid, "frame6.png")
+game.random_move()
+
+# class Play():
+#     """
+#         Plays the game.
+#     """
+#     def __init__(self):
+#         print("Hi! Let's play Rush-Hour!")
+#         gridsize = 6
+#         csvfile = "Rushhour6x6_1.csv"
+
+
         # gridsize = cs50.get_int("What is the gridsize?")
         # csvfile = cs50.get_string("Which CSV file should we use?")
         # correctfile = False
@@ -199,6 +281,7 @@ class Play():
         # print("OK, let's go!")
 
         # dit moet aangepast worden
+
         game = Game(csvfile, gridsize)
         moves = 0
         gamewon = False
@@ -221,5 +304,21 @@ class Play():
                 break
         print(f"Done! It took {moves} moves to win the game")
 
-if __name__ == "__main__":
-    Play()
+# if __name__ == "__main__":
+#     Play()
+
+# #         game = Game(csvfile, gridsize)
+# #         moves = 0
+# #         gamewon = False
+# #
+# #         while gamewon == False:
+# #             game.random_move()
+# #             gamewon = game.win()
+# #             moves += 1
+# #             print(moves)
+# #             if moves % 100 == 0:
+# #                 game.print_grid_terminal(game.grid)
+# #         print(f"Done! It took {moves} moves to win the game")
+# #
+# # if __name__ == "__main__":
+# #     Play()
