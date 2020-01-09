@@ -51,7 +51,7 @@ class Game():
         """
             Returns True if the game is won, otherwise false.
         """
-        if self.redcar.x == gridsize - 2 && self.redcar.y == self.gridexit:
+        if self.redcar.x == gridsize - 2 and self.redcar.y == self.gridexit:
             return True
         else:
             return False
