@@ -80,6 +80,7 @@ class Game():
             for i in range(car.length):
                 self.grid[x-1][y-1] = car.id
                 y += 1
+
         else:
             for i in range(car.length):
                 self.grid[x-1][y-1] = car.id
@@ -130,8 +131,8 @@ class Game():
                 y = car.y + car.length
                 self.update(car, x, y)
 
-            elif move_y_negative:
-                y = car.y
+            else:
+                y = car.y - 1
                 self.update(car, x, y)
 
         if move_x_positive or move_x_negative:
@@ -149,8 +150,8 @@ class Game():
                 x = car.x + car.length
                 self.update(car, x, y)
 
-            elif move_x_negative:
-                x = car.x
+            else:
+                x = car.x - 1
                 self.update(car, x, y)
 
         # print(f"go {car.x}, {car.y}, {car.orientation}" )
@@ -178,6 +179,15 @@ class Car():
         self.y = int(y) - 1
         self.length = int(length)
 
+
+    def __str__(self):
+        """
+            Returns the id of a car.
+        """
+
+        return self.id
+
+
 class Play():
     """
         Plays the game.
@@ -198,7 +208,6 @@ class Play():
         #         csvfile = cs50.get_string("CSV file does not exist. Which CSV file should we use?")
         # print("OK, let's go!")
 
-        # dit moet aangepast worden
         game = Game(csvfile, gridsize)
         moves = 0
         gamewon = False
@@ -207,8 +216,8 @@ class Play():
             gamewon = game.win()
             moves += 1
             print(moves)
-            if moves % 100 == 0:
-                game.print_grid_terminal(game.grid)
+        #     if moves % 100 == 0:
+        #         game.print_grid_terminal(game.grid)
         print(f"Done! It took {moves} moves to win the game")
 
 if __name__ == "__main__":
