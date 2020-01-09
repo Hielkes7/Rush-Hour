@@ -51,14 +51,13 @@ class Game():
         """
             Returns the grid of the game.
         """
-
         return self.grid
 
     def win(self):
         """
             Returns True if the game is won, otherwise false.
         """
-        if self.redcar.x == self.gridsize - 2 and self.redcar.y == self.gridexit:
+        if self.redcar.x == self.gridsize - 1 and self.redcar.y == self.gridexit:
             return True
         else:
             return False
@@ -169,7 +168,6 @@ class Play():
     """
         Plays the game.
     """
-
     def __init__(self):
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
@@ -189,11 +187,32 @@ class Play():
         game = Game(csvfile, gridsize)
         moves = 0
         gamewon = False
-        while gamewon == False:
-            game.random_move()
-            gamewon = game.win()
-            moves += 1
-            print(moves)
+        # while gamewon == False:
+
+        game.random_move()
+        save_plot(game(), "frame1.jpg")
+
+        game.random_move()
+        save_plot(game(), "frame2.jpg")
+
+        game.random_move()
+        save_plot(game(), "frame3.jpg")
+
+        game.random_move()
+        save_plot(game(), "frame4.jpg")
+
+        game.random_move()
+        save_plot(game(), "frame5.jpg")
+
+        game.random_move()
+        save_plot(game(), "frame6.jpg")
+
+        game.random_move()
+        save_plot(game(), "frame7.jpg")
+
+        game.random_move()
+        save_plot(game(), "frame8.jpg")
+
         print(f"Done! It took {moves} moves to win the game")
 
 if __name__ == "__main__":
