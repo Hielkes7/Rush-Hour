@@ -57,7 +57,8 @@ class Game():
         """
             Returns True if the game is won, otherwise false.
         """
-        if self.redcar.x == self.gridsize - 1 and self.redcar.y == self.gridexit:
+
+        if (self.redcar.x == self.gridsize - 1) and (self.redcar.y == self.gridexit):
             return True
         else:
             return False
@@ -77,11 +78,11 @@ class Game():
 
         if car.orientation == "V":
             for i in range(car.length):
-                self.grid[car.x][car.y] = car.id
+                self.grid[x-1][y-1] = car.id
                 y += 1
         else:
             for i in range(car.length):
-                self.grid[car.x][car.y] = car.id
+                self.grid[x-1][y-1] = car.id
                 x += 1
 
     def random_move(self):
@@ -95,7 +96,7 @@ class Game():
             move_x_negative = False
 
             #onderstaande code geeft nog een foutmelding
-            print(car.x, car.y, car.orientation)
+            # print(car.x, car.y, car.orientation, car.length)
             if car.orientation == 'V':
                 if car.y + car.length < self.gridsize:
                     if self.grid[car.x][car.y+car.length] == 0:
@@ -152,6 +153,19 @@ class Game():
                 x = car.x
                 self.update(car, x, y)
 
+        # print(f"go {car.x}, {car.y}, {car.orientation}" )
+
+    def print_grid_terminal(self, grid):
+        """
+        puur voor visualising grid
+        """
+        grid_size = len(grid)
+
+        for i in range(grid_size):
+            for j in range(grid_size):
+                print(grid[i][j], " ", end="")
+            print()
+
 class Car():
     """
         Creates a car object that is used for a game.
@@ -187,32 +201,14 @@ class Play():
         game = Game(csvfile, gridsize)
         moves = 0
         gamewon = False
-        # while gamewon == False:
 
-        game.random_move()
-        save_plot(game(), "frame1.jpg")
-
-        game.random_move()
-        save_plot(game(), "frame2.jpg")
-
-        game.random_move()
-        save_plot(game(), "frame3.jpg")
-
-        game.random_move()
-        save_plot(game(), "frame4.jpg")
-
-        game.random_move()
-        save_plot(game(), "frame5.jpg")
-
-        game.random_move()
-        save_plot(game(), "frame6.jpg")
-
-        game.random_move()
-        save_plot(game(), "frame7.jpg")
-
-        game.random_move()
-        save_plot(game(), "frame8.jpg")
-
+        while gamewon == False:
+            game.random_move()
+            gamewon = game.win()
+            moves += 1
+            print(moves)
+            if moves % 100 == 0:
+                game.print_grid_terminal(game.grid)
         print(f"Done! It took {moves} moves to win the game")
 
 if __name__ == "__main__":
