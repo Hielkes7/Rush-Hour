@@ -184,6 +184,7 @@ class Play():
 
     def __init__(self):
         print("Hi! Let's play Rush-Hour!")
+
         gridsize = 6
         csvfile = "Rushhour6x6_1.csv"
         # gridsize = cs50.get_int("What is the gridsize?")
