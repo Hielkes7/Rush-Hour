@@ -1,4 +1,6 @@
 import csv, os, random
+import matplotlib.pyplot as plt
+
 
 class Game():
     """
