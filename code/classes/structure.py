@@ -56,8 +56,7 @@ class Game():
 
         return self.grid
 
-
-    def save_plot(self, grid, file_name):
+    def save_plot(self, file_name):
 
         colors = {'A': "#cc3399",
                   'B': "#FFF000",
@@ -85,23 +84,21 @@ class Game():
                   'X': "#FF0000",
                   'Y': "#99cc00"
                 }
-        grid_size = len(grid)
 
         plt.figure()
         ax = plt.axes()
-        for x in range(grid_size):
-            for y in range(grid_size):
-                if grid[x][y] != 0:
-                    block = plt.Rectangle((x, y), 1, 1, fc=colors[grid[x][y]])
+        for x in range(self.gridsize + 1):
+            for y in range(self.gridsize + 1):
+                if self.grid[x][y] != 0:
+                    block = plt.Rectangle((x, y), 1, 1, fc=colors[self.grid[x][y]])
                     ax.add_patch(block)
 
         plt.axis('scaled')
-        plt.xlim(0, grid_size)
-        plt.ylim(0, grid_size)
+        plt.xlim(0, self.gridsize + 1)
+        plt.ylim(0, self.gridsize + 1)
         plt.grid()
         plt.savefig(file_name)
         plt.cla()
-
 
     def win(self):
         """
@@ -112,6 +109,30 @@ class Game():
         else:
             return False
 
+    def win_hiele(self):
+        """
+            Returns True when the game is won. This happens when the path of
+            the red car to the exit is free. When the game is won, this function
+            also moves the red car to the exit
+        """
+
+        y_path = self.redcar.y
+        for x_path in range(self.redcar.x + self.redcar.length, self.gridsize + 1):
+
+            # check if any of the path blocks aren't 0
+            if self.grid[x_path][y_path] != 0:
+                return False
+
+        # if path is free, remove red car from its original position
+        self.grid[self.redcar.x][self.redcar.y] = 0
+        self.grid[self.redcar.x + 1][self.redcar.y] = 0
+
+        # add red car to exit position
+        x_exit = self.gridsize - 1
+        y_exit = int((self.gridsize + 1) / 2)
+        self.grid[x_exit][y_exit] = "X"
+        self.grid[x_exit + 1][y_exit] = "X"
+        return True
 
     def update(self, car, x, y):
         """
@@ -225,7 +246,6 @@ class Car():
         self.y = int(y) - 1
         self.length = int(length)
 
-
     def __str__(self):
         """
             Returns the id of a car.
@@ -238,7 +258,6 @@ class Play():
     """
         Plays the game.
     """
-
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
@@ -247,13 +266,23 @@ class Play():
         game = Game(csvfile, gridsize)
         moves = 0
         gamewon = False
+        make_plots = False
+
+        # save plot initial grid setup
+        game.save_plot("frame0.png")
         while gamewon == False:
             game.random_move()
-            gamewon = game.win()
             moves += 1
-        print(f"Done! It took {moves} moves to win the game")
-        game.save_plot(game.grid, "finished.png")
 
+            if make_plots:
+                file_name = "frame" + str(moves) + ".png"
+                game.save_plot(file_name)
+
+            gamewon = game.win_hiele()
+        print(f"Done! It took {moves} moves to win the game")
+        file_name = "frame" + str(moves + 1) + ".png"
+        game.save_plot(file_name)
+        game.save_plot("finished.png")
 
 if __name__ == "__main__":
     Play()
