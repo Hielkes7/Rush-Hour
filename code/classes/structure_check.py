@@ -1,5 +1,4 @@
 import csv, os, random
-import matplotlib.pyplot as plt
 
 class Game():
     """
@@ -56,53 +55,6 @@ class Game():
 
         return self.grid
 
-
-    def save_plot(self, grid, file_name):
-
-        colors = {'A': "#cc3399",
-                  'B': "#FFF000",
-                  'C': "#008000",
-                  'D': "#0000FF",
-                  'E': "#000000",
-                  'F': "#00FFFF",
-                  'G': "#FF00FF",
-                  'H': "#FFA500",
-                  'I': "#FFE455",
-                  'J': "#BC8F8F",
-                  'K': "#DA70D6",
-                  'L': "#00ff00",
-                  'M': "#0066ff",
-                  'N': "#663300",
-                  'O': "#003366",
-                  'P': "#660066",
-                  'Q': "#666699",
-                  'R': "#339966",
-                  'S': "#666633",
-                  'T': "#00cc00",
-                  'U': "#ff0066",
-                  'V': "#cc3300",
-                  'W': "#ff9999",
-                  'X': "#FF0000",
-                  'Y': "#99cc00"
-                }
-        grid_size = len(grid)
-
-        plt.figure()
-        ax = plt.axes()
-        for x in range(grid_size):
-            for y in range(grid_size):
-                if grid[x][y] != 0:
-                    block = plt.Rectangle((x, y), 1, 1, fc=colors[grid[x][y]])
-                    ax.add_patch(block)
-
-        plt.axis('scaled')
-        plt.xlim(0, grid_size)
-        plt.ylim(0, grid_size)
-        plt.grid()
-        plt.savefig(file_name)
-        plt.cla()
-
-
     def win(self):
         """
             Returns True if the game is won, otherwise false.
@@ -145,8 +97,10 @@ class Game():
             move_x_positive = False
             move_x_negative = False
 
+            #onderstaande code geeft nog een foutmelding
+            # print(car.x, car.y, car.orientation, car.length)
             if car.orientation == 'V':
-                if car.y + car.length <= self.gridsize:
+                if car.y + car.length =< self.gridsize:
                     if self.grid[car.x][car.y+car.length] == 0:
                         move_y_positive = True
                 if car.y - 1 >= 0:
@@ -154,7 +108,7 @@ class Game():
                         move_y_negative = True
 
             if car.orientation == 'H':
-                if car.x + car.length <= self.gridsize:
+                if car.x + car.length =< self.gridsize:
                     if self.grid[car.x+car.length][car.y] == 0:
                         move_x_positive = True
                 if car.x - 1 >= 0:
@@ -201,11 +155,12 @@ class Game():
                 x = car.x - 1
                 self.update(car, x, y)
 
+        # print(f"go {car.x}, {car.y}, {car.orientation}" )
+
     def print_grid_terminal(self, grid):
         """
-            Visualizes the grid.
+        puur voor visualising grid
         """
-
         grid_size = len(grid)
 
         for i in range(grid_size):
@@ -240,10 +195,20 @@ class Play():
     """
 
     def __init__(self):
-
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "Rushhour9x9_1.csv"
+        gridsize = 6
+        csvfile = "Rushhour6x6_1.csv"
+        # gridsize = cs50.get_int("What is the gridsize?")
+        # csvfile = cs50.get_string("Which CSV file should we use?")
+        # correctfile = False
+        # while correctfile == False:
+        #     if (os.path.exists(csvfile)):
+        #         game = Game(csvfile, gridsize)
+        #         correctfile = True
+        #     else:
+        #         csvfile = cs50.get_string("CSV file does not exist. Which CSV file should we use?")
+        # print("OK, let's go!")
+
         game = Game(csvfile, gridsize)
         moves = 0
         gamewon = False
@@ -251,9 +216,10 @@ class Play():
             game.random_move()
             gamewon = game.win()
             moves += 1
+            print(moves)
+        #     if moves % 100 == 0:
+        #         game.print_grid_terminal(game.grid)
         print(f"Done! It took {moves} moves to win the game")
-        game.save_plot(game.grid, "finished.png")
-
 
 if __name__ == "__main__":
     Play()
