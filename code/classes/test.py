@@ -1,3 +1,10 @@
-gridsize = 7
-gridexit = int((gridsize / 2) + 1)
-print(gridexit)
+cars = {'A': [1, 5, 'H', '2'],
+        'B': [3, 5, 'H', '2'],
+        'C': [1, 4, 'H', '2']}
+
+cars2 = {'A': [1, 5, 'H', '2'],
+        'B': [3, 5, 'H', '2'],
+        'C': [1, 4, 'H', '2']}
+
+if cars == cars2:
+    print("yaaa")
