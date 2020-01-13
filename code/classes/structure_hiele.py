@@ -1,4 +1,4 @@
-import csv, os, random
+import csv, os, random, time
 import matplotlib.pyplot as plt
 
 class Game():
@@ -7,6 +7,9 @@ class Game():
     """
 
     def __init__(self, csvfile, gridsize):
+
+        # variable for non recurrent algorithm, start with dummy value
+        self.previous_car_id = None
 
         # gridsize and grid creation
         self.gridsize = gridsize - 1
@@ -211,6 +214,66 @@ class Game():
                 self.grid[x][y] = car.id
                 x += 1
 
+    def movable_up(self, car):
+        """
+            Checks whether above the given car is an empty spot.
+        """
+        # check if car is not next to upper edge
+        if car.y + car.length <= self.gridsize:
+
+            # check above the car for an empty spot
+            if self.grid[car.x][car.y + car.length] == 0:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def movable_down(self, car):
+        """
+            Checks whether below the given car is an empty spot.
+        """
+        # check if car is not next to lower edge
+        if car.y - 1 >= 0:
+
+            # check below the car for an empty spots
+            if self.grid[car.x][car.y - 1] == 0:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def movable_left(self, car):
+        """
+            Checks whether left of the given car is an empty spot.
+        """
+        # check if car is not next to the left edge
+        if car.x - 1 >= 0:
+
+            # check left of the car for an empty spots
+            if self.grid[car.x - 1][car.y] == 0:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def movable_right(self, car):
+        """
+            Checks whether right of the given car is an empty spot.
+        """
+        # check if car is not next to the right edge
+        if car.x + car.length <= self.gridsize:
+
+            # check right the car for an empty spot
+            if self.grid[car.x + car.length][car.y] == 0:
+                return True
+            else:
+                return False
+        else:
+            return False
+
     def random_move_small_steps(self):
 
         car_possible = False
@@ -277,66 +340,6 @@ class Game():
                 x = car.x - 1
                 self.update(car, x, y)
 
-    def movable_up(self, car):
-        """
-            Checks whether above the given car is an empty spot.
-        """
-        # check if car is not next to upper edge
-        if car.y + car.length <= self.gridsize:
-
-            # check above the car for an empty spot
-            if car.y + car.length == 0:
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    def movable_down(self, car):
-        """
-            Checks whether below the given car is an empty spot.
-        """
-        # check if car is not next to lower edge
-        if car.y - 1 >= 0:
-
-            # check below the car for an empty spots
-            if self.grid[car.x][car.y - 1] == 0:
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    def movable_left(self, car):
-        """
-            Checks whether left of the given car is an empty spot.
-        """
-        # check if car is not next to the left edge
-        if car.x - 1 >= 0:
-
-            # check left of the car for an empty spots
-            if self.grid[car.x - 1][car.y] == 0:
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    def movable_right(self, car):
-        """
-            Checks whether right of the given car is an empty spot.
-        """
-        # check if car is not next to the right edge
-        if car.x + car.length <= self.gridsize:
-
-            # check right the car for an empty spot
-            if car.x + car.length == 0:
-                return True
-            else:
-                return False
-        else:
-            return False
-
     def random_move_big_steps(self):
         """
             This function moves a random car as far as it can go.
@@ -348,6 +351,94 @@ class Game():
 
             # pick random car
             car = random.choice(self.cars)
+            print(car.id)
+            move_y_positive = False
+            move_y_negative = False
+            move_x_positive = False
+            move_x_negative = False
+
+            # check if the car can move up or down
+            if car.orientation == "V":
+
+                # check if car can move up
+                move_y_positive = self.movable_up(car)
+
+                # check if car can move down
+                move_y_negative = self.movable_down(car)
+
+            # else car can only move left or right
+            else:
+
+                # check if car can move right
+                move_x_positive = self.movable_right(car)
+
+                # check if car can move left
+                move_x_negative = self.movable_left(car)
+
+            # if the car can move in any of the 4 directions, it's movable
+            if move_y_positive or move_y_negative or move_x_positive or move_x_negative:
+                car_movable = True
+
+        print(True)
+
+        # if the car can move both up and down, randomly pick one
+        if move_y_positive and move_y_negative:
+            random_choice =  random.choice([0, 1])
+            if random_choice == 1:
+                move_y_positive = False
+            else:
+                move_y_negative = False
+
+        # if the car can move both left and right, randomly pick one
+        if move_x_positive and move_x_negative:
+            random_choice =  random.choice([0, 1])
+            if random_choice == 1:
+                move_x_positive = False
+            else:
+                move_x_negative = False
+
+        # keep moving the car right untill it's it blocked
+        if move_x_positive:
+            while self.movable_right(car):
+                self.update(car, car.x + 1, car.y)
+
+        # keep moving the car left untill it's it blocked
+        if move_x_negative:
+            while self.movable_left(car):
+                self.update(car, car.x - 1, car.y)
+
+        # keep moving the car up untill it's it blocked
+        if move_y_positive:
+            while self.movable_up(car):
+                self.update(car, car.x, car.y + 1)
+
+        # keep moving the car down untill it's blocked
+        if move_y_negative:
+            while self.movable_down(car):
+                self.update(car, car.x, car.y - 1)
+
+    def random_move_non_recurrent(self):
+        """
+            This function moves a random car as far as it can go. It can't move
+            the same car from the previous move. Returns the car it used
+        """
+        # keep looping untill a randomly picked car is able to move
+        car_movable = False
+        while not car_movable:
+
+            # pick random car except previous car
+            car = random.choice(self.cars)
+            print(self.previous_car_id)
+            print(car.id)
+            time.sleep(1)
+            while car.id == self.previous_car_id:
+                print("change")
+                car = random.choice(self.cars)
+
+            print()
+            # when found a new car, update previous_car_id
+            self.previous_car_id = car.id
+
             move_y_positive = False
             move_y_negative = False
             move_x_positive = False
@@ -439,14 +530,16 @@ class Play():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
+        csvfile = "Rushhour6x6_super_easy.csv"
         game = Game(csvfile, gridsize)
         moves = 0
         gamewon = False
 
+
         while not gamewon:
+            print(moves)
             game.random_move_small_steps()
-            gamewon = game.win()
+            gamewon = game.win_hiele()
             moves += 1
 
         print(f"Done! It took {moves} moves to win the game")
@@ -460,14 +553,17 @@ class Save_frames():
     def __init__(self):
 
         gridsize = 6
-        csvfile = "Rushhour6x6_super_easy.csv"
+        csvfile = "Rushhour6x6_1.csv"
         game = Game(csvfile, gridsize)
         moves = 0
 
         # save plot initial grid setup
         game.save_plot("frame0.png")
         while not game.win_hiele():
+            game.print_grid_terminal()
+            print(moves)
             game.random_move_big_steps()
+            print()
             moves += 1
 
             file_name = "frame" + str(moves) + ".png"
@@ -476,6 +572,9 @@ class Save_frames():
         # save final frame
         file_name = "frame" + str(moves + 1) + ".png"
         game.save_plot(file_name)
+
+        print(f"Done! It took {moves} moves to win the game")
+
 
 class Animation():
     """
@@ -501,4 +600,6 @@ class Animation():
         game.frame(ax)
 
 if __name__ == "__main__":
-    Play()
+    # Play()
+    Save_frames()
+    # Animation()
