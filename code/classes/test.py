@@ -14,3 +14,13 @@ for i in range(gridlength):
         if grid[i][j] == 'A':
             grid[i][j] = 0
 print(grid)
+cars = {'A': [1, 5, 'H', '2'],
+        'B': [3, 5, 'H', '2'],
+        'C': [1, 4, 'H', '2']}
+
+cars2 = {'A': [1, 5, 'H', '2'],
+        'B': [3, 5, 'H', '2'],
+        'C': [1, 4, 'H', '2']}
+
+if cars == cars2:
+    print("yaaa")

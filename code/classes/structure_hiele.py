@@ -274,7 +274,7 @@ class Game():
         else:
             return False
 
-    def random_move_single_step(self):
+    def random_move_small_steps(self):
 
         car_possible = False
         while not car_possible:
@@ -285,12 +285,20 @@ class Game():
             move_x_negative = False
 
             if car.orientation == 'V':
-                move_y_positive = self.movable_up(car)
-                move_y_negative = self.movable_down(car)
+                if car.y + car.length <= self.gridsize:
+                    if self.grid[car.x][car.y+car.length] == 0:
+                        move_y_positive = True
+                if car.y - 1 >= 0:
+                    if self.grid[car.x][car.y-1] == 0:
+                        move_y_negative = True
 
             if car.orientation == 'H':
-                move_x_positive = self.movable_right(car)
-                move_x_negative = self.movable_left(car)
+                if car.x + car.length <= self.gridsize:
+                    if self.grid[car.x+car.length][car.y] == 0:
+                        move_x_positive = True
+                if car.x - 1 >= 0:
+                    if self.grid[car.x-1][car.y] == 0:
+                        move_x_negative = True
 
             if move_y_positive or move_y_negative or move_x_positive or move_x_negative:
                 car_possible = True
@@ -332,7 +340,7 @@ class Game():
                 x = car.x - 1
                 self.update(car, x, y)
 
-    def random_move_max_steps(self):
+    def random_move_big_steps(self):
         """
             This function moves a random car as far as it can go.
         """
@@ -343,6 +351,7 @@ class Game():
 
             # pick random car
             car = random.choice(self.cars)
+            print(car.id)
             move_y_positive = False
             move_y_negative = False
             move_x_positive = False
@@ -369,6 +378,8 @@ class Game():
             # if the car can move in any of the 4 directions, it's movable
             if move_y_positive or move_y_negative or move_x_positive or move_x_negative:
                 car_movable = True
+
+        print(True)
 
         # if the car can move both up and down, randomly pick one
         if move_y_positive and move_y_negative:
@@ -417,9 +428,14 @@ class Game():
 
             # pick random car except previous car
             car = random.choice(self.cars)
+            print(self.previous_car_id)
+            print(car.id)
+            time.sleep(1)
             while car.id == self.previous_car_id:
+                print("change")
                 car = random.choice(self.cars)
 
+            print()
             # when found a new car, update previous_car_id
             self.previous_car_id = car.id
 
@@ -430,12 +446,20 @@ class Game():
 
             # check if the car can move up or down
             if car.orientation == "V":
+
+                # check if car can move up
                 move_y_positive = self.movable_up(car)
+
+                # check if car can move down
                 move_y_negative = self.movable_down(car)
 
             # else car can only move left or right
             else:
+
+                # check if car can move right
                 move_x_positive = self.movable_right(car)
+
+                # check if car can move left
                 move_x_negative = self.movable_left(car)
 
             # if the car can move in any of the 4 directions, it's movable
@@ -506,29 +530,20 @@ class Play():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
+        csvfile = "Rushhour6x6_super_easy.csv"
         game = Game(csvfile, gridsize)
-        self.moves = 0
+        moves = 0
         gamewon = False
 
-        # # gebruiken om minimum moves te vinden (stopt als het groter is)
-        # while gamewon == False:
-        #     game.random_move()
-        #     gamewon = game.win()
-        #     self.moves += 1
-        #     if self.moves == 16093:
-        #         gamewon = True
-        # print(f"Done! It took {moves} moves to win the game")
-        # print(self.moves)
-        # game.save_plot(game.grid, "finished.png")
 
         while not gamewon:
-            game.random_move_non_recurrent()
+            print(moves)
+            game.random_move_small_steps()
             gamewon = game.win_hiele()
             moves += 1
 
         print(f"Done! It took {moves} moves to win the game")
-        # game.save_plot("finished.png")
+        game.save_plot("finished.png")
 
 class Save_frames():
     """
@@ -546,7 +561,8 @@ class Save_frames():
         game.save_plot("frame0.png")
         while not game.win_hiele():
             game.print_grid_terminal()
-            game.random_move_max_steps()
+            print(moves)
+            game.random_move_big_steps()
             print()
             moves += 1
 
@@ -576,7 +592,7 @@ class Animation():
         ax = plt.axes()
         game.frame(ax)
         while not game.win_hiele():
-            game.random_move_max_steps()
+            game.random_move_big_steps()
             moves += 1
             game.frame(ax)
 
@@ -584,16 +600,6 @@ class Animation():
         game.frame(ax)
 
 if __name__ == "__main__":
-    # voor als je minimum aantal moves wil vinden
-    # winning_moves = 16093
-    # for i in range(100):
-    #     play = Play()
-    #     moves = play.moves
-    #     # print(moves)
-    #     if moves < winning_moves:
-    #         winning_moves = moves
-    #         print(f"faster move found! {winning_moves}")
-    # print(winning_moves)
-    Play()
-    # Save_frames()
+    # Play()
+    Save_frames()
     # Animation()
