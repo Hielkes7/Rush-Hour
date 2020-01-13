@@ -241,19 +241,32 @@ class Play():
 
     def __init__(self):
 
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "Rushhour9x9_1.csv"
+        # print("Hi! Let's play Rush-Hour!")
+        gridsize = 12
+        csvfile = "Rushhour12x12_7.csv"
         game = Game(csvfile, gridsize)
-        moves = 0
+        self.moves = 0
         gamewon = False
         while gamewon == False:
             game.random_move()
             gamewon = game.win()
-            moves += 1
-        print(f"Done! It took {moves} moves to win the game")
-        game.save_plot(game.grid, "finished.png")
+            self.moves += 1
+            if self.moves == 16093:
+            #     # print("too long")
+                gamewon = True
+        # print(f"Done! It took {moves} moves to win the game")
+        # print(self.moves)
+        # game.save_plot(game.grid, "finished.png")
+
 
 
 if __name__ == "__main__":
-    Play()
+    winning_moves = 16093
+    for i in range(100):
+        play = Play()
+        moves = play.moves
+        # print(moves)
+        if moves < winning_moves:
+            winning_moves = moves
+            print(f"faster move found! {winning_moves}")
+    print(winning_moves)
