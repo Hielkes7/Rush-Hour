@@ -1,5 +1,6 @@
 import csv, os, random, time
 import matplotlib.pyplot as plt
+import algorithms
 
 class Game():
     """
@@ -15,6 +16,7 @@ class Game():
         self.gridsize = gridsize - 1
         self.gridexit = int((gridsize / 2) + 1) - 1
         self.grid = []
+        self.moves = 0
         for i in range(gridsize):
             gridrow = []
             for j in range(gridsize):
@@ -159,6 +161,7 @@ class Game():
                 print(self.grid[y][x], " ", end="")
             print()
 
+<<<<<<< HEAD
     def win(self):
         """
             Returns True if the game is won, otherwise false.
@@ -482,6 +485,8 @@ class Game():
                 self.update(car, car.x, car.y - 1)
 
 
+=======
+>>>>>>> 1499e333b7460820d37730ea826b10267ca58ef5
 class Car():
     """
         Creates a car object that is used for a game.
@@ -511,16 +516,18 @@ class Play():
         gridsize = 9
         csvfile = "Rushhour9x9_1.csv"
         game = Game(csvfile, gridsize)
-        moves = 0
         gamewon = False
-
-
         while not gamewon:
-            game.random_move_non_recurrent()
-            gamewon = game.win_hiele()
-            moves += 1
+            algorithms.random_move_max_steps_non_recurrent(game)
+            algorithms.redcar_path_free(game)
+            gamewon = algorithms.win(game)
 
+<<<<<<< HEAD
         print(f"Done! It took {moves} moves to win the game")
+=======
+        print(f"Done! It took {game.moves} moves to win the game")
+        # game.save_plot("finished.png")
+>>>>>>> 1499e333b7460820d37730ea826b10267ca58ef5
 
 class Save_frames():
     """
@@ -574,5 +581,3 @@ class Animation():
 
 if __name__ == "__main__":
     Play()
-    # Save_frames()
-    # Animation()
