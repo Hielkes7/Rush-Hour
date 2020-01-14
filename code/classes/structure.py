@@ -24,7 +24,6 @@ class Game():
         # open and read the start file
         file = open(csvfile)
         reader = csv.reader(file, delimiter=',')
-        # close(csvfile)
 
         # empty list for the cars used in the game
         self.cars = []
@@ -51,6 +50,8 @@ class Game():
                 for i in range(car.length):
                     self.grid[x][y] = car.id
                     x += 1
+
+        file.close()
 
     def __str__(self):
         """
@@ -102,6 +103,8 @@ class Game():
         plt.grid()
         plt.savefig(file_name)
         plt.cla()
+        plt.clf()
+        plt.close()
 
     def frame(self, ax):
         """
@@ -420,9 +423,6 @@ class Game():
             while car.id == self.previous_car_id:
                 car = random.choice(self.cars)
 
-            # when found a new car, update previous_car_id
-            self.previous_car_id = car.id
-
             move_y_positive = False
             move_y_negative = False
             move_x_positive = False
@@ -449,6 +449,9 @@ class Game():
                 move_y_positive = False
             else:
                 move_y_negative = False
+
+        # when found a new car, update previous_car_id
+        self.previous_car_id = car.id
 
         # if the car can move both left and right, randomly pick one
         if move_x_positive and move_x_negative:
@@ -505,8 +508,8 @@ class Play():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
+        gridsize = 9
+        csvfile = "Rushhour9x9_1.csv"
         game = Game(csvfile, gridsize)
         moves = 0
         gamewon = False
@@ -518,7 +521,6 @@ class Play():
             moves += 1
 
         print(f"Done! It took {moves} moves to win the game")
-        game.save_plot("finished.png")
 
 class Save_frames():
     """
@@ -535,9 +537,7 @@ class Save_frames():
         # save plot initial grid setup
         game.save_plot("frame0.png")
         while not game.win_hiele():
-            game.print_grid_terminal()
-            game.random_move_max_steps()
-            print()
+            game.random_move_non_recurrent()
             moves += 1
 
             file_name = "frame" + str(moves) + ".png"
@@ -548,7 +548,6 @@ class Save_frames():
         game.save_plot(file_name)
 
         print(f"Done! It took {moves} moves to win the game")
-
 
 class Animation():
     """
