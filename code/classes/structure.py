@@ -1,6 +1,5 @@
-import csv, os, random, time
+import csv, os, random, statistics, xlsxwriter, algorithms
 import matplotlib.pyplot as plt
-import algorithms
 
 class Game():
     """
@@ -195,6 +194,72 @@ class Play():
         print(f"Done! It took {game.moves} moves to win the game")
         # game.save_plot("finished.png")
 
+class PlayData():
+    """
+        This function runs the game 200 times and then saves the data to a excel file.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 6
+        csvfile = "Rushhour6x6_1.csv"
+        repeats = 1000000
+        export_excel = True
+        algorithm = "hiele"
+        wincon = "hiele-win"
+        movelist = []
+
+        for i in range(repeats):
+            game = Game(csvfile, gridsize)
+            moves = 0
+            gamewon = False
+
+            while not gamewon:
+                algorithms.random_move_single_step(game)
+                algorithms.redcar_path_free(game)
+                gamewon = algorithms.win(game)
+
+            if gamewon:
+                # print(moves)
+                movelist.append(game.moves)
+                if i % (repeats/1000) == 0:
+                    print(i*100/repeats,"%")
+
+        sortmovelist = movelist
+        sortmovelist.sort()
+        lowest_move = sortmovelist[:1]
+        # least_moves = sortmovelist[:1]
+        sum_moves = sum(movelist)
+        average_moves = sum_moves/repeats
+        st_dev = statistics.stdev(movelist)
+
+        if export_excel:
+            #create excel file
+            workbook = xlsxwriter.Workbook("output.xlsx")
+            sheet = workbook.add_worksheet()
+
+            #write headers
+            algorithm = algorithm + ", " + wincon
+
+            # create header
+            sheet.write("A1", algorithm)
+
+
+            #declare data
+            for item in range(len(movelist)):
+                sheet.write(item + 1, 0, movelist[item])
+
+
+            workbook.close()
+
+
+        else:
+            print("your average moves",average_moves)
+            print("your st dev", st_dev)
+            print("lowest moves", lowest_move)
+
+
+
 class Save_frames():
     """
         Solves the game and saves each frame of each move made. This function
@@ -249,4 +314,4 @@ class Animation():
         game.frame(ax)
 
 if __name__ == "__main__":
-    Play()
+    PlayData()
