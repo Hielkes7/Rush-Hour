@@ -325,3 +325,58 @@ def random_move_max_steps_non_recurrent(game):
             while movable_left(game, car):
                 x = car.x - 1
                 update(game, car, x, y)
+
+def queue_algorithm(game):
+    """
+        Checks which cars are in the way of the red car and moves these cars first.
+    """
+
+    car_queue = []
+    count = 0
+    for i in range(game.gridsize):
+        if (game.grid[i][game.gridexit] is not 0) and (game.grid[i][game.gridexit] is not 'X'):
+            for car in game.cars:
+                if car.id == game.grid[i][game.gridexit]:
+                    car_queue.append(car)
+                    count += 1
+                    break
+
+    if count > 0:
+
+        # choose a random car in the queue
+        car =  random.choice(car_queue)
+        if car.id == game.previous_car_id:
+            random_move_max_steps_non_recurrent(game)
+
+        # check if car can move up
+        move_y_positive = movable_up(game, car)
+
+        # check if car can move down
+        move_y_negative = movable_down(game, car)
+
+        x = car.x
+
+        # if the car can move both up and down, randomly pick one
+        if move_y_positive and move_y_negative:
+            random_choice = random.choice([0, 1])
+            if random_choice == 1:
+                move_y_positive = False
+            else:
+                move_y_negative = False
+
+        # keep moving the car up untill it is blocked
+        if move_y_positive:
+            while movable_up(game, car):
+                y = car.y + 1
+                update(game, car, x, y)
+                return True
+
+        # keep moving the car down untill it's blocked
+        if move_y_negative:
+            while movable_down(game, car):
+                y = car.y - 1
+                update(game, car, x, y)
+                return True
+
+    random_move_max_steps_non_recurrent(game)
+    return False
