@@ -112,12 +112,12 @@ def random_move_single_step(game):
         move_x_negative = False
 
         if car.orientation == 'V':
-            move_y_positive = game.movable_up(car)
-            move_y_negative = game.movable_down(car)
+            move_y_positive = movable_up(game, car)
+            move_y_negative = movable_down(game, car)
 
         if car.orientation == 'H':
-            move_x_positive = game.movable_right(car)
-            move_x_negative = game.movable_left(car)
+            move_x_positive = movable_right(game, car)
+            move_x_negative = movable_left(game, car)
 
         if move_y_positive or move_y_negative or move_x_positive or move_x_negative:
             car_possible = True
