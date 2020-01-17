@@ -238,7 +238,6 @@ class Test():
         algorithms.queue_algorithm_hiele(game)
 
 
-
 class Play():
     """
         This function solves the game and then returns in how many moves it
@@ -266,9 +265,9 @@ class PlayData():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
-        repeats = 10000
+        gridsize = 9
+        csvfile = "Rushhour9x9_1.csv"
+        repeats = 1000
         export_excel = True
         movelist = []
 
@@ -278,7 +277,7 @@ class PlayData():
             gamewon = False
 
             while not gamewon:
-                algorithms.random_move_max_steps_non_recurrent(game)
+                algorithms.queue_algorithm_hiele(game)
                 algorithms.redcar_path_free(game)
                 gamewon = algorithms.win(game)
 
@@ -298,7 +297,7 @@ class PlayData():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("output_single_step.xlsx")
+            workbook = xlsxwriter.Workbook("output.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -580,6 +579,6 @@ if __name__ == "__main__":
     # PlayData_nacht1()
     # PlayData_nacht2()
     # PlayData_nacht3()
-    # PlayData()
+    PlayData()
     # Save_frames_buffer()
-    Save_frames()
+    # Save_frames()
