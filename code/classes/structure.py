@@ -134,7 +134,6 @@ class Game():
 
         grid_size = len(grid)
 
-        plt.figure()
         ax = plt.axes()
         for x in range(grid_size):
             for y in range(grid_size):
@@ -146,8 +145,9 @@ class Game():
         plt.xlim(0, grid_size)
         plt.ylim(0, grid_size)
         plt.grid()
-        plt.savefig(file_name)
+        plt.savefig("frames/" + file_name)
         plt.cla()
+        plt.clf()
 
     def frame(self, ax):
         """
@@ -335,6 +335,65 @@ class Save_frames():
 
         print(f"Done! It took {game.moves} moves to win the game")
 
+class Save_frames_buffer():
+    """
+        Solves the game and saves each frame of each move made. This function
+        crashes very quickly when to many frames are saved.
+    """
+    def __init__(self):
+
+        def extract_grid(grid):
+            grid_size = len(grid)
+
+            # create grid_copy with all 0's
+            grid_copy = []
+            for i in range(grid_size):
+                row = []
+                for j in range(grid_size):
+                    row.append(0)
+                grid_copy.append(row)
+
+            # copy given grid into grid_copy
+            for x in range(grid_size):
+                for y in range(grid_size):
+                    grid_copy[x][y] = grid[x][y]
+
+            return grid_copy
+
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 6
+        csvfile = "Rushhour6x6_1.csv"
+
+        max_moves = 8
+
+        # dummy begin value
+        moves = max_moves + 1
+
+        while moves > max_moves:
+            game = Game(csvfile, gridsize)
+            gamewon = False
+            list_grids = []
+            list_grids.append(extract_grid(game.grid))
+
+            while not gamewon:
+                algorithms.random_move_max_steps_non_recurrent(game)
+                list_grids.append(extract_grid(game.grid))
+                algorithms.redcar_path_free(game)
+                gamewon = algorithms.win(game)
+
+            # save final grid
+            list_grids.append(game.grid)
+            moves = game.moves
+
+        print(f"Done! It took {game.moves} moves to win the game")
+
+        # save all frames
+        for i in range(len(list_grids)):
+            file_name = "frame" + str(i) + ".png"
+            game.save_plot_extern_grid(file_name, list_grids[i])
+
+
 
 class Animation():
     """
@@ -360,5 +419,6 @@ class Animation():
         game.frame(ax)
 
 if __name__ == "__main__":
-    Play()
+    # Play()
+    Save_frames_buffer()
     # Save_frames()
