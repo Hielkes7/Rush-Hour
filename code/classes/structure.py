@@ -88,7 +88,6 @@ class Game():
                   'Y': "#99cc00"
                 }
 
-        plt.figure()
         ax = plt.axes()
         for x in range(self.gridsize + 1):
             for y in range(self.gridsize + 1):
@@ -99,6 +98,53 @@ class Game():
         plt.axis('scaled')
         plt.xlim(0, self.gridsize + 1)
         plt.ylim(0, self.gridsize + 1)
+        plt.grid()
+        plt.savefig("frames/" + file_name)
+        plt.cla()
+        plt.clf()
+
+    def save_plot_extern_grid(self, file_name, grid):
+
+        colors = {'A': "#cc3399",
+                  'B': "#FFF000",
+                  'C': "#008000",
+                  'D': "#0000FF",
+                  'E': "#000000",
+                  'F': "#00FFFF",
+                  'G': "#FF00FF",
+                  'H': "#FFA500",
+                  'I': "#FFE455",
+                  'J': "#BC8F8F",
+                  'K': "#DA70D6",
+                  'L': "#00ff00",
+                  'M': "#0066ff",
+                  'N': "#663300",
+                  'O': "#003366",
+                  'P': "#660066",
+                  'Q': "#666699",
+                  'R': "#339966",
+                  'S': "#666633",
+                  'T': "#00cc00",
+                  'U': "#ff0066",
+                  'V': "#cc3300",
+                  'W': "#ff9999",
+                  'X': "#FF0000",
+                  'Y': "#99cc00"
+                }
+
+        grid_size = len(grid)
+
+        plt.figure()
+        ax = plt.axes()
+        for x in range(grid_size):
+            for y in range(grid_size):
+                if grid[x][y] != 0:
+                    block = plt.Rectangle((x, y), 1, 1, fc=colors[grid[x][y]])
+                    ax.add_patch(block)
+
+        plt.axis('scaled')
+        plt.xlim(0, grid_size)
+        plt.ylim(0, grid_size)
         plt.grid()
         plt.savefig(file_name)
         plt.cla()
@@ -187,12 +233,12 @@ class Play():
         game = Game(csvfile, gridsize)
         gamewon = False
         while not gamewon:
-            algorithms.random_move_max_steps_non_recurrent(game)
+            algorithms.queue_algorithm(game)
             algorithms.redcar_path_free(game)
             gamewon = algorithms.win(game)
 
         print(f"Done! It took {game.moves} moves to win the game")
-        # game.save_plot("finished.png")
+
 
 class PlayData():
     """
@@ -259,7 +305,6 @@ class PlayData():
             print("lowest moves", lowest_move)
 
 
-
 class Save_frames():
     """
         Solves the game and saves each frame of each move made. This function
@@ -267,27 +312,28 @@ class Save_frames():
     """
     def __init__(self):
 
+        print("Hi! Let's play Rush-Hour!")
         gridsize = 6
         csvfile = "Rushhour6x6_1.csv"
         game = Game(csvfile, gridsize)
-        moves = 0
+        gamewon = False
 
         # save plot initial grid setup
+        plt.figure()
         game.save_plot("frame0.png")
-        while not game.win_hiele():
-            game.print_grid_terminal()
-            game.random_move_max_steps()
-            print()
-            moves += 1
+        while not gamewon:
+            gamewon = algorithms.win(game)
+            algorithms.random_move_max_steps_non_recurrent(game)
+            algorithms.redcar_path_free(game)
 
-            file_name = "frame" + str(moves) + ".png"
+            file_name = "frame" + str(game.moves) + ".png"
             game.save_plot(file_name)
 
         # save final frame
-        file_name = "frame" + str(moves + 1) + ".png"
+        file_name = "frame" + str(game.moves) + ".png"
         game.save_plot(file_name)
 
-        print(f"Done! It took {moves} moves to win the game")
+        print(f"Done! It took {game.moves} moves to win the game")
 
 
 class Animation():
@@ -314,4 +360,5 @@ class Animation():
         game.frame(ax)
 
 if __name__ == "__main__":
-    PlayData()
+    Play()
+    # Save_frames()
