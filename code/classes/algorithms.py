@@ -32,7 +32,6 @@ def update(game, car, x, y):
         for i in range(car.length):
             game.grid[x][y] = car.id
             x += 1
-    game.moves += 1
 
 def redcar_path_free(game):
     """
@@ -50,6 +49,7 @@ def redcar_path_free(game):
     x = game.gridsize - 1
     y = game.gridexit
     update(game, redcar, x, y)
+    game.moves += 1
     return True
 
 def movable_up(game, car):
@@ -102,6 +102,7 @@ def movable_right(game, car):
     return False
 
 def random_move_single_step(game):
+    game.moves += 1
 
     car_possible = False
     while not car_possible:
@@ -163,6 +164,7 @@ def random_move_max_steps(game):
     """
         This function moves a random car as far as it can go.
     """
+    game.moves += 1
 
     # keep looping untill a randomly picked car is able to move
     car_movable = False
@@ -248,6 +250,7 @@ def random_move_max_steps_non_recurrent(game):
         This function moves a random car as far as it can go. It can't move
         the same car from the previous move. Returns the car it used
     """
+    game.moves += 1
 
     # keep looping untill a randomly picked car is able to move
     car_movable = False
@@ -330,7 +333,7 @@ def queue_algorithm(game):
     """
         Checks which cars are in the way of the red car and moves these cars first.
     """
-
+    game.moves += 1
     car_queue = []
     count = 0
     for i in range(game.gridsize):
