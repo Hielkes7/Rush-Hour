@@ -252,7 +252,7 @@ class Play():
         gamewon = False
         while not gamewon:
             algorithms.queue_algorithm_hiele(game)
-            algorithms.redcar_path_free(game)
+            algorithms.check_path_free(game)
             gamewon = algorithms.win(game)
 
         print(f"Done! It took {game.moves} moves to win the game")
@@ -266,8 +266,8 @@ class PlayData():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "Rushhour6x6_3.csv"
-        repeats = 100
+        csvfile = "Rushhour6x6_1.csv"
+        repeats = 100000
         export_excel = True
         movelist = []
 
@@ -277,15 +277,15 @@ class PlayData():
             gamewon = False
 
             while not gamewon:
-                algorithms.random_move_single_step(game)
-                algorithms.redcar_path_free(game)
-                gamewon = algorithms.win(game)
+                if algorithms.win(game):
+                    gamewon = True
+                    break
+                algorithms.random_move_max_steps(game)
 
-            if gamewon:
-                # print(game.moves)
-                movelist.append(game.moves)
-                if i % (repeats/100) == 0:
-                    print(i*100/repeats,"%,  ", game.moves)
+            # give update on how many measurements have been calculate
+            movelist.append(game.moves)
+            if i % (repeats/100) == 0:
+                print(i*100/repeats,"%,  ", game.moves, " moves")
 
         sortmovelist = movelist
         sortmovelist.sort()
@@ -327,7 +327,7 @@ class PlayData_nacht1():
 
             while not gamewon:
                 algorithms.random_move_single_step(game)
-                algorithms.redcar_path_free(game)
+                algorithms.check_path_free(game)
                 gamewon = algorithms.win(game)
 
             if gamewon:
@@ -376,7 +376,7 @@ class PlayData_nacht2():
 
             while not gamewon:
                 algorithms.random_move_max_steps(game)
-                algorithms.redcar_path_free(game)
+                algorithms.check_path_free(game)
                 gamewon = algorithms.win(game)
 
             if gamewon:
@@ -425,7 +425,7 @@ class PlayData_nacht3():
 
             while not gamewon:
                 algorithms.random_move_max_steps_non_recurrent(game)
-                algorithms.redcar_path_free(game)
+                algorithms.check_path_free(game)
                 gamewon = algorithms.win(game)
 
             if gamewon:
@@ -475,7 +475,7 @@ class Save_frames():
             file_name = "frame" + str(game.moves) + ".png"
             game.save_plot(file_name)
             algorithms.make_path_free(game)
-            algorithms.redcar_path_free(game)
+            algorithms.check_path_free(game)
             gamewon = algorithms.win(game)
 
 
@@ -535,7 +535,7 @@ class Save_frames_buffer():
                 list_grids.append(extract_grid(game.grid))
             algorithms.random_move_max_steps_non_recurrent(game)
             list_grids.append(extract_grid(game.grid))
-            algorithms.redcar_path_free(game)
+            algorithms.check_path_free(game)
             gamewon = algorithms.win(game)
             moves = game.moves
 
@@ -549,7 +549,6 @@ class Save_frames_buffer():
                 file_name = "frame" + str(i) + ".png"
                 game.save_plot_extern_grid(file_name, list_grids[i])
         game.save_plot_extern_grid("final_frame.png", list_grids[-1])
-
 
 
 class Animation():
@@ -581,6 +580,6 @@ if __name__ == "__main__":
     # PlayData_nacht1()
     # PlayData_nacht2()
     # PlayData_nacht3()
-    # PlayData()
+    PlayData()
     # Save_frames_buffer()
-    Save_frames()
+    # Save_frames()
