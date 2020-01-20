@@ -1,7 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 
-file = open("9x9 random_move_max_steps, path_free_win, N=1k.csv")
+file = open("output.csv")
 reader = csv.reader(file)
 
 list_moves = []
