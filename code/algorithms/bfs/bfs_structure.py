@@ -1,4 +1,4 @@
-import structurecopy, algorithms
+import structurecopy, bfs_algorithms
 import sys
 
 gridsize = 6
@@ -27,7 +27,7 @@ grid = game.grid
 #     y += 1
 
 
-list = algorithms.all_possible_moves(game, grid)
+list = bfs_algorithms.all_possible_moves(game, grid)
 print("list0", list[0])
 print("list2", list[1])
 
