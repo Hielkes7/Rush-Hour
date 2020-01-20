@@ -1,9 +1,7 @@
 import structurecopy, bfs_algorithms
 import sys
 
-gridsize = 6
-csvfile = "Rushhour6x6_test.csv"
-game = structurecopy.Game(csvfile, gridsize)
+
 # car =  game.cars[0]
 # id = car.id
 # grid = game.grid
@@ -77,9 +75,44 @@ class Bfs():
             parent = "first move"
             return parent
 
+class Play():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's wreck your memory with Rush-Hour!")
+        gridsize = 6
+        csvfile = "Rushhour6x6_test.csv"
+        game = structurecopy.Game(csvfile, gridsize)
+        gamewon = False
+        while not gamewon:
+            # game.print_grid_terminal()
+            # algorithms.queue_algorithm(game)
+            # algorithms.redcar_path_free(game)
+            # gamewon = algorithms.win(game)
+
+        print(f"Done! It took {game.moves} moves to win the game")
+        # game.save_plot("finished.png")
+
+if __name__ == "__main__":
+    Play()
 
 
-
+# 1  procedure BFS(G, start_v) is
+# 2      let Q be a queue
+# 3      label start_v as discovered
+# 4      Q.enqueue(start_v)
+# 5      while Q is not empty do
+# 6          v := Q.dequeue()
+# 7          if v is the goal then
+# 8              return v
+# 9          for all edges from v to w in G.adjacentEdges(v) do
+# 10             if w is not labeled as discovered then
+# 11                 label w as discovered
+# 12                 w.parent := v
+# 13                 Q.enqueue(w)
 
 
 # x = "000000000000000000000000x4000000000000000000000000x4000000000000000000000000x4000000000000000000000000x4`000000000000000000000000x4"
