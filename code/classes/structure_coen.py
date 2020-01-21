@@ -542,7 +542,7 @@ class Save_frames():
         # save plot initial grid setup
         game.save_plot("frame0.png")
         while not game.win_hiele():
-            game.random_move_big_steps()
+            game.random_move_single_step()
             moves += 1
 
             file_name = "frame" + str(moves) + ".png"

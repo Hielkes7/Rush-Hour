@@ -327,14 +327,12 @@ class PlayData_nacht1():
 
             while not gamewon:
                 algorithms.random_move_single_step(game)
-                algorithms.check_path_free(game)
-                gamewon = algorithms.win(game)
+                if algorithms.make_path_free(game):
+                    gamewon = True
 
-            if gamewon:
-                # print(game.moves)
-                movelist.append(game.moves)
-                if i % (repeats/1000) == 0:
-                    print("1, ",i*100/repeats,"%")
+            movelist.append(game.moves)
+            if i % (repeats/1000) == 0:
+                print("1, ",i*100/repeats,"%")
 
         sortmovelist = movelist
         sortmovelist.sort()
@@ -346,7 +344,7 @@ class PlayData_nacht1():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("output_single_step.xlsx")
+            workbook = xlsxwriter.Workbook("output1.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -354,7 +352,6 @@ class PlayData_nacht1():
                 sheet.write(item + 1, 0, movelist[item])
 
             workbook.close()
-
 
 class PlayData_nacht2():
     """
@@ -376,14 +373,12 @@ class PlayData_nacht2():
 
             while not gamewon:
                 algorithms.random_move_max_steps(game)
-                algorithms.check_path_free(game)
-                gamewon = algorithms.win(game)
+                if algorithms.make_path_free(game):
+                    gamewon = True
 
-            if gamewon:
-                # print(game.moves)
-                movelist.append(game.moves)
-                if i % (repeats/1000) == 0:
-                    print("1, ",i*100/repeats,"%")
+            movelist.append(game.moves)
+            if i % (repeats/1000) == 0:
+                print("1, ",i*100/repeats,"%")
 
         sortmovelist = movelist
         sortmovelist.sort()
@@ -395,7 +390,7 @@ class PlayData_nacht2():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("output_max_step.xlsx")
+            workbook = xlsxwriter.Workbook("output2.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -403,7 +398,6 @@ class PlayData_nacht2():
                 sheet.write(item + 1, 0, movelist[item])
 
             workbook.close()
-
 
 class PlayData_nacht3():
     """
@@ -424,15 +418,13 @@ class PlayData_nacht3():
             gamewon = False
 
             while not gamewon:
-                algorithms.random_move_max_steps_non_recurrent(game)
-                algorithms.check_path_free(game)
-                gamewon = algorithms.win(game)
+                algorithms.random_move_max_steps(game)
+                if algorithms.check_path_free(game):
+                    gamewon = True
 
-            if gamewon:
-                # print(game.moves)
-                movelist.append(game.moves)
-                if i % (repeats/1000) == 0:
-                    print("1, ",i*100/repeats,"%")
+            movelist.append(game.moves)
+            if i % (repeats/1000) == 0:
+                print("1, ",i*100/repeats,"%")
 
         sortmovelist = movelist
         sortmovelist.sort()
@@ -444,7 +436,7 @@ class PlayData_nacht3():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("output_max_step_non_recurrent.xlsx")
+            workbook = xlsxwriter.Workbook("output3.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -452,6 +444,7 @@ class PlayData_nacht3():
                 sheet.write(item + 1, 0, movelist[item])
 
             workbook.close()
+
 
 
 class Save_frames():
@@ -577,9 +570,9 @@ class Animation():
 if __name__ == "__main__":
     # Play()
     # Test()
-    # PlayData_nacht1()
-    # PlayData_nacht2()
-    # PlayData_nacht3()
-    PlayData()
+    PlayData_nacht1()
+    PlayData_nacht2()
+    PlayData_nacht3()
+    # PlayData()
     # Save_frames_buffer()
     # Save_frames()
