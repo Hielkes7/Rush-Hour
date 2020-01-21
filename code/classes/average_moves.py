@@ -1,7 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 
-file = open("output.csv")
+file = open("6x6 game1 - max step - check path free.csv")
 reader = csv.reader(file)
 
 list_moves = []
