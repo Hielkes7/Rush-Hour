@@ -244,15 +244,6 @@ def random_move_max_steps(game):
                 x = car.x - 1
                 update(game, car, x, y)
 
-def breadth_first(game):
-    """
-        This function moves a random car as far as it can go.
-    """
-    for car in game.cars:
-        print(car)
-
-    
-
 def random_move_max_steps_non_recurrent(game):
     """
         This function moves a random car as far as it can go. It can't move
@@ -565,6 +556,36 @@ def queue_algorithm(game):
 
     random_move_max_steps_non_recurrent(game)
     return False
+
+def breadth_first(game):
+    """
+        This function moves a random car as far as it can go.
+    """
+    queue = []
+
+    for car in game.cars:
+
+        # check if the car can move up or down
+        if car.orientation == "V":
+            if movable_up(game, car):
+                
+            move_y_negative = movable_down(game, car)
+
+        # else car can only move left or right
+        else:
+            move_x_positive = movable_right(game, car)
+            move_x_negative = movable_left(game, car)
+
+        if move_y_positive
+
+
+
+
+
+
+
+
+
 
 def score(game):
     """

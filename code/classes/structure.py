@@ -266,7 +266,7 @@ class PlayData():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_1.csv"
+        csvfile = "gameboards/Rushhour6x6_2.csv"
         repeats = 100000
         export_excel = True
         movelist = []
@@ -280,11 +280,11 @@ class PlayData():
                 if algorithms.win(game):
                     gamewon = True
                     break
-                algorithms.random_move_max_steps(game)
+                algorithms.queue_algorithm_hiele(game)
 
             # give update on how many measurements have been calculate
             movelist.append(game.moves)
-            if i % (repeats/100) == 0:
+            if i % (repeats/1000) == 0:
                 print(i*100/repeats,"%,  ", game.moves, " moves")
 
         sortmovelist = movelist
@@ -571,6 +571,6 @@ if __name__ == "__main__":
     # PlayData_nacht1()
     # PlayData_nacht2()
     # PlayData_nacht3()
-    # PlayData()
+    PlayData()
     # Save_frames_buffer()
-    Save_frames()
+    # Save_frames()
