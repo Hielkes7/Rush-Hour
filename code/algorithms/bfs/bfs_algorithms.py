@@ -22,8 +22,8 @@ def all_possible_moves(game, grid):
         if car.orientation == 'H':
             move_x_positive = movable_right_bfs(game, grid, car)
             move_x_negative = movable_left_bfs(game, grid, car)
-        print("left move", move_x_negative)
-        print("right move", move_x_positive)
+        # print("left move", move_x_negative)
+        # print("right move", move_x_positive)
         if move_y_positive:
             moves.append(move_y_positive)
         if move_y_negative:
@@ -84,8 +84,6 @@ def movable_left_bfs(game, grid, car):
     """
     for coordinate in grid[0]:
         if coordinate == car.id:
-            print("hello there")
-            print(coordinate)
             return False
     x = 0
     for column in grid:
@@ -211,17 +209,30 @@ def game_won(game, grid):
     """
     y = game.redcar.y
     for i in range(game.gridsize + 1):
-        if grid[game.gridsize + 1 - i][y] == 'X':
+        # check if this range works
+        if grid[game.gridsize - i][y] == 'X':
             return True
-        if grid[game.gridsize + 1 - i][y] != 0:
+        if grid[game.gridsize - i][y] != 0:
             return False
 
 
-def back_track(game, grid, node):
+def back_track(game, node):
     """backtrack"""
     node = node
     moves_list = []
     while node.parent != "LUCA":
         moves_list.append(node.grid)
         node = node.parent
+    moves_list.append(node.grid)
+    
     return moves_list
+
+
+def print_grid_terminal(grid):
+    """
+        This function prints the grid in the terminal
+    """
+    for y in range(len(grid)):
+        for x in range(len(grid)):
+            print(grid[y][x], " ", end="")
+        print()
