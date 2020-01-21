@@ -1,3 +1,5 @@
+import sys
+
 grid = [['Q', 'Q', 'L', 'I', 'I', 'E', 0, 'B', 'B'],
         ['R', 0, 'L', 0, 'X', 'E', 0, 0, 'A'],
         ['R', 'N', 'N', 'N', 'X', 0, 0, 0, 'A'],
@@ -8,31 +10,9 @@ grid = [['Q', 'Q', 'L', 'I', 'I', 'E', 0, 'B', 'B'],
         ['U', 0, 0, 'K', 0, 'G', 0, 'C', 0],
         ['U', 'P', 'P', 'P', 'H', 'H', 'H', 'C', 0]]
 
-gridlength = 9
-for i in range(gridlength):
-    for j in range(gridlength):
-        if grid[i][j] == 'A':
-            grid[i][j] = 0
-print(grid)
-cars = {'A': [1, 5, 'H', '2'],
-        'B': [3, 5, 'H', '2'],
-        'C': [1, 4, 'H', '2']}
-
-cars2 = {'A': [1, 5, 'H', '2'],
-        'B': [3, 5, 'H', '2'],
-        'C': [1, 4, 'H', '2']}
-
-for i in range(10):
-    file_name = "frame" + str(i) + ".png"
-    print(file_name)
-
-
-list = [0, 1, 2, 3]
-
-
-def function(x):
-    return x + 1
-
-x = 5
-x = function(x)
-print(x)
+gridstring = "QQLIIE0BBR0L0XE00ARNNNX000AROOJJFFFASSM000000T0MK0GDDDT00K0G0C0U00K0G0C0UPPPHHHC0"
+moves = "A12B43C42D34A12X43B32D32"
+print(len(gridstring))
+print(sys.getsizeof(grid))
+print(sys.getsizeof(gridstring))
+print(sys.getsizeof(moves))
