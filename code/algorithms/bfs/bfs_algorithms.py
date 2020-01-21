@@ -34,7 +34,7 @@ def all_possible_moves(game, grid):
             moves.append(move_x_negative)
 
         # deze is er puur en alleen voor als je terug wilt naar de moves overzichtelijker
-        #bekijken (voor tests)
+        # bekijken (voor tests)
         # if move_y_positive:
         #     moves.append((car.id,1))
         # if move_y_negative:
@@ -44,6 +44,7 @@ def all_possible_moves(game, grid):
         # if move_x_negative:
         #     moves.append((car.id,-1))
     return moves
+
 
 def all_possible_moves_only(game, grid):
 
@@ -178,15 +179,15 @@ def movable_down_bfs(game, grid, car):
 
 
 def update_bfs(game, grid, car, x, y, move):
-    print("grid entered")
+    # print("grid entered")
     # return grid
     new_grid = copy.deepcopy(grid)
-    print("grid before", grid)
+    # print("grid before", grid)
     for i in range(game.gridsize + 1):
         for j in range(game.gridsize + 1):
             if new_grid[i][j] == car.id:
                 new_grid[i][j] = 0
-    print("grid after remove", grid)
+    # print("grid after remove", grid)
     # this requires finding the starting space, otherwise it wont work.
     # so remember to always send the starting space of the car towards update_bfs
     if car.orientation == "V":
@@ -198,7 +199,29 @@ def update_bfs(game, grid, car, x, y, move):
         for i in range(car.length):
             new_grid[x + move][y] = car.id
             x += 1
-    print("grid after adding new car", grid)
-    print("grid saved")
+    # print("grid after adding new car", grid)
+    # print("grid saved")
 
     return new_grid
+
+
+def game_won(game, grid):
+    """
+    checks if game is won
+    """
+    y = game.redcar.y
+    for i in range(game.gridsize + 1):
+        if grid[game.gridsize + 1 - i][y] == 'X':
+            return True
+        if grid[game.gridsize + 1 - i][y] != 0:
+            return False
+
+
+def back_track(game, grid, node):
+    """backtrack"""
+    node = node
+    moves_list = []
+    while node.parent != "LUCA":
+        moves_list.append(node.grid)
+        node = node.parent
+    return moves_list

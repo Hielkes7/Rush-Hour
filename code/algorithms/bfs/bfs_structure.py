@@ -1,85 +1,93 @@
 import structurecopy, bfs_algorithms
 import sys
 
-gridsize = 6
-csvfile = "Rushhour6x6_test.csv"
-game = structurecopy.Game(csvfile, gridsize)
-# car =  game.cars[0]
-# id = car.id
-# grid = game.grid
-# move = [id, 1]
-grid = game.grid
-# # print(grid)
-# grid = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],['X', 'X', 0, 0, 0, 0,], [0, 0, 0, 0, 0, 0],[0, 'K', 0, 0, 0, 'H'],[0, 'K', 0, 0, 0, 'H']]
-
-# for x in range(game.gridsize + 1):
-#     for y in range(game.gridsize + 1):
-#         print(grid[x][y])
-
-# y = 0
-# for row in grid:
-#     x = 0
-#     for coordinate in row:
-#         print(coordinate)
-#         print(x, y)
-#         print()
-#         x += 1
-#     y += 1
-
-
-list = bfs_algorithms.all_possible_moves(game, grid)
-print("list0", list[0])
-print("list2", list[1])
-
-
-
 class Node():
     """
     Stores info of node
     """
     def __init__(self, grid, parent):
+        # zorg dat dit een deepcopy is!!!!!
         self.grid = grid
+        # dit zou ook met id kunnen en dan ook id in parent ipv pointer.
         self.parent = parent
-
 
 class Bfs():
     """
-    why is every color weird?
+    Bfs
     """
-    q = []
-    explored = []
+    # ik weet niet precies tot in welke hoogte ik alles hierin wil laten gebeuren of niet?
+
+    def __init__(self, grid):
+        self.queue = []
+        self.explored = []
+        queue.append(Node(grid, "LUCA"))
+        print(queue)
 
     def add_nodes(self, moves, parent):
-        # parent = q[0]
-        for move in moves:
-            q.append(Node(move, parent))
+        temp = []
+        for grid_move in moves:
+            # dit kost teveel onnodig rekenwerk dit moet beter!
+            if grid_move not in self.queue or self.explored:
+                temp.append(grid_move)
+
+        for grid_move in temp:
+            self.queue.append(Node(move, parent))
 
         # append a null node as a divider ? so that you can remember the level?
         # q.append(Node(None, None))
 
     def search(self):
-
-        parent = q.pop(0)
+        # pop return
+        parent = queue.pop(0)
         explored.append(parent)
 
         if wincondition(parent):
             print("you won")
-            return True
+            backtrack = bfs_algorithms.back_track(game, grid)
+            return backtrack
         else:
             moves = possible_moves(parent)
             add_nodes(moves, parent)
 
 
+        game.save_plot("finished.png")
 
-    # we willen checken of de lijst leeg is zodat er geen errors zijn, maar dit hoeft alleen bij het begin eigenlijk.
-    def empty(self):
-        if not q:
-            parent = "first move"
-            return parent
+if __name__ == "__main__":
 
 
+        print("Hi! Let's wreck your memory with Rush-Hour!")
+        gridsize = 6
+        csvfile = "Rushhour6x6_test.csv"
+
+        game = structurecopy.Game(csvfile, gridsize)
+        grid = game.grid
+        # list_of_grids = Bfs.search(grid)
+
+        #dit is voor het testen van de correctheid van de bordconfiguratie
+
+        # game.print_grid_terminal()
+        # list = bfs_algorithms.all_possible_moves(game, grid)
+        # print(list)
+
+        # bfs_algorithms.back_track(game, grid, moeder)
 
 
+        print(f"Done! It took {game.moves} moves to win the game")
+
+
+# 1  procedure BFS(G, start_v) is
+# 2      let Q be a queue
+# 3      label start_v as discovered
+# 4      Q.enqueue(start_v)
+# 5      while Q is not empty do
+# 6          v := Q.dequeue()
+# 7          if v is the goal then
+# 8              return v
+# 9          for all edges from v to w in G.adjacentEdges(v) do
+# 10             if w is not labeled as discovered then
+# 11                 label w as discovered
+# 12                 w.parent := v
+# 13                 Q.enqueue(w)
 
 
 # x = "000000000000000000000000x4000000000000000000000000x4000000000000000000000000x4000000000000000000000000x4`000000000000000000000000x4"
