@@ -247,7 +247,7 @@ class Play():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "gameboard/Rushhour6x6_3.csv"
+        csvfile = "gameboards/Rushhour6x6_3.csv"
         game = Game(csvfile, gridsize)
         gamewon = False
         while not gamewon:
@@ -266,7 +266,7 @@ class PlayData():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "gameboard/Rushhour6x6_1.csv"
+        csvfile = "gameboards/Rushhour6x6_1.csv"
         repeats = 100000
         export_excel = True
         movelist = []
@@ -454,7 +454,7 @@ class Save_frames():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "gameboard/Rushhour6x6_test.csv"
+        csvfile = "gameboards/Rushhour6x6_test.csv"
         game = Game(csvfile, gridsize)
         gamewon = False
 
@@ -567,10 +567,10 @@ class Animation():
 
 if __name__ == "__main__":
     # Play()
-    Test()
+    # Test()
     # PlayData_nacht1()
     # PlayData_nacht2()
     # PlayData_nacht3()
     # PlayData()
     # Save_frames_buffer()
-    # Save_frames()
+    Save_frames()
