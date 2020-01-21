@@ -244,6 +244,15 @@ def random_move_max_steps(game):
                 x = car.x - 1
                 update(game, car, x, y)
 
+def breadth_first(game):
+    """
+        This function moves a random car as far as it can go.
+    """
+    for car in game.cars:
+        print(car)
+
+    
+
 def random_move_max_steps_non_recurrent(game):
     """
         This function moves a random car as far as it can go. It can't move

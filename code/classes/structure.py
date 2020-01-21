@@ -233,9 +233,9 @@ class Test():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "Rushhour6x6_test.csv"
+        csvfile = "gameboards/Rushhour6x6_test.csv"
         game = Game(csvfile, gridsize)
-        algorithms.queue_algorithm_hiele(game)
+        algorithms.breadth_first(game)
 
 
 class Play():
@@ -247,7 +247,7 @@ class Play():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "Rushhour6x6_3.csv"
+        csvfile = "gameboard/Rushhour6x6_3.csv"
         game = Game(csvfile, gridsize)
         gamewon = False
         while not gamewon:
@@ -266,7 +266,7 @@ class PlayData():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
+        csvfile = "gameboard/Rushhour6x6_1.csv"
         repeats = 100000
         export_excel = True
         movelist = []
@@ -307,6 +307,7 @@ class PlayData():
             workbook.close()
 
 
+# programs I run at night
 class PlayData_nacht1():
     """
         This function runs the game 200 times and then saves the data to a excel file.
@@ -315,7 +316,7 @@ class PlayData_nacht1():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 9
-        csvfile = "Rushhour9x9_1.csv"
+        csvfile = "gameboard/Rushhour9x9_1.csv"
         repeats = 10000
         export_excel = True
         movelist = []
@@ -352,7 +353,6 @@ class PlayData_nacht1():
                 sheet.write(item + 1, 0, movelist[item])
 
             workbook.close()
-
 class PlayData_nacht2():
     """
         This function runs the game 200 times and then saves the data to a excel file.
@@ -361,7 +361,7 @@ class PlayData_nacht2():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 9
-        csvfile = "Rushhour9x9_1.csv"
+        csvfile = "gameboard/Rushhour9x9_1.csv"
         repeats = 10000
         export_excel = True
         movelist = []
@@ -398,7 +398,6 @@ class PlayData_nacht2():
                 sheet.write(item + 1, 0, movelist[item])
 
             workbook.close()
-
 class PlayData_nacht3():
     """
         This function runs the game 200 times and then saves the data to a excel file.
@@ -407,7 +406,7 @@ class PlayData_nacht3():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 9
-        csvfile = "Rushhour9x9_1.csv"
+        csvfile = "gameboard/Rushhour9x9_1.csv"
         repeats = 10000
         export_excel = True
         movelist = []
@@ -446,7 +445,6 @@ class PlayData_nacht3():
             workbook.close()
 
 
-
 class Save_frames():
     """
         Solves the game and saves each frame of each move made. This function
@@ -456,7 +454,7 @@ class Save_frames():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "Rushhour6x6_test.csv"
+        csvfile = "gameboard/Rushhour6x6_test.csv"
         game = Game(csvfile, gridsize)
         gamewon = False
 
@@ -507,7 +505,7 @@ class Save_frames_buffer():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "Rushhour6x6_3.csv"
+        csvfile = "gameboard/Rushhour6x6_3.csv"
         save_frames = True
 
         max_moves = 400
@@ -551,7 +549,7 @@ class Animation():
     def __init__(self):
 
         gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
+        csvfile = "gameboard/Rushhour6x6_1.csv"
         game = Game(csvfile, gridsize)
         moves = 0
 
@@ -569,10 +567,10 @@ class Animation():
 
 if __name__ == "__main__":
     # Play()
-    # Test()
-    PlayData_nacht1()
-    PlayData_nacht2()
-    PlayData_nacht3()
+    Test()
+    # PlayData_nacht1()
+    # PlayData_nacht2()
+    # PlayData_nacht3()
     # PlayData()
     # Save_frames_buffer()
     # Save_frames()
