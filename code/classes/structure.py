@@ -246,13 +246,13 @@ class Play():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "Rushhour9x9_1.csv"
+        gridsize = 6
+        csvfile = "Rushhour6x6_3.csv"
         game = Game(csvfile, gridsize)
         gamewon = False
         while not gamewon:
-            algorithms.random_move_max_steps_non_recurrent(game)
-            algorithms.redcar_path_free(game)
+            algorithms.queue_algorithm_hiele(game)
+            algorithms.check_path_free(game)
             gamewon = algorithms.win(game)
 
         print(f"Done! It took {game.moves} moves to win the game")
@@ -265,9 +265,9 @@ class PlayData():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "Rushhour9x9_1.csv"
-        repeats = 1000
+        gridsize = 6
+        csvfile = "Rushhour6x6_1.csv"
+        repeats = 100000
         export_excel = True
         movelist = []
 
@@ -277,15 +277,15 @@ class PlayData():
             gamewon = False
 
             while not gamewon:
-                algorithms.queue_algorithm_hiele(game)
-                algorithms.redcar_path_free(game)
-                gamewon = algorithms.win(game)
+                if algorithms.win(game):
+                    gamewon = True
+                    break
+                algorithms.random_move_max_steps(game)
 
-            if gamewon:
-                # print(game.moves)
-                movelist.append(game.moves)
-                if i % (repeats/1000) == 0:
-                    print("1, ",i*100/repeats,"%")
+            # give update on how many measurements have been calculate
+            movelist.append(game.moves)
+            if i % (repeats/100) == 0:
+                print(i*100/repeats,"%,  ", game.moves, " moves")
 
         sortmovelist = movelist
         sortmovelist.sort()
@@ -327,7 +327,7 @@ class PlayData_nacht1():
 
             while not gamewon:
                 algorithms.random_move_single_step(game)
-                algorithms.redcar_path_free(game)
+                algorithms.check_path_free(game)
                 gamewon = algorithms.win(game)
 
             if gamewon:
@@ -376,7 +376,7 @@ class PlayData_nacht2():
 
             while not gamewon:
                 algorithms.random_move_max_steps(game)
-                algorithms.redcar_path_free(game)
+                algorithms.check_path_free(game)
                 gamewon = algorithms.win(game)
 
             if gamewon:
@@ -425,7 +425,7 @@ class PlayData_nacht3():
 
             while not gamewon:
                 algorithms.random_move_max_steps_non_recurrent(game)
-                algorithms.redcar_path_free(game)
+                algorithms.check_path_free(game)
                 gamewon = algorithms.win(game)
 
             if gamewon:
@@ -463,7 +463,7 @@ class Save_frames():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
+        csvfile = "Rushhour6x6_test.csv"
         game = Game(csvfile, gridsize)
         gamewon = False
 
@@ -471,10 +471,11 @@ class Save_frames():
         plt.figure()
         game.save_plot("frame0.png")
         while not gamewon:
-            algorithms.queue_algorithm_hiele(game)
+            algorithms.random_move_max_steps_non_recurrent(game)
             file_name = "frame" + str(game.moves) + ".png"
             game.save_plot(file_name)
-            algorithms.redcar_path_free(game)
+            algorithms.make_path_free(game)
+            algorithms.check_path_free(game)
             gamewon = algorithms.win(game)
 
 
@@ -512,11 +513,11 @@ class Save_frames_buffer():
 
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "Rushhour9x9_1.csv"
+        gridsize = 6
+        csvfile = "Rushhour6x6_3.csv"
         save_frames = True
 
-        max_moves = 150
+        max_moves = 400
 
         # dummy begin value
         moves = max_moves + 1
@@ -534,7 +535,7 @@ class Save_frames_buffer():
                 list_grids.append(extract_grid(game.grid))
             algorithms.random_move_max_steps_non_recurrent(game)
             list_grids.append(extract_grid(game.grid))
-            algorithms.redcar_path_free(game)
+            algorithms.check_path_free(game)
             gamewon = algorithms.win(game)
             moves = game.moves
 
@@ -547,7 +548,7 @@ class Save_frames_buffer():
             for i in range(len(list_grids)):
                 file_name = "frame" + str(i) + ".png"
                 game.save_plot_extern_grid(file_name, list_grids[i])
-
+        game.save_plot_extern_grid("final_frame.png", list_grids[-1])
 
 
 class Animation():
