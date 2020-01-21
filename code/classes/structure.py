@@ -444,7 +444,6 @@ class PlayData_nacht3():
 
             workbook.close()
 
-
 class Save_frames():
     """
         Solves the game and saves each frame of each move made. This function
@@ -551,7 +550,6 @@ class Animation():
         gridsize = 6
         csvfile = "gameboard/Rushhour6x6_1.csv"
         game = Game(csvfile, gridsize)
-        moves = 0
 
         # plot of the first move
         plt.figure()
@@ -559,11 +557,31 @@ class Animation():
         game.frame(ax)
         while not game.win_hiele():
             game.random_move_max_steps()
-            moves += 1
             game.frame(ax)
 
         # save final frame
         game.frame(ax)
+
+class Play():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 6
+        csvfile = "Rushhour6x6_1.csv"
+        for i in range(100):
+            game = Game(csvfile, gridsize)
+            gamewon = False
+            while not gamewon:
+                # algorithms.random_move_single_step(game)
+                algorithms.random_move_single_step(game)
+                algorithms.redcar_path_free(game)
+                gamewon = algorithms.win(game)
+            print(f"Done! It took {game.moves} moves to win the game")
+        # game.save_plot("finished.png")
 
 if __name__ == "__main__":
     # Play()

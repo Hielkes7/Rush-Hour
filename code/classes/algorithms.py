@@ -104,61 +104,33 @@ def movable_right(game, car):
 
 def random_move_single_step(game):
 
-    car_possible = False
-    while not car_possible:
+    # keep looping untill a randomly picked car is able to move
+    car_movable = False
+    while not car_movable:
+        # pick random car
         car = random.choice(game.cars)
-        move_y_positive = False
-        move_y_negative = False
-        move_x_positive = False
-        move_x_negative = False
+        car_movable = car_is_movable(game, car)
 
-        if car.orientation == 'V':
-            move_y_positive = movable_up(game, car)
-            move_y_negative = movable_down(game, car)
-
-        if car.orientation == 'H':
-            move_x_positive = movable_right(game, car)
-            move_x_negative = movable_left(game, car)
-
-        if move_y_positive or move_y_negative or move_x_positive or move_x_negative:
-            car_possible = True
-
-    if move_y_positive or move_y_negative:
+    direction = move(game, car)
+    if direction == "y positive":
         x = car.x
+        y = car.y + 1
+        update(game, car, x, y)
 
-        if move_y_positive and move_y_negative:
-            random_choice =  random.choice([0, 1])
-            if random_choice == 1:
-                move_y_positive = False
-            else:
-                move_y_negative = False
+    if direction == "y negative":
+        x = car.x
+        y = car.y - 1
+        update(game, car, x, y)
 
-        if move_y_positive:
-            y = car.y + 1
-            update(game, car, x, y)
-
-        else:
-            y = car.y - 1
-            update(game, car, x, y)
-
-    if move_x_positive or move_x_negative:
+    if direction == "x positive":
         y = car.y
+        x = car.x + 1
+        update(game, car, x, y)
 
-        if move_x_positive and move_x_negative:
-            random_choice =  random.choice([0, 1])
-            if random_choice == 1:
-                move_x_positive = False
-
-            else:
-                move_x_negative = False
-
-        if move_x_positive:
-            x = car.x + 1
-            update(game, car, x, y)
-
-        else:
-            x = car.x - 1
-            update(game, car, x, y)
+    if direction == "x negative":
+        y = car.y
+        x = car.x - 1
+        update(game, car, x, y)
 
 def random_move_max_steps(game):
     """
@@ -171,78 +143,34 @@ def random_move_max_steps(game):
 
         # pick random car
         car = random.choice(game.cars)
-        move_y_positive = False
-        move_y_negative = False
-        move_x_positive = False
-        move_x_negative = False
+        car_movable = car_is_movable(game, car)
 
-        # check if the car can move up or down
-        if car.orientation == "V":
 
-            # check if car can move up
-            move_y_positive = movable_up(game, car)
-
-            # check if car can move down
-            move_y_negative = movable_down(game, car)
-
-        # else car can only move left or right
-        else:
-
-            # check if car can move right
-            move_x_positive = movable_right(game, car)
-
-            # check if car can move left
-            move_x_negative = movable_left(game, car)
-
-        # if the car can move in any of the 4 directions, it's movable
-        if move_y_positive or move_y_negative or move_x_positive or move_x_negative:
-            car_movable = True
-
-    if move_y_positive or move_y_negative:
+    direction = move(game, car)
+    if direction == "y positive":
         x = car.x
+        while movable_up(game, car):
+            y = car.y + 1
+            update(game, car, x, y)
 
-        # if the car can move both up and down, randomly pick one
-        if move_y_positive and move_y_negative:
-            random_choice =  random.choice([0, 1])
-            if random_choice == 1:
-                move_y_positive = False
-            else:
-                move_y_negative = False
+    if direction == "y negative":
+        x = car.x
+        while movable_down(game, car):
+            y = car.y - 1
+            update(game, car, x, y)
 
-        # keep moving the car up untill it is blocked
-        if move_y_positive:
-            while movable_up(game, car):
-                y = car.y + 1
-                update(game, car, x, y)
-
-        # keep moving the car down untill it's blocked
-        if move_y_negative:
-            while movable_down(game, car):
-                y = car.y - 1
-                update(game, car, x, y)
-
-    if move_x_negative or move_x_positive:
+    if direction == "x positive":
         y = car.y
+        while movable_right(game, car):
+            x = car.x + 1
+            update(game, car, x, y)
 
-        # if the car can move both left and right, randomly pick one
-        if move_x_positive and move_x_negative:
-            random_choice =  random.choice([0, 1])
-            if random_choice == 1:
-                move_x_positive = False
-            else:
-                move_x_negative = False
+    if direction == "x negative":
+        y = car.y
+        while movable_left(game, car):
+            x = car.x - 1
+            update(game, car, x, y)
 
-        # keep moving the car right untill it's it blocked
-        if move_x_positive:
-            while movable_right(game, car):
-                x = car.x + 1
-                update(game, car, x, y)
-
-        # keep moving the car left untill it's it blocked
-        if move_x_negative:
-            while movable_left(game, car):
-                x = car.x - 1
-                update(game, car, x, y)
 
 def random_move_max_steps_non_recurrent(game):
     """
@@ -258,74 +186,34 @@ def random_move_max_steps_non_recurrent(game):
         car = random.choice(game.cars)
         while car.id == game.previous_car_id:
             car = random.choice(game.cars)
+        car_movable = car_is_movable(game, car)
 
-        # when found a new car, update previous_car_id
-        game.previous_car_id = car.id
-
-        move_y_positive = False
-        move_y_negative = False
-        move_x_positive = False
-        move_x_negative = False
-
-        # check if the car can move up or down
-        if car.orientation == "V":
-            move_y_positive = movable_up(game, car)
-            move_y_negative = movable_down(game, car)
-
-        # else car can only move left or right
-        else:
-            move_x_positive = movable_right(game, car)
-            move_x_negative = movable_left(game, car)
-
-        # if the car can move in any of the 4 directions, it's movable
-        if move_y_positive or move_y_negative or move_x_positive or move_x_negative:
-            car_movable = True
-
-    if move_y_positive or move_y_negative:
+    direction = move(game, car)
+    if direction == "y positive":
         x = car.x
+        while movable_up(game, car):
+            y = car.y + 1
+            update(game, car, x, y)
 
-        # if the car can move both up and down, randomly pick one
-        if move_y_positive and move_y_negative:
-            random_choice =  random.choice([0, 1])
-            if random_choice == 1:
-                move_y_positive = False
-            else:
-                move_y_negative = False
+    if direction == "y negative":
+        x = car.x
+        while movable_down(game, car):
+            y = car.y - 1
+            update(game, car, x, y)
 
-        # keep moving the car up untill it is blocked
-        if move_y_positive:
-            while movable_up(game, car):
-                y = car.y + 1
-                update(game, car, x, y)
-
-        # keep moving the car down untill it's blocked
-        if move_y_negative:
-            while movable_down(game, car):
-                y = car.y - 1
-                update(game, car, x, y)
-
-    if move_x_negative or move_x_positive:
+    if direction == "x positive":
         y = car.y
+        while movable_right(game, car):
+            x = car.x + 1
+            update(game, car, x, y)
 
-        # if the car can move both left and right, randomly pick one
-        if move_x_positive and move_x_negative:
-            random_choice =  random.choice([0, 1])
-            if random_choice == 1:
-                move_x_positive = False
-            else:
-                move_x_negative = False
+    if direction == "x negative":
+        y = car.y
+        while movable_left(game, car):
+            x = car.x - 1
+            update(game, car, x, y)
 
-        # keep moving the car right untill it's it blocked
-        if move_x_positive:
-            while movable_right(game, car):
-                x = car.x + 1
-                update(game, car, x, y)
-
-        # keep moving the car left untill it's it blocked
-        if move_x_negative:
-            while movable_left(game, car):
-                x = car.x - 1
-                update(game, car, x, y)
+    game.previous_car_id = car.id
 
 def queue_algorithm_hiele(game):
     """
@@ -520,21 +408,52 @@ def queue_algorithm(game):
 
         print(car_queue)
         # choose a random car in the queue
-        car =  random.choice(car_queue)
+        car = random.choice(car_queue)
         if car.id == game.previous_car_id:
             random_move_max_steps_non_recurrent(game)
-
-        # check if car can move up
-        move_y_positive = movable_up(game, car)
-
-        # check if car can move down
-        move_y_negative = movable_down(game, car)
+            return False
 
         x = car.x
+        direction = move(game, car)
+        if direction == "y positive":
+            while movable_up(game, car):
+                y = car.y + 1
+                update(game, car, x, y)
+            game.previous_car_id = car.id
+            return True
+
+        elif direction == "y negative":
+            while movable_down(game, car):
+                y = car.y - 1
+                update(game, car, x, y)
+            game.previous_car_id = car.id
+            return True
+
+    random_move_max_steps_non_recurrent(game)
+    return False
+
+def move(game, car):
+
+    move_y_positive = False
+    move_y_negative = False
+    move_x_positive = False
+    move_x_negative = False
+
+    # check if the car can move up or down
+    if car.orientation == "V":
+        move_y_positive = movable_up(game, car)
+        move_y_negative = movable_down(game, car)
+
+    # else car can only move left or right
+    else:
+        move_x_positive = movable_right(game, car)
+        move_x_negative = movable_left(game, car)
+
+    if move_y_positive or move_y_negative:
 
         # if the car can move both up and down, randomly pick one
         if move_y_positive and move_y_negative:
-            random_choice = random.choice([0, 1])
+            random_choice =  random.choice([0, 1])
             if random_choice == 1:
                 move_y_positive = False
             else:
@@ -542,20 +461,42 @@ def queue_algorithm(game):
 
         # keep moving the car up untill it is blocked
         if move_y_positive:
-            while movable_up(game, car):
-                y = car.y + 1
-                update(game, car, x, y)
-                return True
+            return "y positive"
 
         # keep moving the car down untill it's blocked
         if move_y_negative:
-            while movable_down(game, car):
-                y = car.y - 1
-                update(game, car, x, y)
-                return True
+            return "y negative"
 
-    random_move_max_steps_non_recurrent(game)
-    return False
+    if move_x_negative or move_x_positive:
+
+        # if the car can move both left and right, randomly pick one
+        if move_x_positive and move_x_negative:
+            random_choice =  random.choice([0, 1])
+            if random_choice == 1:
+                move_x_positive = False
+            else:
+                move_x_negative = False
+
+        # keep moving the car right untill it's it blocked
+        if move_x_positive:
+            return "x positive"
+
+        # keep moving the car left untill it's it blocked
+        if move_x_negative:
+            return "x negative"
+
+    else:
+        return False
+
+def car_is_movable(game, car):
+    """
+        Checks if a car can move in to at least one direction.
+    """
+
+    if movable_up(game, car) or movable_down(game, car) or movable_left(game, car) or movable_right(game, car):
+        return True
+    else:
+        return False
 
 def breadth_first(game):
     """
@@ -568,7 +509,7 @@ def breadth_first(game):
         # check if the car can move up or down
         if car.orientation == "V":
             if movable_up(game, car):
-                
+
             move_y_negative = movable_down(game, car)
 
         # else car can only move left or right
