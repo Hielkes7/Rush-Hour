@@ -8,8 +8,12 @@ class Game():
 
     def __init__(self, csvfile, gridsize):
 
-        # variable for non recurrent algorithm, start with dummy value
+        # variable for non recurring algorithm, start with dummy value
         self.previous_car_id = None
+
+        # variable for correct output, start with dummy value
+        # format: "car_id, +/- size_move"
+        self.list_moves = []
 
         # gridsize and grid creation
         self.gridsize = gridsize - 1
@@ -249,14 +253,23 @@ class Play():
         gridsize = 6
         csvfile = "gameboards/Rushhour6x6_2.csv"
         game = Game(csvfile, gridsize)
+
         gamewon = False
         while not gamewon:
-            if algorithms.check_path_free(game):
+            if algorithms.make_path_free(game):
                 gamewon = True
                 break
-            algorithms.queue_algorithm_merge(game)
+            algorithms.queue_algorithm(game)
 
         print(f"Done! It took {game.moves} moves to win the game")
+
+        # writing all moves in an output.csv file
+        with open('output.csv', mode='w') as output_file:
+            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            output_writer.writerow(['car', ' move'])
+
+            for move in game.list_moves:
+                output_writer.writerow([move[0], move[1]])
 
 class Play_average():
     """
@@ -291,8 +304,8 @@ class PlayData1():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_1.csv"
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
         repeats = 5000
         export_excel = True
         movelist = []
@@ -317,7 +330,7 @@ class PlayData1():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("data/game1/output1.xlsx")
+            workbook = xlsxwriter.Workbook("data/game 4/output1.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -332,8 +345,8 @@ class PlayData2():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_1.csv"
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
         repeats = 5000
         export_excel = True
         movelist = []
@@ -358,7 +371,7 @@ class PlayData2():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("data/game1/output2.xlsx")
+            workbook = xlsxwriter.Workbook("data/game 4/output2.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -373,8 +386,8 @@ class PlayData3():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_1.csv"
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
         repeats = 5000
         export_excel = True
         movelist = []
@@ -399,7 +412,7 @@ class PlayData3():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("data/game1/output3.xlsx")
+            workbook = xlsxwriter.Workbook("data/game 4/output3.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -414,8 +427,8 @@ class PlayData4():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_1.csv"
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
         repeats = 5000
         export_excel = True
         movelist = []
@@ -440,7 +453,7 @@ class PlayData4():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("data/game1/output4.xlsx")
+            workbook = xlsxwriter.Workbook("data/game 4/output4.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -455,8 +468,8 @@ class PlayData5():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_1.csv"
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
         repeats = 5000
         export_excel = True
         movelist = []
@@ -481,7 +494,7 @@ class PlayData5():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("data/game1/output5.xlsx")
+            workbook = xlsxwriter.Workbook("data/game 4/output5.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -496,8 +509,8 @@ class PlayData6():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_1.csv"
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
         repeats = 5000
         export_excel = True
         movelist = []
@@ -522,7 +535,7 @@ class PlayData6():
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("data/game1/output6.xlsx")
+            workbook = xlsxwriter.Workbook("data/game 4/output6.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
@@ -530,9 +543,6 @@ class PlayData6():
                 sheet.write(item, 0, movelist[item])
 
             workbook.close()
-
-
-
 
 
 class Save_frames():
@@ -656,16 +666,16 @@ class Animation():
 
 
 if __name__ == "__main__":
-    # Play_average()
+    Play()
     # Test()
     # PlayData_nacht1()
     # PlayData_nacht2()
     # PlayData_nacht3()
-    PlayData1()
-    PlayData2()
-    PlayData3()
-    PlayData4()
-    PlayData5()
-    PlayData6()
+    # PlayData1()
+    # PlayData2()
+    # PlayData3()
+    # PlayData4()
+    # PlayData5()
+    # PlayData6()
     # Save_frames_buffer()
     # Save_frames()
