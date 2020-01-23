@@ -1,16 +1,17 @@
-import structurecopy, bfs_algorithms
-import sys
+import structurecopy, bfs_algorithms, save_plots
+import sys, timeit, time
 
 class Node():
     """
     Stores info of node
     """
     def __init__(self, grid, parent):
-        # zorg dat dit een deepcopy is!!!!!
         self.grid = grid
-        # dit zou ook met id kunnen en dan ook id in parent ipv pointer.
         self.parent = parent
 
+    # def __eq__(self, other)
+    #
+    # timeit python speed module
 class Bfs():
     """
     Bfs
@@ -29,7 +30,6 @@ class Bfs():
         for grid_move in moves:
             if self.duplicates(grid_move):
                 temp.append(grid_move)
-
         for grid_move in temp:
             self.q.append(Node(grid_move, parent))
 
@@ -40,20 +40,23 @@ class Bfs():
 
     def duplicates(self, grid):
 
-        for nodes in self.q:
-            if nodes.grid == grid:
-                return False
-
         for nodes in self.explored:
             if nodes.grid == grid:
                 return False
 
+        for nodes in self.q:
+            if nodes.grid == grid:
+                return False
         return True
 
-
     def search(self):
-        parent = self.q.pop(0)
 
+        # if len(self.q) == 0:
+        #     wrong_track = bfs_algorithms.back_track(self.game, self.explored[-1])
+        #     print("q is empty good sir")
+        #     return wrong_track
+        parent = self.q.pop(0)
+        # if self.duplicates(parent.grid):
         self.explored.append(parent)
 
         if bfs_algorithms.game_won(self.game, parent.grid):
@@ -64,24 +67,39 @@ class Bfs():
             backtrack = bfs_algorithms.back_track(self.game, parent)
             return backtrack
         else:
-            moves = bfs_algorithms.all_possible_moves(self.game, parent.grid)
+            moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
             self.add_nodes(moves, parent)
 
+def Play():
+    gridsize = 9
+    csvfile = "Rushhour9x9_.csv"
+
+    game = structurecopy.Game(csvfile, gridsize)
+    grid = game.grid
+    bfs = Bfs(grid, game)
+    gamewon = False
 
 
+    while not gamewon:
+        gamewon = bfs.search()
 
+    print("moves made", len(gamewon))
+    save_plots.save_all_plots(gamewon)
 
 if __name__ == "__main__":
+        start = time.time()
+        Play()
+        end = time.time()
+        print("total time", end-start)
+        # print("Hi! Let's wreck your memory with Rush-Hour!")
+        # gridsize = 6
+        # csvfile = "Rushhour6x6_3.csv"
+        #
+        # game = structurecopy.Game(csvfile, gridsize)
+        # grid = game.grid
+        # bfs = Bfs(grid, game)
+        # bfs_algorithms.print_grid_terminal(grid)
 
-
-        print("Hi! Let's wreck your memory with Rush-Hour!")
-        gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
-
-        game = structurecopy.Game(csvfile, gridsize)
-        grid = game.grid
-        bfs = Bfs(grid, game)
-        bfs_algorithms.print_grid_terminal(grid)
         # list = bfs.search()
 
         # print(list)
@@ -93,8 +111,9 @@ if __name__ == "__main__":
         """
         # bfs_algorithms.print_grid_terminal(grid)
         # print()
-        # list = bfs_algorithms.all_possible_moves(game, grid)
-        # # print(list)
+        # list = bfs_algorithms.all_possible_max_moves(game, grid)
+        #
+        # print(len(list))
         # for grid in list:
         #     bfs_algorithms.print_grid_terminal(grid)
         #     print()
@@ -124,13 +143,8 @@ if __name__ == "__main__":
         """
         werkt de backtrack?
         """
+        #
 
-        # gamewon = False
-        #
-        # while not gamewon:
-        #     gamewon = bfs.search()
-        #
-        # print("moves made", len(gamewon))
         # for grid in gamewon:
         #     bfs_algorithms.print_grid_terminal(grid)
         #     print()

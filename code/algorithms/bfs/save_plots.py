@@ -66,4 +66,4 @@ def save_all_plots(grids):
         grid = grids[i]
         save_single_plot(grid, file_name)
 
-save_all_plots(grids)
+# save_all_plots(grids)
