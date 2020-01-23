@@ -25,7 +25,7 @@ class Bfs():
 
     def add_nodes(self, grid_moves, parent):
         """
-        
+
         """
         temp = []
         for grid in grid_moves:
@@ -63,15 +63,25 @@ class Bfs():
             self.add_nodes(grid_moves, parent)
 
 def Play():
-    gridsize = 9
-    csvfile = "Rushhour9x9_.csv"
+    gridsize = 6
+    csvfile = "Rushhour6x6_3.csv"
     game = structurecopy.Game(csvfile, gridsize)
     grid = game.grid
     bfs = Bfs(grid, game)
     gamewon = False
 
+    # bfs_algorithms.print_grid_terminal(grid)
+    # print()
+    # print()
+
+    # moves = bfs_algorithms.all_possible_max_moves(game, grid)
+    # for grid in moves:
+    #     bfs_algorithms.print_grid_terminal(grid)
+    #     print()
+
     while not gamewon:
         gamewon = bfs.search()
+
 
     print("moves made", len(gamewon))
     save_plots.save_all_plots(gamewon)

@@ -33,12 +33,11 @@ def all_possible_moves(game, grid):
 
 
 def all_possible_max_moves(game, grid):
-
     cars = game.cars
     grid = grid
     moves = []
-
     for car in cars:
+
         move_y_positive = False
         move_y_negative = False
         move_x_positive = False
@@ -67,225 +66,155 @@ def movable_left_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
     """
-    for coordinate in grid[0]:
-        if coordinate == car.id:
-            return False
-    x = 0
-    for column in grid:
-        y = 0
-        for coordinate in column:
-            if coordinate == car.id:
-                if x - 1 >= 0:
-                    if grid[x - 1][y] == 0:
-                        move = -1
-                        new_grid = update_bfs(game, grid, car, x, y, move)
-                        return new_grid
-                    else:
-                        return False
-            y += 1
-        x += 1
-
+    y = car.y
+    for x in range(game.gridsize):
+        if grid[x][y] == car.id:
+            if x - 1 >= 0:
+                if grid[x - 1][y] == 0:
+                    move = -1
+                    return update_bfs(game, grid, car, x, y, move)
+            else:
+                return False
 
 def movable_right_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
     """
 
-    # check if car is not next to upper edge
-    for coordinate in grid[game.gridsize]:
-        if coordinate == car.id:
-            return False
-    x = 0
-    for column in grid:
-        y = 0
-        for coordinate in column:
-            if coordinate == car.id:
-                if x + car.length <= game.gridsize:
-                    if grid[x + car.length][y] == 0:
-                        move = 1
-                        new_grid = update_bfs(game, grid, car, x, y, move)
-                        return new_grid
-                    else:
-                        return False
-            y += 1
-        x += 1
-
+    y = car.y
+    for x in range(game.gridsize):
+        if grid[x][y] == car.id:
+            if x + car.length <= game.gridsize:
+                if grid[x + car.length][y] == 0:
+                    move = 1
+                    return update_bfs(game, grid, car, x, y, move)
+            else:
+                return False
 
 def movable_up_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
     """
 
-    for row in grid:
-        # print("row is", row)
-        if row[game.gridsize] == car.id:
-            return False
-    x = 0
-    for column in grid:
-        y = 0
-        for coordinate in column:
-            if coordinate == car.id:
-                if y + car.length <= game.gridsize:
-                    if grid[x][y + car.length] == 0:
-                        move = 1
-                        new_grid = update_bfs(game, grid, car, x, y, move)
-                        return new_grid
-                    else:
-                        return False
-            y += 1
-        x += 1
+    x = car.x
+    for y in range(game.gridsize):
+        if grid[x][y] == car.id:
+            if y  + car.length <= game.gridsize:
+                if grid[x][y + car.length] == 0:
+                    move = 1
+                    return update_bfs(game, grid, car, x, y, move)
+            else:
+                return False
 
 
 def movable_down_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
     """
-    for row in grid:
-        if row[0] == car.id:
-            return False
-
-    x = 0
-    for column in grid:
-        y = 0
-        for coordinate in column:
-            if coordinate == car.id:
-                if y - 1 >= 0:
-                    if grid[x][y - 1] == 0:
-                        move = -1
-                        new_grid = update_bfs(game, grid, car, x, y, move)
-                        return new_grid
-                    else:
-                        return False
-            y += 1
-        x += 1
-
+    x = car.x
+    for y in range(game.gridsize):
+        if grid[x][y] == car.id:
+            if x - 1 <= game.gridsize:
+                if grid[x][y - 1] == 0:
+                    move = -1
+                    return update_bfs(game, grid, car, x, y, move)
+            else:
+                return False
 
 def movable_left_max_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
     """
-    for coordinate in grid[0]:
-        if coordinate == car.id:
-            return False
-    x = 0
-    for column in grid:
-        y = 0
-        for coordinate in column:
-            if coordinate == car.id:
-                move = 0
-                while True:
-                    if x -1 + move < 0:
-                        break
-                    if grid[x -1 + move][y] !=0:
-                        break
-                    move -= 1
-                if move == 0:
-                    return False
-                else:
-                    return update_bfs(game, grid, car, x, y, move)
-            y += 1
-        x += 1
+    y = car.y
+    for x in range(game.gridsize):
+        if grid[x][y] == car.id:
+            move = 0
+            while True:
+                if x -1 + move < 0:
+                    break
+                if grid[x -1 + move][y] !=0:
+                    break
+                move -= 1
+            if move == 0:
+                return False
+            else:
+                return update_bfs(game, grid, car, x, y, move)
 
 
 def movable_right_max_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
     """
-    for coordinate in grid[game.gridsize]:
-        if coordinate == car.id:
-            return False
-    x = 0
-    for column in grid:
-        y = 0
-        for coordinate in column:
-            if coordinate == car.id:
-                move = 0
-                while True:
-                    if x + car.length + move > game.gridsize:
-                        break
-                    if grid[x + car.length + move][y] != 0:
-                        break
-                    move += 1
-                if move == 0:
-                    return False
-                else:
-                    return update_bfs(game, grid, car, x, y, move)
-            y += 1
-        x += 1
-
+    y = car.y
+    for x in range(game.gridsize):
+        if grid[x][y] == car.id:
+            move = 0
+            while True:
+                if x + car.length + move > game.gridsize:
+                    break
+                if grid[x + car.length + move][y] != 0:
+                    break
+                move += 1
+            if move == 0:
+                return False
+            else:
+                return update_bfs(game, grid, car, x, y, move)
 
 def movable_up_max_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
     """
-
-    for row in grid:
-        if row[game.gridsize] == car.id:
-            return False
-    x = 0
-    for column in grid:
-        y = 0
-        for coordinate in column:
-            if coordinate == car.id:
-                move = 0
-                while True:
-                    if y + car.length + move > game.gridsize:
-                        break
-                    if grid[x][y + car.length + move] !=0:
-                        break
-                    move += 1
-                if move == 0:
-                    return False
-                else:
-                    return update_bfs(game, grid, car, x, y, move)
-            y += 1
-        x += 1
+    x = car.x
+    for y in range(game.gridsize):
+        if grid[x][y] == car.id:
+            move = 0
+            while True:
+                if y + car.length + move > game.gridsize:
+                    break
+                if grid[x][y + car.length + move] !=0:
+                    break
+                move += 1
+            if move == 0:
+                return False
+            else:
+                return update_bfs(game, grid, car, x, y, move)
 
 
 def movable_down_max_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
     """
-    for row in grid:
-        if row[0] == car.id:
-            return False
-    x = 0
-    for column in grid:
-        y = 0
-        for coordinate in column:
-            if coordinate == car.id:
-                move = 0
-                while True:
-                    if  y - 1 + move < 0:
-                        break
-                    if grid[x][y - 1 + move] != 0:
-                        break
-                    move -= 1
-
-                if move == 0:
-                    return False
-                else:
-                    return update_bfs(game, grid, car, x, y, move)
-            y += 1
-        x += 1
+    x = car.x
+    for y in range(game.gridsize):
+        if grid[x][y] == car.id:
+            move = 0
+            while True:
+                if  y - 1 + move < 0:
+                    break
+                if grid[x][y - 1 + move] != 0:
+                    break
+                move -= 1
+            if move == 0:
+                return False
+            else:
+                return update_bfs(game, grid, car, x, y, move)
 
 
 def update_bfs(game, grid, car, x, y, move):
 
     new_grid = copy.deepcopy(grid)
-    for i in range(game.gridsize + 1):
-        for j in range(game.gridsize + 1):
-            if new_grid[i][j] == car.id:
-                new_grid[i][j] = 0
-    if car.orientation == "V":
+    if car.orientation == 'V':
         for i in range(car.length):
-            new_grid[x][y + move] = car.id
-            y += 1
-
+            new_grid[x][y + i] = 0
+        for i in range(car.length):
+            new_grid[x][y + i + move] = car.id
     else:
         for i in range(car.length):
-            new_grid[x + move][y] = car.id
-            x += 1
+            new_grid[x + i][y] = 0
+        for i in range(car.length):
+            new_grid[x + i + move][y] = car.id
+
+        print_grid_terminal(new_grid)
     return new_grid
 
 
@@ -313,6 +242,9 @@ def back_track(game, node):
 
     return moves_list
 
+
+def moves_list(game, backtrack):
+    game = game
 
 def print_grid_terminal(grid):
     """
