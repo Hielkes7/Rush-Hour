@@ -1,4 +1,4 @@
-import csv, os, random, statistics, xlsxwriter, algorithms, time
+import csv, os, random, statistics, algorithms, time
 import matplotlib.pyplot as plt
 
 class Game():
@@ -280,7 +280,7 @@ class PlayData():
                 if algorithms.win(game):
                     gamewon = True
                     break
-                algorithms.random_move_max_steps(game)
+                algorithms.random_max_step(game)
 
             # give update on how many measurements have been calculate
             movelist.append(game.moves)
@@ -327,7 +327,7 @@ class PlayData_nacht1():
             gamewon = False
 
             while not gamewon:
-                algorithms.random_move_single_step(game)
+                algorithms.random_single_step(game)
                 if algorithms.make_path_free(game):
                     gamewon = True
 
@@ -372,7 +372,7 @@ class PlayData_nacht2():
             gamewon = False
 
             while not gamewon:
-                algorithms.random_move_max_steps(game)
+                algorithms.random_max_step(game)
                 if algorithms.make_path_free(game):
                     gamewon = True
 
@@ -417,7 +417,7 @@ class PlayData_nacht3():
             gamewon = False
 
             while not gamewon:
-                algorithms.random_move_max_steps(game)
+                algorithms.random_max_step(game)
                 if algorithms.check_path_free(game):
                     gamewon = True
 
@@ -461,7 +461,7 @@ class Save_frames():
         plt.figure()
         game.save_plot("frame0.png")
         while not gamewon:
-            algorithms.random_move_max_steps_non_recurrent(game)
+            algorithms.random_max_step_non_recurrent(game)
             file_name = "frame" + str(game.moves) + ".png"
             game.save_plot(file_name)
             algorithms.make_path_free(game)
@@ -523,7 +523,7 @@ class Save_frames_buffer():
                 gamewon = False
                 list_grids = []
                 list_grids.append(extract_grid(game.grid))
-            algorithms.random_move_max_steps_non_recurrent(game)
+            algorithms.random_max_step_non_recurrent(game)
             list_grids.append(extract_grid(game.grid))
             algorithms.check_path_free(game)
             gamewon = algorithms.win(game)
@@ -556,7 +556,7 @@ class Animation():
         ax = plt.axes()
         game.frame(ax)
         while not game.win_hiele():
-            game.random_move_max_steps()
+            game.random_max_step()
             game.frame(ax)
 
         # save final frame
@@ -564,31 +564,84 @@ class Animation():
 
 class Play():
     """
-        This function solves the game and then returns in how many moves it
+        This function solves the game and returns in how many moves it
         has done so.
     """
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
-        for i in range(100):
+        gridsize = 12
+        csvfile = "Rushhour12x12_7.csv"
+        # grids = []
+        # min_moves = 11
+        # gamecount = 0
+
+        for i in range(10):
             game = Game(csvfile, gridsize)
             gamewon = False
             while not gamewon:
-                # algorithms.random_move_single_step(game)
-                algorithms.random_move_single_step(game)
-                algorithms.redcar_path_free(game)
+                # algorithms.random_single_step(game)
+                algorithms.random_max_step_non_recurrent(game)
+                algorithms.check_path_free(game)
                 gamewon = algorithms.win(game)
             print(f"Done! It took {game.moves} moves to win the game")
-        # game.save_plot("finished.png")
+        #     if game.moves < min_moves:
+        #         gamecount += 1
+        #         count = 0
+        #         for grid in grids:
+        #             if game.grid == grid:
+        #                 count += 1
+        #         if count == 0:
+        #             grids.append(game.grid)
+        # print(len(grids))
+        # print(grids)
+        # print(gamecount)
+        # # game.save_plot("finished.png")
+
+class Endstates():
+    """
+        This function gives an extension on random which checks if the current
+        state is an endstate that is already known.
+    """
+
+    def __init__(self):
+
+        self.gridsize = 6
+        self.csvfile = "Rushhour6x6_1.csv"
+        self.grid_dictionary = {}
+
+    def add_finalgrids(self, amount_of_games, amount_of_steps):
+        for i in range(amount_of_games):
+            game = Game(self.csvfile, self.gridsize)
+            gamewon = False
+            game_moves = []
+            game_grids = []
+            game_grids.append(game.grid)
+            while not gamewon:
+                step = algorithms.random_max_step_non_recurrent(game)
+                current_move = []
+                current_move.append(step.car)
+                current_move.append(step.x)
+                current_move.append(step.y)
+                game_moves.append(current_move)
+                gamewon = algorithms.win(game)
+                if gamewon is False:
+                    game_grids.append(game.grid)
+            list_length = game.moves - 1
+            for i in range(amount_of_steps):
+                if game_grid[list_length - i] in self.grid_dictionary.keys():
+                    # kijk of de values minder zijn
+
+                    if len(self.grid_dictionary[game_grid[list_length - i]]) > (i + 1)
+
+                else:
+                    self.grid_dictionary[game_grid[list_length - i]] = []
+                    self.grid_dictionary[game_grid[list_length - i]].append(game_moves[list_length - i])
+                    # voeg er nog aan toe dat alle moves worden toegevoegd
+
+
+
+
 
 if __name__ == "__main__":
-    # Play()
-    # Test()
-    # PlayData_nacht1()
-    # PlayData_nacht2()
-    # PlayData_nacht3()
-    # PlayData()
-    # Save_frames_buffer()
-    Save_frames()
+    Play()
