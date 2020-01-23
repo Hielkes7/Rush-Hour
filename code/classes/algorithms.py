@@ -211,7 +211,7 @@ def random_move_max_steps(game):
                 break
         update(game, car, new_x, car.y)
 
-def random_move_max_steps_non_recurrent(game):
+def random_move_max_steps_non_recurring(game):
     """
         This function moves a random car as far as it can go. It can't move
         the same car from the previous move. Returns the car it used
@@ -392,7 +392,7 @@ def queue_algorithm(game):
         # choose a random car in the queue
         car = random.choice(cars_in_path)
         if car.id == game.previous_car_id:
-            random_move_max_steps_non_recurrent(game)
+            random_move_max_steps_non_recurring(game)
             return False
 
         x = car.x
@@ -427,7 +427,7 @@ def queue_algorithm(game):
             game.previous_car_id = car.id
             return True
 
-    random_move_max_steps_non_recurrent(game)
+    random_move_max_steps_non_recurring(game)
     return False
 
 def queue_algorithm_merge(game):
@@ -512,7 +512,7 @@ def queue_algorithm_merge(game):
         game.previous_car_id = car.id
         return True
 
-    random_move_max_steps_non_recurrent(game)
+    random_move_max_steps_non_recurring(game)
     return False
 
 def move(game, car):

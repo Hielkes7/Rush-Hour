@@ -360,7 +360,7 @@ class PlayData2():
                 if algorithms.check_path_free(game):
                     gamewon = True
                     break
-                algorithms.random_move_max_steps_non_recurrent(game)
+                algorithms.random_move_max_steps_non_recurring(game)
 
             # give update on how many measurements have been calculate
             movelist.append(game.moves)
@@ -401,7 +401,7 @@ class PlayData3():
                 if algorithms.make_path_free(game):
                     gamewon = True
                     break
-                algorithms.random_move_max_steps_non_recurrent(game)
+                algorithms.random_move_max_steps_non_recurring(game)
 
             # give update on how many measurements have been calculate
             movelist.append(game.moves)
@@ -624,7 +624,7 @@ class Save_frames_buffer():
                 gamewon = False
                 list_grids = []
                 list_grids.append(extract_grid(game.grid))
-            algorithms.random_move_max_steps_non_recurrent(game)
+            algorithms.random_move_max_steps_non_recurring(game)
             list_grids.append(extract_grid(game.grid))
             algorithms.check_path_free(game)
             gamewon = algorithms.win(game)
