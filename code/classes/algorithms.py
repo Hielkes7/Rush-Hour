@@ -1,4 +1,4 @@
-import random
+import random, time
 
 def win(game):
     """
@@ -171,7 +171,6 @@ def random_move_max_steps(game):
             x = car.x - 1
             update(game, car, x, y)
 
-
 def random_move_max_steps_non_recurrent(game):
     """
         This function moves a random car as far as it can go. It can't move
@@ -250,6 +249,7 @@ def queue_algorithm_hiele(game):
             # keep checking the spot above the previous spot to see if it's 0
             # do this untill hitting a car or the upper edge
             while new_y_up + car.length < 6:
+
                 if game.grid[car.x][new_y_up + car.length] == 0:
                     new_y_up += 1
                 else:
@@ -394,21 +394,102 @@ def queue_algorithm(game):
     """
         Checks which cars are in the way of the red car and moves these cars first.
     """
-    car_queue = []
+    cars_in_path = []
     queue_count = 0
     for i in range(game.gridsize):
         spot = game.grid[i][game.gridexit]
         if (spot is not 0) and (spot is not 'X'):
             for car in game.cars:
                 if car.id == spot:
-                    car_queue.append(car)
+                    cars_in_path.append(car)
                     queue_count += 1
 
     if queue_count > 0:
 
-        print(car_queue)
         # choose a random car in the queue
-        car = random.choice(car_queue)
+        car = random.choice(cars_in_path)
+        if car.id == game.previous_car_id:
+            random_move_max_steps_non_recurrent(game)
+            return False
+
+        x = car.x
+        direction = move(game, car)
+        if direction == "y positive":
+            while movable_up(game, car):
+                y = car.y + 1
+                update(game, car, x, y)
+            game.previous_car_id = car.id
+            return True
+
+        elif direction == "y negative":
+            while movable_down(game, car):
+                y = car.y - 1
+                update(game, car, x, y)
+            game.previous_car_id = car.id
+            return True
+
+    random_move_max_steps_non_recurrent(game)
+    return False
+
+def queue_algorithm_merge(game):
+    """
+        Checks which cars are in the way of the red car and moves these cars first.
+    """
+    cars_in_path = []
+
+    # look for cars in the exit path of the red car, only look to the right
+    for x in range(game.redcar.x + game.redcar.length, game.gridsize + 1):
+         spot = game.grid[x][game.gridexit]
+         if spot != 0:
+             for car in game.cars:
+                 if car.id == spot:
+                     cars_in_path.append(car)
+                     break
+
+    cars_movable = {}
+    # {"A": ["up", "down"]}
+
+    for car in cars_in_path:
+
+        # check if the car can be moved completely off the path
+        if movable_up(game, car):
+            new_y = car.y
+
+            # see how far the car can move up
+            while new_y + car.length < 6:
+                if game.grid[car.x][new_y + car.length] == 0:
+                    new_y += 1
+                else:
+                    break
+
+            # if car can be moved completely off the path, add it to dict
+            if new_y > game.gridexit:
+                cars_movable[car.id] = [new_y]
+
+        # check if the car can be moved completely off the path
+        if movable_down(game, car):
+            new_y = car.y
+
+            # see how far the car can move down
+            while new_y > 0:
+                if game.grid[car.x][new_y -1] == 0:
+                    new_y -= 1
+                else:
+                    break
+
+            # if car can be moved completely off the path, add it to dict
+            if new_y + car.length - 1 < game.gridexit:
+                cars_movable[car.id] = ["up"]
+
+
+
+
+
+    queue_count = len(cars_in_path)
+    if queue_count > 0:
+
+        # choose a random car in the queue
+        car = random.choice(cars_in_path)
         if car.id == game.previous_car_id:
             random_move_max_steps_non_recurrent(game)
             return False
@@ -497,36 +578,6 @@ def car_is_movable(game, car):
         return True
     else:
         return False
-
-def breadth_first(game):
-    """
-        This function moves a random car as far as it can go.
-    """
-    queue = []
-
-    for car in game.cars:
-
-        # check if the car can move up or down
-        if car.orientation == "V":
-            if movable_up(game, car):
-
-            move_y_negative = movable_down(game, car)
-
-        # else car can only move left or right
-        else:
-            move_x_positive = movable_right(game, car)
-            move_x_negative = movable_left(game, car)
-
-        if move_y_positive
-
-
-
-
-
-
-
-
-
 
 def score(game):
     """
