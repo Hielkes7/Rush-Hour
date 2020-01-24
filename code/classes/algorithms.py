@@ -211,7 +211,7 @@ def random_max_step(game):
                 break
         update(game, car, new_x, car.y)
 
-def random_move_max_steps_non_recurring(game):
+def random_max_step_non_recurring(game):
     """
         This function moves a random car as far as it can go. It can't move
         the same car from the previous move. Returns the car it used
@@ -227,58 +227,57 @@ def random_move_max_steps_non_recurring(game):
             car = random.choice(game.cars)
         car_movable = car_is_movable(game, car)
 
+    x = car.x
+    y = car.y
+
     direction = move(game, car)
     if direction == "y positive":
-        new_y = car.y
 
         # check for border
-        while new_y + car.length < game.gridsize + 1:
+        while y + car.length < game.gridsize + 1:
 
             # check if car can move up
-            if game.grid[car.x][new_y + car.length] == 0:
-                new_y += 1
+            if game.grid[car.x][y + car.length] == 0:
+                y += 1
             else:
                 break
-        update(game, car, car.x, new_y)
+        update(game, car, x, y)
 
-    if direction == "y negative":
-        new_y = car.y
+    elif direction == "y negative":
 
         # check for border
-        while new_y > 0:
+        while y > 0:
 
             # check if car can move down
-            if game.grid[car.x][new_y -1] == 0:
-                new_y -= 1
+            if game.grid[x][y -1] == 0:
+                y -= 1
             else:
                 break
-        update(game, car, car.x, new_y)
+        update(game, car, x, y)
 
-    if direction == "x positive":
-        new_x = car.x
+    elif direction == "x positive":
 
         # check for border
-        while new_x + car.length < game.gridsize + 1:
+        while x + car.length < game.gridsize + 1:
 
             # check if car can move right
-            if game.grid[new_x + car.length][car.y] == 0:
-                new_x += 1
+            if game.grid[x + car.length][y] == 0:
+                x += 1
             else:
                 break
-        update(game, car, new_x, car.y)
+        update(game, car, x, y)
 
-    if direction == "x negative":
-        new_x = car.x
+    else:
 
         # check for border
-        while new_x > 0:
+        while x > 0:
 
             # check if car can move left
-            if game.grid[new_x - 1][car.y] == 0:
-                new_x -= 1
+            if game.grid[x - 1][y] == 0:
+                x -= 1
             else:
                 break
-        update(game, car, new_x, car.y)
+        update(game, car, x, y)
 
     game.previous_car_id = car.id
     return car,x,y
