@@ -114,7 +114,7 @@ def movable_right(game, car):
             return True
     return False
 
-def random_move_single_step(game):
+def random_single_step(game):
 
     # keep looping untill a randomly picked car is able to move
     car_movable = False
@@ -144,7 +144,7 @@ def random_move_single_step(game):
         x = car.x - 1
         update(game, car, x, y)
 
-def random_move_max_steps(game):
+def random_max_step(game):
     """
         This function moves a random car as far as it can go.
     """
@@ -281,6 +281,7 @@ def random_move_max_steps_non_recurring(game):
         update(game, car, new_x, car.y)
 
     game.previous_car_id = car.id
+    return car,x,y
 
 def make_path_free(game):
     """
