@@ -1,13 +1,13 @@
 from structure import Game, Car
-
+import algorithms
 
 class Backtrack():
     """
-        This class represents an algorithm that uses function "add finalgrids" to
-        find n amount of final grids or grids that are steps before final grids
+        This class represents an algorithm that uses function "add final grids" to
+        find final grids or grids that are a variable steps before final grids
         and uses function "random moves backtrack" to randomly move and check if the
-        current grid found randomly is known in the grid dictionary thus known
-        how many moves until the end.
+        current grid is known in the grid dictionary thus it known how many moves until 
+        the end.
     """
 
     def __init__(self):
@@ -17,7 +17,7 @@ class Backtrack():
         self.csvfile = "Rushhour6x6_1.csv"
         self.grid_dictionary = {}
 
-    def add_finalgrids(self, amount_of_games, amount_of_steps):
+    def add_final_grids(self, amount_of_games, amount_of_steps):
         """
             Creates a dictionary of grids of which is known how many steps it
             takes to reach the final state.
@@ -33,13 +33,9 @@ class Backtrack():
 
             # game continues until the winning gamestate is found
             while not gamewon:
-                step = algorithms.random_max_step_non_recurrent(game)
 
-                # makes a list with information about the executed move
-                current_move = []
-                current_move.append(step.car)
-                current_move.append(step.x)
-                current_move.append(step.y)
+                # executes a random step and returns a list with info about the step
+                current_move = algorithms.random_max_step_non_recurrent(game)
 
                 # adds the move to the list with all game moves
                 game_moves.append(current_move)
@@ -74,7 +70,7 @@ class Backtrack():
             game = Game(self.csvfile, self.gridsize)
             gamewon = False
             while not gamewon:
-                algorithms.random_max_step_non_recurrent(game)
+                algorithms.random_max_step_non_recurring(game)
                 if game.grid in self.grid_dictionary.keys():
                         pass
                 gamewon = algorithms.win(game)
