@@ -102,7 +102,7 @@ def movable_right(game, car):
             return True
     return False
 
-def random_move_single_step(game):
+def random_single_step(game):
 
     # keep looping untill a randomly picked car is able to move
     car_movable = False
@@ -132,7 +132,7 @@ def random_move_single_step(game):
         x = car.x - 1
         update(game, car, x, y)
 
-def random_move_max_steps(game):
+def random_max_step(game):
     """
         This function moves a random car as far as it can go.
     """
@@ -151,25 +151,25 @@ def random_move_max_steps(game):
         x = car.x
         while movable_up(game, car):
             y = car.y + 1
-            update(game, car, x, y)
+        update(game, car, x, y)
 
     if direction == "y negative":
         x = car.x
         while movable_down(game, car):
             y = car.y - 1
-            update(game, car, x, y)
+        update(game, car, x, y)
 
     if direction == "x positive":
         y = car.y
         while movable_right(game, car):
             x = car.x + 1
-            update(game, car, x, y)
+        update(game, car, x, y)
 
     if direction == "x negative":
         y = car.y
         while movable_left(game, car):
             x = car.x - 1
-            update(game, car, x, y)
+        update(game, car, x, y)
 
 def breadth_first(game):
     """
@@ -178,8 +178,7 @@ def breadth_first(game):
     for car in game.cars:
         print(car)
 
-
-def random_move_max_steps_non_recurrent(game):
+def random_max_step_non_recurrent(game):
     """
         This function moves a random car as far as it can go. It can't move
         the same car from the previous move. Returns the car it used
@@ -200,27 +199,29 @@ def random_move_max_steps_non_recurrent(game):
         x = car.x
         while movable_up(game, car):
             y = car.y + 1
-            update(game, car, x, y)
+        update(game, car, x, y)
 
-    if direction == "y negative":
+    elif direction == "y negative":
         x = car.x
         while movable_down(game, car):
             y = car.y - 1
-            update(game, car, x, y)
+        update(game, car, x, y)
 
-    if direction == "x positive":
+    elif direction == "x positive":
         y = car.y
         while movable_right(game, car):
             x = car.x + 1
-            update(game, car, x, y)
+        update(game, car, x, y)
 
-    if direction == "x negative":
+    else:
         y = car.y
         while movable_left(game, car):
             x = car.x - 1
-            update(game, car, x, y)
+        update(game, car, x, y)
 
     game.previous_car_id = car.id
+    return car,x,y
+
 
 def queue_algorithm_hiele(game):
     """
@@ -302,7 +303,7 @@ def queue_algorithm_hiele(game):
             return True
 
     # When no path freeing move was able to be made, make a rnao
-    random_move_max_steps_non_recurrent(game)
+    random_max_step_non_recurrent(game)
     # TODO: dont use random_move. Pick a random car that won't go
     # back to the path
     return False
@@ -413,11 +414,10 @@ def queue_algorithm(game):
 
     if queue_count > 0:
 
-        print(car_queue)
         # choose a random car in the queue
         car = random.choice(car_queue)
         if car.id == game.previous_car_id:
-            random_move_max_steps_non_recurrent(game)
+            random_max_step_non_recurrent(game)
             return False
 
         x = car.x
@@ -436,7 +436,7 @@ def queue_algorithm(game):
             game.previous_car_id = car.id
             return True
 
-    random_move_max_steps_non_recurrent(game)
+    random_max_step_non_recurrent(game)
     return False
 
 def move(game, car):
@@ -504,17 +504,3 @@ def car_is_movable(game, car):
         return True
     else:
         return False
-
-def score(game):
-    """
-        This function calculates the score of a
-        current grid.
-    """
-    score = 0
-
-    # a score is when a car moves of the win_path
-
-    # a score point is when a vertical car is moved to the side of the grid
-    # it is allowed to be. The other side is impossible
-
-    pass
