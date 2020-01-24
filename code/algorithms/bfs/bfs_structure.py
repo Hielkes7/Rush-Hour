@@ -64,7 +64,7 @@ class Bfs():
 
 def Play():
     gridsize = 6
-    csvfile = "Rushhour6x6_3.csv"
+    csvfile = "Rushhour6x6_2.csv"
     game = structurecopy.Game(csvfile, gridsize)
     grid = game.grid
     bfs = Bfs(grid, game)
@@ -84,7 +84,7 @@ def Play():
 
 
     print("moves made", len(gamewon))
-    save_plots.save_all_plots(gamewon)
+    # save_plots.save_all_plots(gamewon)
 
 if __name__ == "__main__":
         start = time.time()

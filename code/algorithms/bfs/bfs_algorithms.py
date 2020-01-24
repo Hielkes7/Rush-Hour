@@ -31,7 +31,6 @@ def all_possible_moves(game, grid):
             moves.append(move_x_negative)
     return moves
 
-
 def all_possible_max_moves(game, grid):
     cars = game.cars
     grid = grid
@@ -213,8 +212,6 @@ def update_bfs(game, grid, car, x, y, move):
             new_grid[x + i][y] = 0
         for i in range(car.length):
             new_grid[x + i + move][y] = car.id
-
-        print_grid_terminal(new_grid)
     return new_grid
 
 
@@ -243,8 +240,12 @@ def back_track(game, node):
     return moves_list
 
 
-def moves_list(game, backtrack):
-    game = game
+# def moves_list(game, backtrack):
+#
+#     for i in range(len(backtrack)):
+#         for i in range(game.gridsize)
+
+
 
 def print_grid_terminal(grid):
     """
