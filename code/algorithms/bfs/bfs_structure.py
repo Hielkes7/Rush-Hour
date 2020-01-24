@@ -56,8 +56,8 @@ class Bfs():
             print(bfs_algorithms.print_grid_terminal(parent.grid))
             print("you won")
             print()
-            backtrack = bfs_algorithms.back_track(self.game, parent)
-            return backtrack
+            win_path= bfs_algorithms.winning_path(self.game, parent)
+            return win_path
         else:
             grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
             self.add_nodes(grid_moves, parent)
@@ -84,7 +84,9 @@ def Play():
 
 
     print("moves made", len(gamewon))
-    # save_plots.save_all_plots(gamewon)
+    save_plots.save_all_plots(gamewon)
+    list_of_moves = bfs_algorithms.moves_list(game, gamewon)
+    print(list_of_moves)
 
 if __name__ == "__main__":
         start = time.time()

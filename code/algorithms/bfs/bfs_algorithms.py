@@ -60,7 +60,6 @@ def all_possible_max_moves(game, grid):
             moves.append(move_x_negative)
     return moves
 
-
 def movable_left_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
@@ -104,7 +103,6 @@ def movable_up_bfs(game, grid, car):
                     return update_bfs(game, grid, car, x, y, move)
             else:
                 return False
-
 
 def movable_down_bfs(game, grid, car):
     """
@@ -228,24 +226,59 @@ def game_won(game, grid):
             return False
 
 
-def back_track(game, node):
-    """backtrack"""
+def winning_path(game, node):
+    """winning pathk"""
     node = node
     moves_list = []
     while node.parent != "LUCA":
-        moves_list.append(node.grid)
+        moves_list.insert(0, node.grid)
         node = node.parent
-    moves_list.append(node.grid)
+    moves_list.insert(0, node.grid)
 
     return moves_list
 
 
-# def moves_list(game, backtrack):
-#
-#     for i in range(len(backtrack)):
-#         for i in range(game.gridsize)
+def moves_list(game, win_path):
+    moves_list = []
+    for i in range(len(win_path)-1):
+        grid = win_path[i]
+        next_grid = win_path[i + 1]
+        car_id = None
+        move_car = None
 
+        for x in range(game.gridsize + 1):
+            for y in range(game.gridsize + 1):
+                if grid[x][y] == 0 and next_grid[x][y] != 0:
+                    car_id = next_grid[x][y]
+                    break
 
+        for car in game.cars:
+            if car.id == car_id:
+                move_car = car
+
+        if move_car.orientation == 'V':
+            old_y = []
+            new_y = []
+            x = move_car.x
+            for y in range(game.gridsize + 1):
+                if grid[x][y] == move_car.id:
+                    old_y.append(y)
+                if next_grid[x][y] == move_car.id:
+                    new_y.append(y)
+            movement = (sum(new_y) - sum(old_y))/len(new_y)
+            moves_list.append([move_car.id, movement])
+        else:
+            old_x = []
+            new_x = []
+            y = move_car.y
+            for x in range(game.gridsize + 1):
+                if grid[x][y] == move_car.id:
+                    old_x.append(x)
+                if next_grid[x][y] == move_car.id:
+                    new_x.append(x)
+            movement = (sum(new_x) - sum(old_x))/len(new_x)
+            moves_list.append([move_car.id, movement])
+    return moves_list
 
 def print_grid_terminal(grid):
     """
