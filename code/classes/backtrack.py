@@ -29,7 +29,8 @@ class Backtrack():
             gamewon = False
             game_moves = []
             game_grids = []
-            game_grids.append(game.grid)
+            grid_string = "".join(["".join([str(character) for character in elem]) for elem in game.grid])
+            game_grids.append(grid_string)
 
             # game continues until the winning gamestate is found
             while not gamewon:
@@ -45,21 +46,25 @@ class Backtrack():
 
                 # if game is not won, add the current grid to the gridlist
                 if gamewon is False:
-                    game_grids.append(game.grid)
+                    grid_string = "".join(["".join([str(character) for character in elem]) for elem in game.grid])
+                    game_grids.append(grid_string)
 
             list_length = game.moves - 1
             move_list = []
 
             for i in range(amount_of_steps):
                 move_list += game_moves[list_length - i]
-                if game_grids[list_length - i] in self.grid_dictionary.keys():
+                grid = game_grids[list_length - i]
+                # grid_string_key = "".join(["".join([str(character) for character in elem]) for elem in game_grids[list_length-i]])
+                # print(grid_string_key)
+                if grid in self.grid_dictionary.keys():
                     # kijk of de values minder zijn
-                    if len(self.grid_dictionary[game_grid[list_length - i]]) > (i + 1):
-                        self.grid_dictionary[game_grid[list_length - i]] = move_list
+                    if len(self.grid_dictionary[grid]) > (i + 1):
+                        self.grid_dictionary[grid] = move_list
                 else:
-                    self.grid_dictionary[game_grid[list_length - i]] = []
-                    self.grid_dictionary[game_grid[list_length - i]] = move_list
-                    # voeg er nog aan toe dat alle moves worden toegevoegd
+                    self.grid_dictionary[grid] = []
+                    self.grid_dictionary[grid] = move_list
+            print("done with one liz")
 
     def random_moves_backtrack(self, amount_of_games):
         """
