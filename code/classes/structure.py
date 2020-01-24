@@ -8,8 +8,12 @@ class Game():
 
     def __init__(self, csvfile, gridsize):
 
-        # variable for non recurrent algorithm, start with dummy value
+        # variable for non recurring algorithm, start with dummy value
         self.previous_car_id = None
+
+        # variable for correct output, start with dummy value
+        # format: "car_id, +/- size_move"
+        self.list_moves = []
 
         # gridsize and grid creation
         self.gridsize = gridsize - 1
@@ -203,9 +207,6 @@ class Game():
             print()
 
 
-
-
-
 class Car():
     """
         Creates a car object that is used for a game.
@@ -247,27 +248,267 @@ class Play():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_3.csv"
+        csvfile = "gameboards/Rushhour6x6_1.csv"
         game = Game(csvfile, gridsize)
+
         gamewon = False
         while not gamewon:
-            algorithms.queue_algorithm_hiele(game)
-            algorithms.check_path_free(game)
-            gamewon = algorithms.win(game)
+            if algorithms.make_path_free(game):
+                gamewon = True
+                break
+            algorithms.queue_algorithm(game)
 
         print(f"Done! It took {game.moves} moves to win the game")
 
+        # writing all moves in an output.csv file
+        with open('output.csv', mode='w') as output_file:
+            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            output_writer.writerow(['car', ' move'])
 
-class PlayData():
+            for move in game.list_moves:
+                output_writer.writerow([move[0], move[1]])
+
+class Play_average():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 6
+        csvfile = "gameboards/Rushhour6x6_2.csv"
+
+        moves = []
+        amount_of_games = 100
+        for i in range(amount_of_games):
+            game = Game(csvfile, gridsize)
+            gamewon = False
+            while not gamewon:
+                if algorithms.check_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.queue_algorithm_merge(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game")
+
+class PlayData1():
     """
         This function runs the game 200 times and then saves the data to a excel file.
     """
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_1.csv"
-        repeats = 100000
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
+        repeats = 5000
+        export_excel = True
+        movelist = []
+
+        for i in range(repeats):
+            game = Game(csvfile, gridsize)
+            moves = 0
+            gamewon = False
+
+            while not gamewon:
+                if algorithms.check_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_max_step(game)
+
+            # give update on how many measurements have been calculate
+            movelist.append(game.moves)
+            if i % (repeats/100) == 0:
+                print(i*100/repeats,"%,  ", game.moves, " moves")
+
+
+        if export_excel:
+
+            #create excel file
+            workbook = xlsxwriter.Workbook("data/game 4/output1.xlsx")
+            sheet = workbook.add_worksheet()
+
+            #declare data
+            for item in range(len(movelist)):
+                sheet.write(item, 0, movelist[item])
+
+            workbook.close()
+class PlayData2():
+    """
+        This function runs the game 200 times and then saves the data to a excel file.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
+        repeats = 5000
+        export_excel = True
+        movelist = []
+
+        for i in range(repeats):
+            game = Game(csvfile, gridsize)
+            moves = 0
+            gamewon = False
+
+            while not gamewon:
+                if algorithms.check_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_move_max_steps_non_recurring(game)
+
+            # give update on how many measurements have been calculate
+            movelist.append(game.moves)
+            if i % (repeats/100) == 0:
+                print(i*100/repeats,"%,  ", game.moves, " moves")
+
+
+        if export_excel:
+
+            #create excel file
+            workbook = xlsxwriter.Workbook("data/game 4/output2.xlsx")
+            sheet = workbook.add_worksheet()
+
+            #declare data
+            for item in range(len(movelist)):
+                sheet.write(item, 0, movelist[item])
+
+            workbook.close()
+class PlayData3():
+    """
+        This function runs the game 200 times and then saves the data to a excel file.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
+        repeats = 5000
+        export_excel = True
+        movelist = []
+
+        for i in range(repeats):
+            game = Game(csvfile, gridsize)
+            moves = 0
+            gamewon = False
+
+            while not gamewon:
+                if algorithms.make_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_move_max_steps_non_recurring(game)
+
+            # give update on how many measurements have been calculate
+            movelist.append(game.moves)
+            if i % (repeats/100) == 0:
+                print(i*100/repeats,"%,  ", game.moves, " moves")
+
+
+        if export_excel:
+
+            #create excel file
+            workbook = xlsxwriter.Workbook("data/game 4/output3.xlsx")
+            sheet = workbook.add_worksheet()
+
+            #declare data
+            for item in range(len(movelist)):
+                sheet.write(item, 0, movelist[item])
+
+            workbook.close()
+class PlayData4():
+    """
+        This function runs the game 200 times and then saves the data to a excel file.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
+        repeats = 5000
+        export_excel = True
+        movelist = []
+
+        for i in range(repeats):
+            game = Game(csvfile, gridsize)
+            moves = 0
+            gamewon = False
+
+            while not gamewon:
+                if algorithms.make_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.queue_algorithm(game)
+
+            # give update on how many measurements have been calculate
+            movelist.append(game.moves)
+            if i % (repeats/100) == 0:
+                print(i*100/repeats,"%,  ", game.moves, " moves")
+
+
+        if export_excel:
+
+            #create excel file
+            workbook = xlsxwriter.Workbook("data/game 4/output4.xlsx")
+            sheet = workbook.add_worksheet()
+
+            #declare data
+            for item in range(len(movelist)):
+                sheet.write(item, 0, movelist[item])
+
+            workbook.close()
+class PlayData5():
+    """
+        This function runs the game 200 times and then saves the data to a excel file.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
+        repeats = 5000
+        export_excel = True
+        movelist = []
+
+        for i in range(repeats):
+            game = Game(csvfile, gridsize)
+            moves = 0
+            gamewon = False
+
+            while not gamewon:
+                if algorithms.check_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_move_single_step(game)
+
+            # give update on how many measurements have been calculate
+            movelist.append(game.moves)
+            if i % (repeats/100) == 0:
+                print(i*100/repeats,"%,  ", game.moves, " moves")
+
+
+        if export_excel:
+
+            #create excel file
+            workbook = xlsxwriter.Workbook("data/game 4/output5.xlsx")
+            sheet = workbook.add_worksheet()
+
+            #declare data
+            for item in range(len(movelist)):
+                sheet.write(item, 0, movelist[item])
+
+            workbook.close()
+class PlayData6():
+    """
+        This function runs the game 200 times and then saves the data to a excel file.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
+        repeats = 5000
         export_excel = True
         movelist = []
 
@@ -280,169 +521,26 @@ class PlayData():
                 if algorithms.win(game):
                     gamewon = True
                     break
-                algorithms.random_max_step(game)
+                algorithms.random_move_single_step(game)
 
             # give update on how many measurements have been calculate
             movelist.append(game.moves)
             if i % (repeats/100) == 0:
                 print(i*100/repeats,"%,  ", game.moves, " moves")
 
-        sortmovelist = movelist
-        sortmovelist.sort()
-        lowest_move = sortmovelist[:1]
-        sum_moves = sum(movelist)
-        average_moves = sum_moves/repeats
-        st_dev = statistics.stdev(movelist)
 
         if export_excel:
 
             #create excel file
-            workbook = xlsxwriter.Workbook("output.xlsx")
+            workbook = xlsxwriter.Workbook("data/game 4/output6.xlsx")
             sheet = workbook.add_worksheet()
 
             #declare data
             for item in range(len(movelist)):
-                sheet.write(item + 1, 0, movelist[item])
+                sheet.write(item, 0, movelist[item])
 
             workbook.close()
 
-
-# programs I run at night
-class PlayData_nacht1():
-    """
-        This function runs the game 200 times and then saves the data to a excel file.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "gameboard/Rushhour9x9_1.csv"
-        repeats = 10000
-        export_excel = True
-        movelist = []
-
-        for i in range(repeats):
-            game = Game(csvfile, gridsize)
-            moves = 0
-            gamewon = False
-
-            while not gamewon:
-                algorithms.random_single_step(game)
-                if algorithms.make_path_free(game):
-                    gamewon = True
-
-            movelist.append(game.moves)
-            if i % (repeats/1000) == 0:
-                print("1, ",i*100/repeats,"%")
-
-        sortmovelist = movelist
-        sortmovelist.sort()
-        lowest_move = sortmovelist[:1]
-        sum_moves = sum(movelist)
-        average_moves = sum_moves/repeats
-        st_dev = statistics.stdev(movelist)
-
-        if export_excel:
-
-            #create excel file
-            workbook = xlsxwriter.Workbook("output1.xlsx")
-            sheet = workbook.add_worksheet()
-
-            #declare data
-            for item in range(len(movelist)):
-                sheet.write(item + 1, 0, movelist[item])
-
-            workbook.close()
-class PlayData_nacht2():
-    """
-        This function runs the game 200 times and then saves the data to a excel file.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "gameboard/Rushhour9x9_1.csv"
-        repeats = 10000
-        export_excel = True
-        movelist = []
-
-        for i in range(repeats):
-            game = Game(csvfile, gridsize)
-            moves = 0
-            gamewon = False
-
-            while not gamewon:
-                algorithms.random_max_step(game)
-                if algorithms.make_path_free(game):
-                    gamewon = True
-
-            movelist.append(game.moves)
-            if i % (repeats/1000) == 0:
-                print("1, ",i*100/repeats,"%")
-
-        sortmovelist = movelist
-        sortmovelist.sort()
-        lowest_move = sortmovelist[:1]
-        sum_moves = sum(movelist)
-        average_moves = sum_moves/repeats
-        st_dev = statistics.stdev(movelist)
-
-        if export_excel:
-
-            #create excel file
-            workbook = xlsxwriter.Workbook("output2.xlsx")
-            sheet = workbook.add_worksheet()
-
-            #declare data
-            for item in range(len(movelist)):
-                sheet.write(item + 1, 0, movelist[item])
-
-            workbook.close()
-class PlayData_nacht3():
-    """
-        This function runs the game 200 times and then saves the data to a excel file.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "gameboard/Rushhour9x9_1.csv"
-        repeats = 10000
-        export_excel = True
-        movelist = []
-
-        for i in range(repeats):
-            game = Game(csvfile, gridsize)
-            moves = 0
-            gamewon = False
-
-            while not gamewon:
-                algorithms.random_max_step(game)
-                if algorithms.check_path_free(game):
-                    gamewon = True
-
-            movelist.append(game.moves)
-            if i % (repeats/1000) == 0:
-                print("1, ",i*100/repeats,"%")
-
-        sortmovelist = movelist
-        sortmovelist.sort()
-        lowest_move = sortmovelist[:1]
-        sum_moves = sum(movelist)
-        average_moves = sum_moves/repeats
-        st_dev = statistics.stdev(movelist)
-
-        if export_excel:
-
-            #create excel file
-            workbook = xlsxwriter.Workbook("output3.xlsx")
-            sheet = workbook.add_worksheet()
-
-            #declare data
-            for item in range(len(movelist)):
-                sheet.write(item + 1, 0, movelist[item])
-
-            workbook.close()
 
 class Save_frames():
     """
@@ -453,7 +551,7 @@ class Save_frames():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_test.csv"
+        csvfile = "gameboards/Rushhour6x6_2.csv"
         game = Game(csvfile, gridsize)
         gamewon = False
 
@@ -461,7 +559,6 @@ class Save_frames():
         plt.figure()
         game.save_plot("frame0.png")
         while not gamewon:
-            algorithms.random_max_step_non_recurrent(game)
             file_name = "frame" + str(game.moves) + ".png"
             game.save_plot(file_name)
             algorithms.make_path_free(game)
@@ -523,7 +620,7 @@ class Save_frames_buffer():
                 gamewon = False
                 list_grids = []
                 list_grids.append(extract_grid(game.grid))
-            algorithms.random_max_step_non_recurrent(game)
+            algorithms.random_move_max_steps_non_recurring(game)
             list_grids.append(extract_grid(game.grid))
             algorithms.check_path_free(game)
             gamewon = algorithms.win(game)

@@ -1,4 +1,4 @@
-import random
+import random, time
 
 def win(game):
     """
@@ -14,6 +14,10 @@ def update(game, car, x, y):
         Updates the coordinates of a car and the grid.
     """
     game.moves += 1
+    size_move_x = x - car.x
+    size_move_y = y - car.y
+
+    # update new position in car object
     car.x = x
     car.y = y
 
@@ -23,7 +27,7 @@ def update(game, car, x, y):
             if game.grid[i][j] == car.id:
                 game.grid[i][j] = 0
 
-    # places the car in its new position
+    # places the car in its new position in the grid
     if car.orientation == "V":
         for i in range(car.length):
             game.grid[x][y] = car.id
@@ -33,6 +37,14 @@ def update(game, car, x, y):
         for i in range(car.length):
             game.grid[x][y] = car.id
             x += 1
+
+    # write move to output.csv file
+    if car.orientation == "V":
+        size_move = size_move_y
+    else:
+        size_move = size_move_x
+    car_id = car.id
+    game.list_moves.append([str(car_id), " " + str(size_move)])
 
 def check_path_free(game):
     """
@@ -148,37 +160,58 @@ def random_max_step(game):
 
     direction = move(game, car)
     if direction == "y positive":
-        x = car.x
-        while movable_up(game, car):
-            y = car.y + 1
-        update(game, car, x, y)
+        new_y = car.y
+
+        # check for border
+        while new_y + car.length < game.gridsize + 1:
+
+            # check if car can move up
+            if game.grid[car.x][new_y + car.length] == 0:
+                new_y += 1
+            else:
+                break
+        update(game, car, car.x, new_y)
 
     if direction == "y negative":
-        x = car.x
-        while movable_down(game, car):
-            y = car.y - 1
-        update(game, car, x, y)
+        new_y = car.y
+
+        # check for border
+        while new_y > 0:
+
+            # check if car can move down
+            if game.grid[car.x][new_y -1] == 0:
+                new_y -= 1
+            else:
+                break
+        update(game, car, car.x, new_y)
 
     if direction == "x positive":
-        y = car.y
-        while movable_right(game, car):
-            x = car.x + 1
-        update(game, car, x, y)
+        new_x = car.x
+
+        # check for border
+        while new_x + car.length < game.gridsize + 1:
+
+            # check if car can move right
+            if game.grid[new_x + car.length][car.y] == 0:
+                new_x += 1
+            else:
+                break
+        update(game, car, new_x, car.y)
 
     if direction == "x negative":
-        y = car.y
-        while movable_left(game, car):
-            x = car.x - 1
-        update(game, car, x, y)
+        new_x = car.x
 
-def breadth_first(game):
-    """
-        This function moves a random car as far as it can go.
-    """
-    for car in game.cars:
-        print(car)
+        # check for border
+        while new_x > 0:
 
-def random_max_step_non_recurrent(game):
+            # check if car can move left
+            if game.grid[new_x - 1][car.y] == 0:
+                new_x -= 1
+            else:
+                break
+        update(game, car, new_x, car.y)
+
+def random_move_max_steps_non_recurring(game):
     """
         This function moves a random car as far as it can go. It can't move
         the same car from the previous move. Returns the car it used
@@ -196,117 +229,59 @@ def random_max_step_non_recurrent(game):
 
     direction = move(game, car)
     if direction == "y positive":
-        x = car.x
-        while movable_up(game, car):
-            y = car.y + 1
-        update(game, car, x, y)
+        new_y = car.y
 
-    elif direction == "y negative":
-        x = car.x
-        while movable_down(game, car):
-            y = car.y - 1
-        update(game, car, x, y)
+        # check for border
+        while new_y + car.length < game.gridsize + 1:
 
-    elif direction == "x positive":
-        y = car.y
-        while movable_right(game, car):
-            x = car.x + 1
-        update(game, car, x, y)
+            # check if car can move up
+            if game.grid[car.x][new_y + car.length] == 0:
+                new_y += 1
+            else:
+                break
+        update(game, car, car.x, new_y)
 
-    else:
-        y = car.y
-        while movable_left(game, car):
-            x = car.x - 1
-        update(game, car, x, y)
+    if direction == "y negative":
+        new_y = car.y
+
+        # check for border
+        while new_y > 0:
+
+            # check if car can move down
+            if game.grid[car.x][new_y -1] == 0:
+                new_y -= 1
+            else:
+                break
+        update(game, car, car.x, new_y)
+
+    if direction == "x positive":
+        new_x = car.x
+
+        # check for border
+        while new_x + car.length < game.gridsize + 1:
+
+            # check if car can move right
+            if game.grid[new_x + car.length][car.y] == 0:
+                new_x += 1
+            else:
+                break
+        update(game, car, new_x, car.y)
+
+    if direction == "x negative":
+        new_x = car.x
+
+        # check for border
+        while new_x > 0:
+
+            # check if car can move left
+            if game.grid[new_x - 1][car.y] == 0:
+                new_x -= 1
+            else:
+                break
+        update(game, car, new_x, car.y)
 
     game.previous_car_id = car.id
     return car,x,y
-
-
-def queue_algorithm_hiele(game):
-    """
-        Ik schrijf mijn eigen versie om jouw algoritme te snappen en te debuggen
-    """
-    cars_in_path = []
-
-    # look for cars in the exit path of the red car, only look to the right
-    for x in range(game.redcar.x + game.redcar.length, game.gridsize + 1):
-         spot = game.grid[x][game.gridexit]
-         if spot != 0:
-             for car in game.cars:
-                 if car.id == spot:
-                     cars_in_path.append(car)
-                     break
-
-
-    # check if cars are able to move
-    # when they are able to move, check if they can be moved off the path
-    for car in cars_in_path:
-
-        # all cars on the path are vertical orientated
-        move_y_positive = movable_up(game, car)
-        move_y_negative = movable_down(game, car)
-
-        # if the car is able to move up or down and completely of the path:
-        move_up = False
-        move_down = False
-
-        # check how far the car can go up
-        if move_y_positive:
-            new_y_up = car.y
-
-            # keep checking the spot above the previous spot to see if it's 0
-            # do this untill hitting a car or the upper edge
-            while new_y_up + car.length < 6:
-                if game.grid[car.x][new_y_up + car.length] == 0:
-                    new_y_up += 1
-                else:
-                    break
-
-            # check if the new position is completely off the path
-            if new_y_up > game.gridexit:
-                move_up = True
-            else:
-                move_up = False
-
-        # check how far the car can go down
-        if move_y_negative:
-            new_y_down = car.y
-
-            # keep checking the spot below the previous spot to see if it's 0
-            # do this untill hitting a car or the lower edge
-            while new_y_down > 0:
-                if game.grid[car.x][new_y_down - 1] == 0:
-                    new_y_down -= 1
-                else:
-                    break
-
-            # check if the new position is completely off the path
-            if new_y_down + car.length - 1 < game.gridexit:
-                move_down = True
-            else:
-                move_down = False
-
-        if move_down and move_up:
-            random_choice = random.choice([0, 1])
-            if random_choice == 1:
-                move_down = False
-            else:
-                move_up = False
-
-        if move_down:
-            update(game, car, car.x, new_y_down)
-            return True
-
-        elif move_up:
-            update(game, car, car.x, new_y_up)
-            return True
-
-    # When no path freeing move was able to be made, make a rnao
-    random_max_step_non_recurrent(game)
-    # TODO: dont use random_move. Pick a random car that won't go
-    # back to the path
-    return False
 
 def make_path_free(game):
     """
@@ -402,41 +377,143 @@ def queue_algorithm(game):
     """
         Checks which cars are in the way of the red car and moves these cars first.
     """
-    car_queue = []
-    queue_count = 0
-    for i in range(game.gridsize):
-        spot = game.grid[i][game.gridexit]
-        if (spot is not 0) and (spot is not 'X'):
-            for car in game.cars:
-                if car.id == spot:
-                    car_queue.append(car)
-                    queue_count += 1
+    cars_in_path = []
 
-    if queue_count > 0:
+    # look for cars in the exit path of the red car, only look to the right
+    for x in range(game.redcar.x + game.redcar.length, game.gridsize + 1):
+         spot = game.grid[x][game.gridexit]
+         if spot != 0:
+             for car in game.cars:
+                 if car.id == spot:
+                     cars_in_path.append(car)
+                     break
+
+    if len(cars_in_path) > 0:
 
         # choose a random car in the queue
-        car = random.choice(car_queue)
+        car = random.choice(cars_in_path)
         if car.id == game.previous_car_id:
-            random_max_step_non_recurrent(game)
+            random_move_max_steps_non_recurring(game)
             return False
 
         x = car.x
         direction = move(game, car)
         if direction == "y positive":
-            while movable_up(game, car):
-                y = car.y + 1
-                update(game, car, x, y)
+            new_y = car.y
+
+            # check for border
+            while new_y + car.length < game.gridsize + 1:
+
+                # check if car can move up
+                if game.grid[car.x][new_y + car.length] == 0:
+                    new_y += 1
+                else:
+                    break
+            update(game, car, car.x, new_y)
             game.previous_car_id = car.id
             return True
 
         elif direction == "y negative":
-            while movable_down(game, car):
-                y = car.y - 1
-                update(game, car, x, y)
+            new_y = car.y
+
+            # check for border
+            while new_y > 0:
+
+                # check if car can move down
+                if game.grid[car.x][new_y -1] == 0:
+                    new_y -= 1
+                else:
+                    break
+            update(game, car, car.x, new_y)
             game.previous_car_id = car.id
             return True
 
-    random_max_step_non_recurrent(game)
+    random_move_max_steps_non_recurring(game)
+    return False
+
+def queue_algorithm_merge(game):
+    """
+        Checks which cars are in the way of the red car and moves these cars first.
+    """
+    cars_in_path = []
+
+    # look for cars in the exit path of the red car, only look to the right
+    for x in range(game.redcar.x + game.redcar.length, game.gridsize + 1):
+         spot = game.grid[x][game.gridexit]
+         if spot != 0:
+             for car in game.cars:
+                 if car.id == spot:
+                     cars_in_path.append(car)
+                     break
+
+    # check if cars are able to move
+    # when they are able to move, check if they can be moved off the path
+    cars_movable = []
+    for car in cars_in_path:
+
+        # all cars on the path are vertical orientated
+        move_y_positive = movable_up(game, car)
+        move_y_negative = movable_down(game, car)
+
+        # if the car is able to move up or down and completely of the path:
+        move_up = False
+        move_down = False
+
+        # check how far the car can go up
+        if move_y_positive:
+            new_y_up = car.y
+
+            # keep checking the spot above the previous spot to see if it's 0
+            # do this untill hitting a car or the upper edge
+            while new_y_up + car.length < game.gridsize + 1:
+
+                if game.grid[car.x][new_y_up + car.length] == 0:
+                    new_y_up += 1
+                else:
+                    break
+
+            # check if the new position is completely off the path
+            if new_y_up > game.gridexit:
+                move_up = True
+
+        # check how far the car can go down
+        if move_y_negative:
+            new_y_down = car.y
+
+            # keep checking the spot below the previous spot to see if it's 0
+            # do this untill hitting a car or the lower edge
+            while new_y_down > 0:
+                if game.grid[car.x][new_y_down - 1] == 0:
+                    new_y_down -= 1
+                else:
+                    break
+
+            # check if the new position is completely off the path
+            if new_y_down + car.length - 1 < game.gridexit:
+                move_down = True
+
+        if move_down and move_up:
+            random_choice = random.choice([0, 1])
+            if random_choice == 1:
+                move_down = False
+            else:
+                move_up = False
+
+        if move_down:
+            cars_movable.append([car, new_y_down])
+
+        elif move_up:
+            cars_movable.append([car, new_y_up])
+
+    # if there are at 1 or more cars completely movable, move a random one of them
+    if len(cars_movable) > 0:
+
+        [car, new_y] = random.choice(cars_movable)
+        update(game, car, car.x, new_y)
+        game.previous_car_id = car.id
+        return True
+
+    random_move_max_steps_non_recurring(game)
     return False
 
 def move(game, car):
