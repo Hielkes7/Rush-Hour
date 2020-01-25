@@ -1,4 +1,4 @@
-import csv, os, random, statistics, xlsxwriter, algorithms, time
+import csv, os, random, statistics, algorithms, time
 import matplotlib.pyplot as plt
 
 class Game():
@@ -207,9 +207,6 @@ class Game():
             print()
 
 
-
-
-
 class Car():
     """
         Creates a car object that is used for a game.
@@ -305,7 +302,7 @@ class PlayData1():
                 if algorithms.check_path_free(game):
                     gamewon = True
                     break
-                algorithms.random_move_max_steps(game)
+                algorithms.random_max_step(game)
 
             # give update on how many measurements have been calculate
             movelist.append(game.moves)
@@ -548,7 +545,6 @@ class Save_frames():
         plt.figure()
         game.save_plot("frame0.png")
         while not gamewon:
-            algorithms.queue_algorithm_hiele(game)
             file_name = "frame" + str(game.moves) + ".png"
             game.save_plot(file_name)
             algorithms.make_path_free(game)
@@ -643,13 +639,47 @@ class Animation():
         ax = plt.axes()
         game.frame(ax)
         while not game.win_hiele():
-            game.random_move_max_steps()
+            game.random_max_step()
             game.frame(ax)
 
         # save final frame
         game.frame(ax)
 
+class Play():
+    """
+        This function solves the game and returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
 
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 12
+        csvfile = "Rushhour12x12_7.csv"
+        # grids = []
+        # min_moves = 11
+        # gamecount = 0
+
+        for i in range(10):
+            game = Game(csvfile, gridsize)
+            gamewon = False
+            while not gamewon:
+                # algorithms.random_single_step(game)
+                algorithms.random_max_step_non_recurrent(game)
+                algorithms.check_path_free(game)
+                gamewon = algorithms.win(game)
+            print(f"Done! It took {game.moves} moves to win the game")
+        #     if game.moves < min_moves:
+        #         gamecount += 1
+        #         count = 0
+        #         for grid in grids:
+        #             if game.grid == grid:
+        #                 count += 1
+        #         if count == 0:
+        #             grids.append(game.grid)
+        # print(len(grids))
+        # print(grids)
+        # print(gamecount)
+        # # game.save_plot("finished.png")
 
 if __name__ == "__main__":
     # Play()
