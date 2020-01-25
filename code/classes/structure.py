@@ -228,20 +228,6 @@ class Car():
         return self.id
 
 
-class Test():
-    """
-        This function solves the game and then returns in how many moves it
-        has done so.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_test.csv"
-        game = Game(csvfile, gridsize)
-        algorithms.breadth_first(game)
-
-
 class Play():
     """
         This function solves the game and then returns in how many moves it
@@ -280,10 +266,10 @@ class Play_average():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_2.csv"
+        csvfile = "gameboards/Rushhour6x6_1.csv"
 
         moves = []
-        amount_of_games = 100
+        amount_of_games = 1000
         for i in range(amount_of_games):
             game = Game(csvfile, gridsize)
             gamewon = False
@@ -291,7 +277,7 @@ class Play_average():
                 if algorithms.check_path_free(game):
                     gamewon = True
                     break
-                algorithms.queue_algorithm_merge(game)
+                algorithms.random_move_max_steps_non_recurring(game)
             moves.append(game.moves)
 
         average = sum(moves)/amount_of_games
@@ -666,7 +652,8 @@ class Animation():
 
 
 if __name__ == "__main__":
-    Play()
+    # Play()
+    Play_average()
     # Test()
     # PlayData_nacht1()
     # PlayData_nacht2()
