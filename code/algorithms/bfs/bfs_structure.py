@@ -9,7 +9,8 @@ class Node():
         self.grid = grid
         self.parent = parent
 
-        # def __eq__(self, other)
+    # def __eq__(self, other)
+    #     if
 
 
 class Bfs():
@@ -84,9 +85,10 @@ def Play():
 
 
     print("moves made", len(gamewon))
-    save_plots.save_all_plots(gamewon)
+    # save_plots.save_all_plots(gamewon)
     list_of_moves = bfs_algorithms.moves_list(game, gamewon)
     print(list_of_moves)
+    print(len(list_of_moves))
 
 if __name__ == "__main__":
         start = time.time()

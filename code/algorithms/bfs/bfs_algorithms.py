@@ -176,7 +176,6 @@ def movable_up_max_bfs(game, grid, car):
             else:
                 return update_bfs(game, grid, car, x, y, move)
 
-
 def movable_down_max_bfs(game, grid, car):
     """
         Checks whether above the given car is an empty spot.
@@ -196,7 +195,6 @@ def movable_down_max_bfs(game, grid, car):
             else:
                 return update_bfs(game, grid, car, x, y, move)
 
-
 def update_bfs(game, grid, car, x, y, move):
 
     new_grid = copy.deepcopy(grid)
@@ -211,7 +209,6 @@ def update_bfs(game, grid, car, x, y, move):
         for i in range(car.length):
             new_grid[x + i + move][y] = car.id
     return new_grid
-
 
 def game_won(game, grid):
     """
@@ -278,6 +275,14 @@ def moves_list(game, win_path):
                     new_x.append(x)
             movement = (sum(new_x) - sum(old_x))/len(new_x)
             moves_list.append([move_car.id, movement])
+
+    red_car = game.redcar
+    y = red_car.y
+    min_move = 2
+    for i in range(game.gridsize + 1):
+        if grid[game.gridsize - i][y] == red_car.id:
+                moves_list.append([red_car.id, i + min_move])
+                break
     return moves_list
 
 def print_grid_terminal(grid):
