@@ -887,8 +887,8 @@ class Play_coen():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 12
-        csvfile = "Rushhour12x12_7.csv"
+        gridsize = 6
+        csvfile = "Rushhour6x6_1.csv"
         # grids = []
         # min_moves = 11
         # gamecount = 0

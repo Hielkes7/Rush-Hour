@@ -171,6 +171,7 @@ def random_max_step(game):
             else:
                 break
         update(game, car, car.x, new_y)
+        return car, car.x, new_y
 
     elif direction == "y negative":
         new_y = car.y
@@ -184,6 +185,7 @@ def random_max_step(game):
             else:
                 break
         update(game, car, car.x, new_y)
+        return car, car.x, new_y
 
     elif direction == "x positive":
         new_x = car.x
@@ -197,8 +199,10 @@ def random_max_step(game):
             else:
                 break
         update(game, car, new_x, car.y)
+        return car, new_x, car.y
 
-    elif direction == "x negative":
+
+    else:
         new_x = car.x
 
         # check for border
@@ -210,6 +214,7 @@ def random_max_step(game):
             else:
                 break
         update(game, car, new_x, car.y)
+        return car, new_x, car.y
 
 def random_max_step_non_recurring(game):
     """
@@ -237,6 +242,7 @@ def random_max_step_non_recurring(game):
             # check if car can move up
             if game.grid[car.x][new_y + car.length] == 0:
                 new_y += 1
+
             else:
                 break
         update(game, car, car.x, new_y)

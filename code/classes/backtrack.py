@@ -1,5 +1,6 @@
 from structure import Game, Car
 import algorithms
+import functions
 
 class Backtrack():
     """
@@ -12,7 +13,7 @@ class Backtrack():
 
     def __init__(self):
 
-        # game information
+        # initializes game information
         self.gridsize = 6
         self.csvfile = "Rushhour6x6_1.csv"
         self.grid_dictionary = {}
@@ -29,14 +30,14 @@ class Backtrack():
             gamewon = False
             game_moves = []
             game_grids = []
-            grid_string = "".join(["".join([str(character) for character in elem]) for elem in game.grid])
+            grid_string = functions.string(game.grid)
             game_grids.append(grid_string)
 
             # game continues until the winning gamestate is found
             while not gamewon:
 
                 # executes a random step and returns a list with info about the step
-                current_move = algorithms.random_max_step_non_recurring(game)
+                current_move = algorithms.random_max_step(game)
 
                 # adds the move to the list with all game moves
                 game_moves.append(current_move)
@@ -46,7 +47,7 @@ class Backtrack():
 
                 # if game is not won, add the current grid to the gridlist
                 if gamewon is False:
-                    grid_string = "".join(["".join([str(character) for character in elem]) for elem in game.grid])
+                    grid_string = functions.string(game.grid)
                     game_grids.append(grid_string)
 
             list_length = game.moves - 1
@@ -55,10 +56,8 @@ class Backtrack():
             for i in range(amount_of_steps):
                 move_list += game_moves[list_length - i]
                 grid = game_grids[list_length - i]
-                # grid_string_key = "".join(["".join([str(character) for character in elem]) for elem in game_grids[list_length-i]])
-                # print(grid_string_key)
+
                 if grid in self.grid_dictionary.keys():
-                    # kijk of de values minder zijn
                     if len(self.grid_dictionary[grid]) > (i + 1):
                         self.grid_dictionary[grid] = move_list
                 else:
@@ -75,16 +74,18 @@ class Backtrack():
             game = Game(self.csvfile, self.gridsize)
             gamewon = False
             while not gamewon:
-                algorithms.random_max_step_non_recurring(game)
-                if game.grid in self.grid_dictionary.keys():
-                        moves = self.grid_dictionary[game.grid]
-                        for move in moves:
+                algorithms.random_max_step(game)
+                grid_string = functions.string(game.grid)
+                if grid_string in self.grid_dictionary.keys():
+                        moves = self.grid_dictionary[grid_string]
+                        while moves:
+                            move = moves.pop()
                             car = move[0]
                             x = move[1]
                             y = move[2]
                             algorithms.update(game, car, x, y)
-                            gamewon = True
-                            print("endstate found!")
+                        gamewon = True
+                        print("endstate found!")
                 else:
                     algorithms.check_path_free(game)
                     gamewon = algorithms.win(game)
@@ -92,6 +93,12 @@ class Backtrack():
 
 
 if __name__ == "__main__":
+
+    # start a backtrack algorithm
     backtrack = Backtrack()
-    backtrack.add_final_grids(10, 5)
-    backtrack.random_moves_backtrack(10)
+
+    # add the 5 last grids from 10 games to the dictionary
+    backtrack.add_final_grids(100, 5)
+
+    # check from 10 games if the grids are in the dictionary
+    backtrack.random_moves_backtrack(200)
