@@ -667,8 +667,8 @@ class Play():
     def __init__(self):
 
         print("Hi! Let's play Rush-Hour!")
-        gridsize = 12
-        csvfile = "Rushhour12x12_7.csv"
+        gridsize = 6
+        csvfile = "Rushhour6x6_1.csv"
         # grids = []
         # min_moves = 11
         # gamecount = 0
@@ -678,7 +678,7 @@ class Play():
             gamewon = False
             while not gamewon:
                 # algorithms.random_single_step(game)
-                algorithms.random_max_step_non_recurrent(game)
+                algorithms.random_max_step_non_recurring(game)
                 algorithms.check_path_free(game)
                 gamewon = algorithms.win(game)
             print(f"Done! It took {game.moves} moves to win the game")
@@ -694,6 +694,6 @@ class Play():
         # print(grids)
         # print(gamecount)
         # # game.save_plot("finished.png")
-        
+
 if __name__ == "__main__":
     Play()
