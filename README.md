@@ -27,6 +27,9 @@ python main.py
 
 In main.py kunnen er een aantal aanpassingen gedaan worden om verschillende algoritmes te testen:
 
+#### State space
+Een NxN grid bestaat uit 2N lanen, N horizontaal en N verticaal. Elke laan heeft een eigen state space. De totale state space van de hele grid is het product van alle state spaces van de lanen. Wanneer we de state space, van een horizontale lijn, bepalen kijken we alleen naar de horizontale auto's en niet naar de verticale auto's. Visa versa voor de verticale lanen. Zodra de state spaces van deze lanen bepaald zijn hoeft er alleen nog maar geteld te worden per grid hoeveel van welke soort lanen er zijn. In het "state_space.py" bestand staat per laan vernoemd wat de bijbehorende state space is. De functie in dat bestand berekent de state space van een grid. Er moet handmatig ingevuld welke soorten lanen er aanwezig zijn in een bepaalde grid.
+
 #### A: Random algoritmes
 Bij random algoritmes wordt het gameboard door middel van random steps opgelost. Dit kan op een aantal verschillende manieren.  
 * Allereerst kunnen alle auto's random een enkele stap doen ("single") of een maximale stap doen ("max").
