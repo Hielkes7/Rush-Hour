@@ -287,7 +287,7 @@ def random_max_step_non_recurring(game):
         update(game, car, new_x, car.y)
 
     game.previous_car_id = car.id
-    return car, car.x, car.y
+    return [car, car.x, car.y]
 
 def make_path_free(game):
     """
@@ -499,7 +499,10 @@ def car_is_movable(game, car):
         Checks if a car can move in to at least one direction.
     """
 
-    if movable_up(game, car) or movable_down(game, car) or movable_left(game, car) or movable_right(game, car):
-        return True
-    else:
-        return False
+    if car.orientation == 'V':
+         if movable_up(game, car) or movable_down(game, car):
+             return True
+    elif car.orientation == 'H':
+        if movable_left(game, car) or movable_right(game, car):
+            return True
+    return False

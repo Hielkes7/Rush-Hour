@@ -1,4 +1,4 @@
-import csv, os, random, statistics, algorithms, time, algorithms_old
+import csv, os, random, statistics, algorithms, time
 import matplotlib.pyplot as plt
 
 class Game():
@@ -239,20 +239,19 @@ class Play():
 
         gamewon = False
         while not gamewon:
-            if algorithms.make_path_free(game):
-                gamewon = True
-                break
-            algorithms.queue_algorithm(game)
+            algorithms.random_max_step_non_recurring(game)
+            algorithms.check_path_free(game)
+            gamewon = algorithms.win(game)
 
         print(f"Done! It took {game.moves} moves to win the game")
 
         # writing all moves in an output.csv file
-        with open('output.csv', mode='w') as output_file:
-            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            output_writer.writerow(['car', ' move'])
-
-            for move in game.list_moves:
-                output_writer.writerow([move[0], move[1]])
+        # with open('output.csv', mode='w') as output_file:
+        #     output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        #     output_writer.writerow(['car', ' move'])
+        #
+        #     for move in game.list_moves:
+        #         output_writer.writerow([move[0], move[1]])
 
 class Play_average():
     """
@@ -916,14 +915,14 @@ class Play_coen():
         # # game.save_plot("finished.png")
 
 if __name__ == "__main__":
-    # Play()
-    Play_average()
-    Play_average2()
-    Play_average3()
-    Play_average4()
-    Play_average5()
-    Play_average6()
-    Play_average7()
+    Play()
+    # Play_average()
+    # Play_average2()
+    # Play_average3()
+    # Play_average4()
+    # Play_average5()
+    # Play_average6()
+    # Play_average7()
     # Test()
     # PlayData_nacht1()
     # PlayData_nacht2()
