@@ -1,9 +1,21 @@
 # Mijn Project
 
-Hier staat een korte beschrijving van het probleem evt. met plaatje.
+in dit project berekent oplossingen voor verschillende configuraties van een puzzelspel genaamd "Rush-Hour"
+
+Rush-Hour bestaat uit een 2D grid waarop auto's staan die ofwel op & neer ofwel links & rechts kunnen shuiven.
+Het doel van Rush-hour is om de rode auto naar de exit te navigeren doormiddel van het wegschuiven van alle
+andere auto's die de weg versperren.
+
+Hoewel Rush-Hour berust op een simpel spelprincipes, kunnen bordconfiguraties al te ingewikkeld worden om gemakkelijk op te lossen.
+Ook is er momenteel nog geen algemene heuristiek ontwikkeld die het oplossen van elke mogelijke individuele rush hour puzzel vergemakkelijkt.
+
+Voor dit project zijn 7 verschillende bord configuraties verstrekt die allemaal met behulp van verscheidene algoritmes zijn opgelost.
+
+
 ![picture of the game Rush Hour](pic_README/rush_hour.png)
 
 ## Aan de slag
+
 
 ### Vereisten
 
@@ -28,10 +40,12 @@ python main.py
 
 In main.py kunnen er een aantal aanpassingen gedaan worden om verschillende algoritmes te testen:
 
+
 #### Game grids
 Allereerst kan er in main.py ingesteld worden welke game van Rushhour er wordt gespeeld. Hierin moet de volgende aanpassingen gedaan worden:
 * De naam van het CSV file moet veranderd worden
 * De gridsize moet aangepast worden op het moment dat er een grotere grid bekeken wordt.
+
 
 #### A: Random algoritmes
 Bij random algoritmes wordt het gameboard door middel van random steps opgelost. Dit kan op een aantal verschillende manieren.  
@@ -49,11 +63,33 @@ Het backtrack algoritme runt een bepaald aantal games. Dit aantal is zelf aan te
 
 #### C: Breadthfirst algoritme
 
+Het breadthfirst algoritme (BFS) vind de oplossing van een puzzelconfiguratie, doormiddel van het creeeren van een complete stamboom van nodes waarin elke mogelijke move configuratie wordt
+doorlopen tot de oplossing gevonden is.
+Het voordeel van dit algoritme is dat de gevonden oplossing altijd de snelst mogelijke is
+Het nadeel is echter dat het erg veel geheugen en rekenkracht vraagt om te runnen. Hierdoor kunnen enkel de eerste 4 puzzelconfiguraties opgelost worden, binnen een praktische tijdsduur.
+
+
+Er zijn twee verschillende wincondities
+  - "path_free" kijkt of het pad naar de uitgang vrij is
+  - "one_blocker" komt 1 stap eerder namelijk wanneer er enkel 1 auto is die de vrije doorgang blokkeert die genoeg ruimte heeft om weggeschoven te worden.
+
+      Ondanks dat de tweede win conditie meer rekenkracht per node vergt, vindt het de oplossing gemiddeld sneller omdat het 1 niveau eerder klaar is.
+
+Er zijn ook twee mogelijkheden voor het aantal hokjes dat een auto verplaatst per move:
+  -"max_step" hierbij beweegt een auto het maximaal aantal mogelijke stappen
+  -"single_step" hierbij beweegt een auto 1 hokje
+
+Er zijn twee prune mogelijkheden
+
+- "pre" checkt voordat het een node toevoegd aan de wachtrij van BFS of de bordconfiguratie niet al eerder is doorlopen
+- "post" voegt alle nodes toe aan de wachtrij, maar checkt voor duplicates als de node uit de wachtrij gehaald wordt, dit voorkomt dat dubbele kinderen in de wachtrij worden gezet.
+
+
+#### Andere waarden
 
 
 #### State space
 Een NxN grid bestaat uit 2N lanen, N horizontaal en N verticaal. Elke laan heeft een eigen state space. De totale state space van de hele grid is het product van alle state spaces van de lanen. Wanneer we de state space, van een horizontale lijn, bepalen kijken we alleen naar de horizontale auto's en niet naar de verticale auto's. Visa versa voor de verticale lanen. Zodra de state spaces van deze lanen bepaald zijn hoeft er alleen nog maar geteld te worden per grid hoeveel van welke soort lanen er zijn. In het "state_space.py" bestand staat per laan vernoemd wat de bijbehorende state space is. De functie in dat bestand berekent de state space van een grid. Er moet handmatig ingevuld welke soorten lanen er aanwezig zijn in een bepaalde grid.
-
 
 ## Auteurs
 
@@ -65,3 +101,4 @@ Een NxN grid bestaat uit 2N lanen, N horizontaal en N verticaal. Elke laan heeft
 
 * StackOverflow
 * Minor programmeren van de UvA
+* Onze supervisors Nigel van Herwijnen & Reitze Jansen

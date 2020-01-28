@@ -411,6 +411,7 @@ class Breadthfirst():
                     bfs = Bfs_single_pre_win2(grid, game)
                 else:
                     bfs = Bfs_single_post_win2(grid, game)
+
         gamewon = False
         while not gamewon:
             gamewon = bfs.search()
