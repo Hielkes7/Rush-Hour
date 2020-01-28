@@ -1,4 +1,4 @@
-import csv, os, random, statistics, algorithms, time, algorithms_old
+import csv, os, random, statistics, algorithms, time
 import matplotlib.pyplot as plt
 
 class Game():
@@ -239,170 +239,21 @@ class Play():
 
         gamewon = False
         while not gamewon:
-            if algorithms.make_path_free(game):
-                gamewon = True
-                break
-            algorithms.queue_algorithm(game)
+            algorithms.random_max_step_non_recurring(game)
+            algorithms.check_path_free(game)
+            gamewon = algorithms.win(game)
 
         print(f"Done! It took {game.moves} moves to win the game")
 
         # writing all moves in an output.csv file
-        with open('output.csv', mode='w') as output_file:
-            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            output_writer.writerow(['car', ' move'])
+        # with open('output.csv', mode='w') as output_file:
+        #     output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        #     output_writer.writerow(['car', ' move'])
+        #
+        #     for move in game.list_moves:
+        #         output_writer.writerow([move[0], move[1]])
 
-            for move in game.list_moves:
-                output_writer.writerow([move[0], move[1]])
-
-class Play_average():
-    """
-        This function solves the game and then returns in how many moves it
-        has done so.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_3.csv"
-
-        moves = []
-        amount_of_games = 5000
-        begin_time = time.time()
-        for i in range(amount_of_games):
-            if i%(amount_of_games/100) == 0 and i != 0:
-                current_time = time.time()
-                time_difference = current_time - begin_time
-                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
-                tot_sec_remaining = estimated_time - time_difference
-                sec_remaining = tot_sec_remaining % 60
-                min_remaining = (tot_sec_remaining - sec_remaining)%60
-                hours_remainig = tot_sec_remaining / 3600
-                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
-            game = Game(csvfile, gridsize)
-
-
-            gamewon = False
-            while not gamewon:
-                if algorithms.win(game):
-                    gamewon = True
-                    break
-                algorithms.random_single_step(game)
-            moves.append(game.moves)
-
-        average = sum(moves)/amount_of_games
-        print(f"Done! It took an average of ", average, " moves to win the game")
-class Play_average2():
-    """
-        This function solves the game and then returns in how many moves it
-        has done so.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_3.csv"
-
-        moves = []
-        amount_of_games = 5000
-        begin_time = time.time()
-        for i in range(amount_of_games):
-            if i%(amount_of_games/100) == 0 and i != 0:
-                current_time = time.time()
-                time_difference = current_time - begin_time
-                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
-                tot_sec_remaining = estimated_time - time_difference
-                sec_remaining = tot_sec_remaining % 60
-                min_remaining = (tot_sec_remaining - sec_remaining)%60
-                hours_remainig = tot_sec_remaining / 3600
-                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
-            game = Game(csvfile, gridsize)
-
-
-            gamewon = False
-            while not gamewon:
-                if algorithms.check_path_free(game):
-                    gamewon = True
-                    break
-                algorithms.random_single_step(game)
-            moves.append(game.moves)
-
-        average = sum(moves)/amount_of_games
-        print(f"Done! It took an average of ", average, " moves to win the game")
-class Play_average3():
-    """
-        This function solves the game and then returns in how many moves it
-        has done so.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_3.csv"
-
-        moves = []
-        amount_of_games = 5000
-        begin_time = time.time()
-        for i in range(amount_of_games):
-            if i%(amount_of_games/100) == 0 and i != 0:
-                current_time = time.time()
-                time_difference = current_time - begin_time
-                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
-                tot_sec_remaining = estimated_time - time_difference
-                sec_remaining = tot_sec_remaining % 60
-                min_remaining = (tot_sec_remaining - sec_remaining)%60
-                hours_remainig = tot_sec_remaining / 3600
-                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
-            game = Game(csvfile, gridsize)
-
-
-            gamewon = False
-            while not gamewon:
-                if algorithms.win(game):
-                    gamewon = True
-                    break
-                algorithms.random_max_step(game)
-            moves.append(game.moves)
-
-        average = sum(moves)/amount_of_games
-        print(f"Done! It took an average of ", average, " moves to win the game")
-class Play_average4():
-    """
-        This function solves the game and then returns in how many moves it
-        has done so.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_3.csv"
-
-        moves = []
-        amount_of_games = 5000
-        begin_time = time.time()
-        for i in range(amount_of_games):
-            if i%(amount_of_games/100) == 0 and i != 0:
-                current_time = time.time()
-                time_difference = current_time - begin_time
-                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
-                tot_sec_remaining = estimated_time - time_difference
-                sec_remaining = tot_sec_remaining % 60
-                min_remaining = (tot_sec_remaining - sec_remaining)%60
-                hours_remainig = tot_sec_remaining / 3600
-                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
-            game = Game(csvfile, gridsize)
-
-
-            gamewon = False
-            while not gamewon:
-                if algorithms.check_path_free(game):
-                    gamewon = True
-                    break
-                algorithms.random_max_step(game)
-            moves.append(game.moves)
-
-        average = sum(moves)/amount_of_games
-        print(f"Done! It took an average of ", average, " moves to win the game")
-class Play_average5():
+class Play_average_4MNW():
     """
         This function solves the game and then returns in how many moves it
         has done so.
@@ -434,12 +285,12 @@ class Play_average5():
                 if algorithms.win(game):
                     gamewon = True
                     break
-                algorithms.random_single_step(game)
+                algorithms.random_max_step(game)
             moves.append(game.moves)
 
         average = sum(moves)/amount_of_games
-        print(f"Done! It took an average of ", average, " moves to win the game")
-class Play_average6():
+        print(f"Done! It took an average of ", average, " moves to win the game. 4MNW")
+class Play_average_4MNC():
     """
         This function solves the game and then returns in how many moves it
         has done so.
@@ -471,12 +322,12 @@ class Play_average6():
                 if algorithms.check_path_free(game):
                     gamewon = True
                     break
-                algorithms.random_single_step(game)
+                algorithms.random_max_step(game)
             moves.append(game.moves)
 
         average = sum(moves)/amount_of_games
-        print(f"Done! It took an average of ", average, " moves to win the game")
-class Play_average7():
+        print(f"Done! It took an average of ", average, " moves to win the game. 4MNC")
+class Play_average_4MNM():
     """
         This function solves the game and then returns in how many moves it
         has done so.
@@ -508,11 +359,493 @@ class Play_average7():
                 if algorithms.make_path_free(game):
                     gamewon = True
                     break
+                algorithms.random_max_step(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 4MNM")
+class Play_average_4MYW():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_4.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.win(game):
+                    gamewon = True
+                    break
+                algorithms.random_max_step_non_recurring(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 4MYW")
+class Play_average_5MYQ():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_5.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.make_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.queue_algorithm(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 5MYQ")
+class Play_average_6MYM():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.make_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_max_step_non_recurring(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6MYM")
+class Play_average_6MYC():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.check_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_max_step_non_recurring(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6MYC")
+class Play_average_6MYW():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.win(game):
+                    gamewon = True
+                    break
+                algorithms.random_max_step_non_recurring(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6MYW")
+class Play_average_6MNM():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.make_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_max_step(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6MNM")
+class Play_average_6MNC():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.check_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_max_step(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6MNC")
+class Play_average_6MNW():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.win(game):
+                    gamewon = True
+                    break
+                algorithms.random_max_step(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6MNW")
+class Play_average_6MYQ():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.make_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.queue_algorithm(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6MYQ")
+class Play_average_5SNC_long():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_5.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.check_path_free(game):
+                    gamewon = True
+                    break
                 algorithms.random_single_step(game)
             moves.append(game.moves)
 
         average = sum(moves)/amount_of_games
-        print(f"Done! It took an average of ", average, " moves to win the game")
+        print(f"Done! It took an average of ", average, " moves to win the game. 5SNC")
+class Play_average_6SNM_long():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.make_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_single_step(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6SNM")
+class Play_average_6SNC_long():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.check_path_free(game):
+                    gamewon = True
+                    break
+                algorithms.random_single_step(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6SNC")
+class Play_average_6SNW_long():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 9
+        csvfile = "gameboards/Rushhour9x9_6.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
+
+
+            gamewon = False
+            while not gamewon:
+                if algorithms.win(game):
+                    gamewon = True
+                    break
+                algorithms.random_single_step(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 6SNW")
+
 
 class PlayData1():
     """
@@ -555,211 +888,6 @@ class PlayData1():
                 sheet.write(item, 0, movelist[item])
 
             workbook.close()
-class PlayData2():
-    """
-        This function runs the game 200 times and then saves the data to a excel file.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "gameboards/Rushhour9x9_4.csv"
-        repeats = 5000
-        export_excel = True
-        movelist = []
-
-        for i in range(repeats):
-            game = Game(csvfile, gridsize)
-            moves = 0
-            gamewon = False
-
-            while not gamewon:
-                if algorithms.check_path_free(game):
-                    gamewon = True
-                    break
-                algorithms.random_max_steps_non_recurring(game)
-
-            # give update on how many measurements have been calculate
-            movelist.append(game.moves)
-            if i % (repeats/100) == 0:
-                print(i*100/repeats,"%,  ", game.moves, " moves")
-
-
-        if export_excel:
-
-            #create excel file
-            workbook = xlsxwriter.Workbook("data/game 4/output2.xlsx")
-            sheet = workbook.add_worksheet()
-
-            #declare data
-            for item in range(len(movelist)):
-                sheet.write(item, 0, movelist[item])
-
-            workbook.close()
-class PlayData3():
-    """
-        This function runs the game 200 times and then saves the data to a excel file.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "gameboards/Rushhour9x9_4.csv"
-        repeats = 5000
-        export_excel = True
-        movelist = []
-
-        for i in range(repeats):
-            game = Game(csvfile, gridsize)
-            moves = 0
-            gamewon = False
-
-            while not gamewon:
-                if algorithms.make_path_free(game):
-                    gamewon = True
-                    break
-                algorithms.random_max_steps_non_recurring(game)
-
-            # give update on how many measurements have been calculate
-            movelist.append(game.moves)
-            if i % (repeats/100) == 0:
-                print(i*100/repeats,"%,  ", game.moves, " moves")
-
-
-        if export_excel:
-
-            #create excel file
-            workbook = xlsxwriter.Workbook("data/game 4/output3.xlsx")
-            sheet = workbook.add_worksheet()
-
-            #declare data
-            for item in range(len(movelist)):
-                sheet.write(item, 0, movelist[item])
-
-            workbook.close()
-class PlayData4():
-    """
-        This function runs the game 200 times and then saves the data to a excel file.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "gameboards/Rushhour9x9_4.csv"
-        repeats = 5000
-        export_excel = True
-        movelist = []
-
-        for i in range(repeats):
-            game = Game(csvfile, gridsize)
-            moves = 0
-            gamewon = False
-
-            while not gamewon:
-                if algorithms.make_path_free(game):
-                    gamewon = True
-                    break
-                algorithms.queue_algorithm(game)
-
-            # give update on how many measurements have been calculate
-            movelist.append(game.moves)
-            if i % (repeats/100) == 0:
-                print(i*100/repeats,"%,  ", game.moves, " moves")
-
-
-        if export_excel:
-
-            #create excel file
-            workbook = xlsxwriter.Workbook("data/game 4/output4.xlsx")
-            sheet = workbook.add_worksheet()
-
-            #declare data
-            for item in range(len(movelist)):
-                sheet.write(item, 0, movelist[item])
-
-            workbook.close()
-class PlayData5():
-    """
-        This function runs the game 200 times and then saves the data to a excel file.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "gameboards/Rushhour9x9_4.csv"
-        repeats = 5000
-        export_excel = True
-        movelist = []
-
-        for i in range(repeats):
-            game = Game(csvfile, gridsize)
-            moves = 0
-            gamewon = False
-
-            while not gamewon:
-                if algorithms.check_path_free(game):
-                    gamewon = True
-                    break
-                algorithms.random_single_step(game)
-
-            # give update on how many measurements have been calculate
-            movelist.append(game.moves)
-            if i % (repeats/100) == 0:
-                print(i*100/repeats,"%,  ", game.moves, " moves")
-
-
-        if export_excel:
-
-            #create excel file
-            workbook = xlsxwriter.Workbook("data/game 4/output5.xlsx")
-            sheet = workbook.add_worksheet()
-
-            #declare data
-            for item in range(len(movelist)):
-                sheet.write(item, 0, movelist[item])
-
-            workbook.close()
-class PlayData6():
-    """
-        This function runs the game 200 times and then saves the data to a excel file.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 9
-        csvfile = "gameboards/Rushhour9x9_4.csv"
-        repeats = 5000
-        export_excel = True
-        movelist = []
-
-        for i in range(repeats):
-            game = Game(csvfile, gridsize)
-            moves = 0
-            gamewon = False
-
-            while not gamewon:
-                if algorithms.win(game):
-                    gamewon = True
-                    break
-                algorithms.random_single_step(game)
-
-            # give update on how many measurements have been calculate
-            movelist.append(game.moves)
-            if i % (repeats/100) == 0:
-                print(i*100/repeats,"%,  ", game.moves, " moves")
-
-
-        if export_excel:
-
-            #create excel file
-            workbook = xlsxwriter.Workbook("data/game 4/output6.xlsx")
-            sheet = workbook.add_worksheet()
-
-            #declare data
-            for item in range(len(movelist)):
-                sheet.write(item, 0, movelist[item])
-
-            workbook.close()
 
 
 class Save_frames():
@@ -771,7 +899,7 @@ class Save_frames():
 
         print("Hi! Let's play Rush-Hour!")
         gridsize = 6
-        csvfile = "gameboards/Rushhour6x6_2.csv"
+        csvfile = "gameboards/Rushhour6x6_1.csv"
         game = Game(csvfile, gridsize)
         gamewon = False
 
@@ -781,9 +909,8 @@ class Save_frames():
         while not gamewon:
             file_name = "frame" + str(game.moves) + ".png"
             game.save_plot(file_name)
-            algorithms.make_path_free(game)
-            algorithms.check_path_free(game)
-            gamewon = algorithms.win(game)
+            gamewon = algorithms.make_path_free(game)
+            algorithms.random_max_step_non_recurring(game)
 
 
         # save final frame
@@ -792,6 +919,21 @@ class Save_frames():
 
         print(f"Done! It took {game.moves} moves to win the game")
 
+class Save_first_frame():
+    """
+        Solves the game and saves each frame of each move made. This function
+        crashes very quickly when to many frames are saved.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 6
+        csvfile = "gameboards/Rushhour6x6_2.csv"
+        game = Game(csvfile, gridsize)
+
+        # save plot initial grid setup
+        plt.figure()
+        game.save_plot("game2_frame0.png")
 
 class Save_frames_buffer():
     """
@@ -879,60 +1021,24 @@ class Animation():
         # save final frame
         game.frame(ax)
 
-class Play_coen():
-    """
-        This function solves the game and returns in how many moves it
-        has done so.
-    """
-    def __init__(self):
-
-        print("Hi! Let's play Rush-Hour!")
-        gridsize = 6
-        csvfile = "Rushhour6x6_1.csv"
-        # grids = []
-        # min_moves = 11
-        # gamecount = 0
-
-        for i in range(10):
-            game = Game(csvfile, gridsize)
-            gamewon = False
-            while not gamewon:
-                # algorithms.random_single_step(game)
-                algorithms.random_max_step_non_recurring(game)
-                algorithms.check_path_free(game)
-                gamewon = algorithms.win(game)
-            print(f"Done! It took {game.moves} moves to win the game")
-        #     if game.moves < min_moves:
-        #         gamecount += 1
-        #         count = 0
-        #         for grid in grids:
-        #             if game.grid == grid:
-        #                 count += 1
-        #         if count == 0:
-        #             grids.append(game.grid)
-        # print(len(grids))
-        # print(grids)
-        # print(gamecount)
-        # # game.save_plot("finished.png")
 
 if __name__ == "__main__":
     # Play()
-    Play_average()
-    Play_average2()
-    Play_average3()
-    Play_average4()
-    Play_average5()
-    Play_average6()
-    Play_average7()
-    # Test()
-    # PlayData_nacht1()
-    # PlayData_nacht2()
-    # PlayData_nacht3()
-    # PlayData1()
-    # PlayData2()
-    # PlayData3()
-    # PlayData4()
-    # PlayData5()
-    # PlayData6()
-    # Save_frames_buffer()
-    # Save_frames()
+    # Save_first_frame()
+
+    # average moves
+    Play_average_4MNC()
+    Play_average_4MNM()
+    Play_average_4MYW()
+    Play_average_5MYQ()
+    Play_average_6MYM()
+    Play_average_6MYC()
+    Play_average_6MYW()
+    Play_average_6MNM()
+    Play_average_6MNC()
+    Play_average_6MNW()
+    Play_average_6MYQ()
+    Play_average_5SNC_long()
+    Play_average_6SNM_long()
+    Play_average_6SNC_long()
+    Play_average_6SNW_long()
