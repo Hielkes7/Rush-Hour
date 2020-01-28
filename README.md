@@ -3,9 +3,9 @@
 Hier staat een korte beschrijving van het probleem evt. met plaatje.
 ![picture of the game Rush Hour](pic_README/rush_hour.png)
 
-## Aan de slag (Getting Started)
+## Aan de slag
 
-### Vereisten (Prerequisites)
+### Vereisten
 
 Deze codebase is volledig geschreven in [Python3.6.3](https://www.python.org/downloads/). In requirements.txt staan alle benodigde packages om de code succesvol te draaien. Deze zijn gemakkelijk te installeren via pip dmv. de volgende instructie:
 
@@ -15,10 +15,10 @@ pip install -r requirements.txt
 
 ### Structuur
 
-Alle Python scripts staan in de folder Code. Deze map bestaat uit een aantal submappen: Algorithms, classes en functions. In de map algoritms staat de code voor de random algoritmes, de breadthfirst search en het backtrack algoritme. De map classes bevat de structuur van een game: Hier wordt een nieuwe game en de game auto's in geinitialiseerd. Daarnaast staat hier de hoofd play methode in. In de map functions staan een bestand gamefunctions.py die ondersteunend zijn voor een game, zoals het checken van een winnende conditie of het vinden van een valide zet. Het bestand functions.py bevat algemeen ondersteunende functies zoals het maken van een string van de grid.
+Alle Python scripts staan in de folder Code. Deze map bestaat uit een aantal submappen: Algorithms, classes en functions. In de map algoritms staat de code voor de random algoritmes (algorithms.py), de breadthfirst search (map breadthfirst) en het backtrack algoritme (backtrack.py). De breadthfirst map bevat een eigen structure en algorithm, omdat deze afwijken van de standaard structuur. De map classes bevat de structuur van een normale game: Hier wordt een nieuwe game en de game auto's in geinitialiseerd. Daarnaast staat hier de hoofd play methode in. In de map functions staan een bestand gamefunctions.py die ondersteunend zijn voor een game, zoals het checken van een winnende conditie of het vinden van een valide zet. Het bestand functions.py bevat algemeen ondersteunende functies zoals het maken van een string van de grid.
 
 
-### Test (Testing)
+### Test
 
 Om de code te draaien met de standaardconfiguratie (bv. brute-force en voorbeeld.csv) gebruik de instructie:
 
@@ -55,13 +55,13 @@ Het backtrack algoritme runt een bepaald aantal games. Dit aantal is zelf aan te
 Een NxN grid bestaat uit 2N lanen, N horizontaal en N verticaal. Elke laan heeft een eigen state space. De totale state space van de hele grid is het product van alle state spaces van de lanen. Wanneer we de state space, van een horizontale lijn, bepalen kijken we alleen naar de horizontale auto's en niet naar de verticale auto's. Visa versa voor de verticale lanen. Zodra de state spaces van deze lanen bepaald zijn hoeft er alleen nog maar geteld te worden per grid hoeveel van welke soort lanen er zijn. In het "state_space.py" bestand staat per laan vernoemd wat de bijbehorende state space is. De functie in dat bestand berekent de state space van een grid. Er moet handmatig ingevuld welke soorten lanen er aanwezig zijn in een bepaalde grid.
 
 
-## Auteurs (Authors)
+## Auteurs
 
 * Liz Mooij
 * Coen Prins
 * Hiele Wilkes
 
-## Dankwoord (Acknowledgments)
+## Dankwoord
 
 * StackOverflow
-* minor programmeren van de UvA
+* Minor programmeren van de UvA
