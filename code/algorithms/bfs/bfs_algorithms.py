@@ -357,7 +357,7 @@ def game_won_2(game, grid):
     else:
         return False
 
-def winning_path(game, node, final_grid):
+def winning_path_1(game, node):
     """
         Returns a list containing the traversed grids of the fastest path to the exit for gamewon_1.
     """
@@ -368,6 +368,8 @@ def winning_path(game, node, final_grid):
         moves_list.insert(0, node.grid)
         node = node.parent
     moves_list.insert(0, node.grid)
+
+    return moves_list
 
 def winning_path_2(game, node, final_grid):
     """
@@ -383,7 +385,7 @@ def winning_path_2(game, node, final_grid):
 
     return moves_list
 
-    return moves_list
+
 
 def moves_list(game, win_path):
     """
