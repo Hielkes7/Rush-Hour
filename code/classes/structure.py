@@ -4,6 +4,7 @@ import code.functions.gamefunctions
 import code.functions.functions
 import matplotlib.pyplot as plt
 
+
 class Game():
     """
         Creates a game.

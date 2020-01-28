@@ -1,5 +1,7 @@
-import structurecopy, bfs_algorithms, save_plots
-import sys, timeit, time, xlsxwriter
+import code.algorithms.breadthfirst.save_plots
+import code.algorithms.breadthfirst.breadthfirst_algorithm
+import code.classes.structure
+import sys, timeit, time
 
 class Node():
     """
@@ -196,7 +198,7 @@ def Play():
     gridsize = 6
     csvfile = "boards/Rushhour6x6_1.csv"
 
-    game = structurecopy.Game(csvfile, gridsize)
+    game = structure.Game(csvfile, gridsize)
     grid = game.grid
     bfs = Bfs_win_1(grid, game)
     gamewon = False

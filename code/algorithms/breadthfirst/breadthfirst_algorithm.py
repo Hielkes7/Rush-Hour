@@ -1,5 +1,5 @@
 import random, copy, sys
-import structurecopy
+import code.algorithms.breadthfirst.breadthfirst_structure
 
 
 def all_possible_single_moves(game, grid):

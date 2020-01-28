@@ -1,7 +1,7 @@
 from code.classes.structure import Game, Car
-import code.algorithms.algorithms
-import code.functions.functions
-import code.functions.gamefunctions
+from code.algorithms import algorithms
+from code.functions.functions import string
+from code.functions import gamefunctions
 import csv, random, sys
 
 
@@ -14,11 +14,11 @@ class Backtrack():
         the end.
     """
 
-    def __init__(self):
+    def __init__(self, csvfile, gridsize):
 
         # initializes game information
-        self.gridsize = 9
-        self.csvfile = "Rushhour9x9_4.csv"
+        self.csvfile = csvfile
+        self.gridsize = gridsize
         self.grid_dictionary = {}
 
     def add_final_grids(self, amount_of_games, amount_of_steps):
@@ -33,7 +33,7 @@ class Backtrack():
             gamewon = False
             game_moves = []
             game_grids = []
-            grid_string = functions.string(game.grid)
+            grid_string = string(game.grid)
             game_grids.append(grid_string)
 
             # game continues until the winning gamestate is found
@@ -50,7 +50,7 @@ class Backtrack():
 
                 # if game is not won, add the current grid to the gridlist
                 if gamewon is False:
-                    grid_string = functions.string(game.grid)
+                    grid_string = string(game.grid)
                     game_grids.append(grid_string)
 
             # print(game_grids)
@@ -89,7 +89,7 @@ class Backtrack():
                 # x_step = step[1]
                 # y_step = step[2]
                 # print(car_step, x_step, y_step)
-                grid_string = functions.string(game.grid)
+                grid_string = string(game.grid)
                 if grid_string in self.grid_dictionary:
                         moves = self.grid_dictionary[grid_string]
                         # print(moves)
@@ -111,28 +111,15 @@ class Backtrack():
                 else:
                     algorithms.check_path_free(game)
                     gamewon = gamefunctions.win(game)
-            # print(f"done! Game was won in {game.moves} moves")
-        #     totalmoves += game.moves
-        # average_moves = totalmoves / amount_of_games
-        # return int(average_moves)
+            totalmoves += game.moves
+        average_moves = totalmoves / amount_of_games
 
-            # writing all moves in an output.csv file
-            # with sys.open('output.csv', mode='w') as output_file:
-            #     output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            #     output_writer.writerow(['car', ' move'])
-            #
-            #     for move in game.list_moves:
-            #         output_writer.writerow([move[0], move[1]])
+        # writing all moves in an output.csv file
+        with open('output.csv', mode='w') as output_file:
+            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            output_writer.writerow(['car', ' move'])
 
+            for move in game.list_moves:
+                output_writer.writerow([move[0], move[1]])
 
-if __name__ == "__main__":
-
-    # start a backtrack algorithm
-    backtrack = Backtrack()
-
-    # add the 5 last grids from 10 games to the dictionary
-    backtrack.add_final_grids(5000, 100)
-
-
-    # check from 10 games if the grids are in the dictionary
-    print(backtrack.random_moves_backtrack(5000))
+        return int(average_moves)

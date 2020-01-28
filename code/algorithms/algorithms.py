@@ -1,5 +1,5 @@
 import random, time
-import code.functions.gamefunctions 
+from code.functions import gamefunctions 
 
 def check_path_free(game):
     """
