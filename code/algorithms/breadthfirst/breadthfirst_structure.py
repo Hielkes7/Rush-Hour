@@ -11,10 +11,11 @@ class Node():
         self.grid = grid
         self.parent = parent
 
-class Bfs_win_1():
+
+class Bfs_single_pre_win1():
     """
     Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
-    this version uses pre-pruning and the first win-condition
+    this version uses pre-pruning and the first win-condition, while one move consists of a single step.
     """
 
     def __init__(self, grid, game):
@@ -58,17 +59,205 @@ class Bfs_win_1():
         parent = self.q.pop(0)
         self.explored.append(parent)
 
-        if bfs_algorithms.game_won_1(self.game, parent.grid):
-            win_path= bfs_algorithms.winning_path_1(self.game, parent)
+        if breadthfirst_algorithm.game_won_1(self.game, parent.grid):
+            win_path= breadthfirst_algorithm.winning_path_1(self.game, parent)
             return win_path
         else:
-            grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
+            grid_moves = breadthfirst_algorithm.all_possible_single_moves(self.game, parent.grid)
             self.add_nodes(grid_moves, parent)
 
-class Bfs_win_2():
+class Bfs_single_pre_win2():
+    """
+    Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
+    this version uses pre-pruning and the second win-condition, while one move consists of a single step.
+    """
+
+    def __init__(self, grid, game):
+        self.q = []
+        self.explored = []
+        self.game = game
+        self.q.append(Node(grid, "LUCA"))
+
+
+    def add_nodes(self, grid_moves, parent):
+        """
+            Creates new children nodes for grids not already in q or explored, and appends them to end of q
+        """
+        temp = []
+        for grid in grid_moves:
+            if self.duplicates(grid):
+                temp.append(grid)
+        for grid in temp:
+            self.q.append(Node(grid, parent))
+
+
+    def duplicates(self, grid):
+        """
+            Checks if grids already exist in q or explored
+        """
+
+        for node in self.explored:
+            if node.grid == grid:
+                return False
+
+        for node in self.q:
+            if node.grid == grid:
+                return False
+        return True
+
+    def search(self):
+        """
+            Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
+        """
+
+        parent = self.q.pop(0)
+        self.explored.append(parent)
+
+        final_move = breadthfirst_algorithm.game_won_2(self.game, parent.grid)
+        if final_move:
+            win_path = breadthfirst_algorithm.winning_path_2(self.game, parent, final_move)
+            return win_path
+        else:
+            grid_moves = breadthfirst_algorithm.all_possible_single_moves(self.game, parent.grid)
+            self.add_nodes(grid_moves, parent)
+
+class Bfs_single_post_win1():
+    """
+    Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
+    this version uses post-pruning and the first win-condition, while one move consists of a single step.
+    """
+
+    def __init__(self, grid, game):
+        self.q = []
+        self.explored = []
+        self.game = game
+        self.q.append(Node(grid, "LUCA"))
+
+    def duplicates(self, grid):
+        """
+            Checks if grids already exist in q or explored
+        """
+
+        for node in self.explored:
+            if node.grid == grid:
+                return False
+        return True
+
+    def search(self):
+        """
+            Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
+        """
+
+        parent = self.q.pop(0)
+        if self.duplicates(parent.grid):
+            self.explored.append(parent)
+
+            if breadthfirst_algorithm.game_won_1(self.game, parent.grid):
+                win_path = breadthfirst_algorithm.winning_path_1(self.game, parent)
+                return win_path
+            else:
+                grid_moves = breadthfirst_algorithm.all_possible_single_moves(self.game, parent.grid)
+                for grid in grid_moves:
+                    self.q.append(Node(grid, parent))
+
+class Bfs_single_post_win2():
+    """
+    Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
+    this version uses post-pruning and the second win-condition, while one move consists of a single step.
+    """
+
+    def __init__(self, grid, game):
+        self.q = []
+        self.explored = []
+        self.game = game
+        self.q.append(Node(grid, "LUCA"))
+
+    def duplicates(self, grid):
+        """
+            Checks if grids already exist in q or explored
+        """
+
+        for node in self.explored:
+            if node.grid == grid:
+                return False
+        return True
+
+    def search(self):
+        """
+            Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
+        """
+
+        parent = self.q.pop(0)
+        if self.duplicates(parent.grid):
+            self.explored.append(parent)
+
+            final_move = breadthfirst_algorithm.game_won_2(self.game, parent.grid)
+            if final_move:
+                win_path = breadthfirst_algorithm.winning_path_2(self.game, parent, final_move)
+                return win_path
+            else:
+                grid_moves = breadthfirst_algorithm.all_possible_single_moves(self.game, parent.grid)
+                for grid in grid_moves:
+                    self.q.append(Node(grid, parent))
+
+class Bfs_max_pre_win1():
+    """
+    Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
+    this version uses pre-pruning and the first win-condition, while one move consists of the maxium possible distance.
+    """
+
+    def __init__(self, grid, game):
+        self.q = []
+        self.explored = []
+        self.game = game
+        self.q.append(Node(grid, "LUCA"))
+
+
+    def add_nodes(self, grid_moves, parent):
+        """
+            Creates new children nodes for grids not already in q or explored, and appends them to end of q
+        """
+        temp = []
+        for grid in grid_moves:
+            if self.duplicates(grid):
+                temp.append(grid)
+        for grid in temp:
+            self.q.append(Node(grid, parent))
+
+
+    def duplicates(self, grid):
+        """
+            Checks if grids already exist in q or explored
+        """
+
+        for node in self.explored:
+            if node.grid == grid:
+                return False
+
+        for node in self.q:
+            if node.grid == grid:
+                return False
+        return True
+
+    def search(self):
+        """
+            Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
+        """
+
+        parent = self.q.pop(0)
+        self.explored.append(parent)
+
+        if breadthfirst_algorithm.game_won_1(self.game, parent.grid):
+            win_path= breadthfirst_algorithm.winning_path_1(self.game, parent)
+            return win_path
+        else:
+            grid_moves = breadthfirst_algorithm.all_possible_max_moves(self.game, parent.grid)
+            self.add_nodes(grid_moves, parent)
+
+class Bfs_max_pre_win2():
     """
         Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
-        This version uses pre-pruning and the second win-condition
+        This version uses pre-pruning and the second win-condition,while one move consists of the maxium possible distance.
     """
 
     def __init__(self, grid, game):
@@ -112,18 +301,18 @@ class Bfs_win_2():
         parent = self.q.pop(0)
         self.explored.append(parent)
 
-        final_move = bfs_algorithms.game_won_2(self.game, parent.grid)
+        final_move = breadthfirst_algorithm.game_won_2(self.game, parent.grid)
         if final_move:
-            win_path = bfs_algorithms.winning_path_2(self.game, parent, final_move)
+            win_path = breadthfirst_algorithm.winning_path_2(self.game, parent, final_move)
             return win_path
         else:
-            grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
+            grid_moves = breadthfirst_algorithm.all_possible_max_moves(self.game, parent.grid)
             self.add_nodes(grid_moves, parent)
 
-class Bfs_post_1():
+class Bfs_max_post_win1():
     """
     Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
-    This version uses post-pruning and the first win condition
+    This version uses post-pruning and the first win condition, while one move consists of the maxium possible distance.
     """
     def __init__(self, grid, game):
         self.q = []
@@ -148,18 +337,18 @@ class Bfs_post_1():
         if self.duplicates(parent.grid):
             self.explored.append(parent)
 
-            if bfs_algorithms.game_won_1(self.game, parent.grid):
-                win_path= bfs_algorithms.winning_path_1(self.game, parent)
+            if breadthfirst_algorithm.game_won_1(self.game, parent.grid):
+                win_path= breadthfirst_algorithm.winning_path_1(self.game, parent)
                 return win_path
             else:
-                grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
+                grid_moves = breadthfirst_algorithm.all_possible_max_moves(self.game, parent.grid)
                 for grid in grid_moves:
                     self.q.append(Node(grid, parent))
 
-class Bfs_post_2():
+class Bfs_max_post_win2():
     """
-        Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
-        This version uses post_pruning and the second win-condition.
+    Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
+    This version uses post-pruning and the second win condition, while one move consists of the maxium possible distance.
     """
     def __init__(self, grid, game):
         self.q = []
@@ -169,7 +358,7 @@ class Bfs_post_2():
 
     def duplicates(self, grid):
         """
-            Checks if grid is already in  explored.
+            Checks if grid is already in q or explored
         """
         for node in self.explored:
             if node.grid == grid:
@@ -180,43 +369,70 @@ class Bfs_post_2():
         """
             Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
         """
-
         parent = self.q.pop(0)
-
-        if duplicates(parent):
+        if self.duplicates(parent.grid):
             self.explored.append(parent)
 
-            if bfs_algorithms.game_won_2(self.game, parent.grid):
-                win_path= bfs_algorithms.winning_path_2(self.game, parent)
+            final_move = breadthfirst_algorithm.game_won_2(self.game, parent.grid)
+            if final_move:
+                win_path = breadthfirst_algorithm.winning_path_2(self.game, parent, final_move)
                 return win_path
             else:
-                grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
+                grid_moves = breadthfirst_algorithm.all_possible_max_moves(self.game, parent.grid)
                 for grid in grid_moves:
                     self.q.append(Node(grid, parent))
 
-def Play():
-    gridsize = 6
-    csvfile = "boards/Rushhour6x6_1.csv"
 
-    game = structure.Game(csvfile, gridsize)
-    grid = game.grid
-    bfs = Bfs_win_1(grid, game)
-    gamewon = False
+class Play():
+    def __init__(game, gridsize, csvfile, max_step, win_condition, pre_pruning):
 
-    while not gamewon:
-        gamewon = bfs.search()
+        max_step = True
+        win_condition =
+        pre_pruning = True
 
-    print("moves made", len(gamewon))
-    save_plots.save_all_plots(gamewon)
-    list_of_moves = bfs_algorithms.moves_list(game, gamewon)
-    print(list_of_moves)
-    print(len(list_of_moves))
+        gridsize = gridsize
+        csvfile = csvfile
+        game = structurecopy.Game(csvfile, gridsize)
+        grid = game.grid
+
+        if max_step:
+            if win_condition == "path_free":
+                if pre_pruning:
+                    bfs = Bfs_max_pre_win_1(grid, game)
+                else:
+                    bfs = Bfs_max_post_win_1(grid, game)
+            elif win_condition == "one_blocker":
+                if pre_pruning:
+                    bfs = Bfs_max_pre_win_2(grid, game)
+                else:
+                    bfs = Bfs_max_post_win_2(grid, game)
+        else:
+            if win_condition == "path_free":
+                if pre_pruning:
+                    bfs = Bfs_single_pre_win_1(grid, game)
+                else:
+                    bfs = Bfs_single_post_win_1(grid, game)
+            elif win_condition == "one_blocker":
+                if pre_pruning:
+                    bfs = Bfs_single_pre_win_2(grid, game)
+                else:
+                    bfs = Bfs_single_post_win_2(grid, game)
+        gamewon = False
+        while not gamewon:
+            gamewon = bfs.search()
 
 
-if __name__ == "__main__":
+        list_of_moves = breadthfirst_algorithm.moves_list(game, gamewon)
 
-    start = time.time()
-    Play()
-    end = time.time()
 
-    print("time it took", end - start)
+        with open('output.csv', mode='w') as output_file:
+            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            output_writer.writerow(['car', ' move'])
+
+            for move in list_of_moves:
+                output_writer.writerow([move[0], int(move[1])])
+
+        self.moves = len(list_of_moves)
+
+    def __str__(self):
+        return self.moves
