@@ -224,7 +224,6 @@ class Car():
         """
         return self.id
 
-
 class Play():
     """
         This function solves the game and then returns in how many moves it
@@ -239,19 +238,45 @@ class Play():
 
         gamewon = False
         while not gamewon:
+            if algorithms.make_path_free(game):
+                gamewon = True
+                break
             algorithms.random_max_step_non_recurring(game)
-            algorithms.check_path_free(game)
-            gamewon = algorithms.win(game)
+
+        print(f"Done! It took {game.moves} moves to win the game")
+
+
+class Write_csv():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 6
+        csvfile = "gameboards/Rushhour6x6_1.csv"
+        game = Game(csvfile, gridsize)
+
+        gamewon = False
+        while not gamewon:
+            if algorithms.make_path_free(game):
+                gamewon = True
+                break
+            algorithms.random_max_step_non_recurring(game)
 
         print(f"Done! It took {game.moves} moves to win the game")
 
         # writing all moves in an output.csv file
-        # with open('output.csv', mode='w') as output_file:
-        #     output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        #     output_writer.writerow(['car', ' move'])
-        #
-        #     for move in game.list_moves:
-        #         output_writer.writerow([move[0], move[1]])
+        with open('output.csv', mode='w') as output_file:
+            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            output_writer.writerow(['car', ' move'])
+
+            for move in game.list_moves:
+                output_writer.writerow([move[0], move[1]])
+
+
+
 
 class Play_average_4MNW():
     """
@@ -919,6 +944,7 @@ class Save_frames():
 
         print(f"Done! It took {game.moves} moves to win the game")
 
+
 class Save_first_frame():
     """
         Solves the game and saves each frame of each move made. This function
@@ -934,6 +960,7 @@ class Save_first_frame():
         # save plot initial grid setup
         plt.figure()
         game.save_plot("game2_frame0.png")
+
 
 class Save_frames_buffer():
     """
@@ -1026,19 +1053,21 @@ if __name__ == "__main__":
     # Play()
     # Save_first_frame()
 
+    Write_csv()
+
     # average moves
-    Play_average_4MNC()
-    Play_average_4MNM()
-    Play_average_4MYW()
-    Play_average_5MYQ()
-    Play_average_6MYM()
-    Play_average_6MYC()
-    Play_average_6MYW()
-    Play_average_6MNM()
-    Play_average_6MNC()
-    Play_average_6MNW()
-    Play_average_6MYQ()
-    Play_average_5SNC_long()
-    Play_average_6SNM_long()
-    Play_average_6SNC_long()
-    Play_average_6SNW_long()
+    # Play_average_4MNC()
+    # Play_average_4MNM()
+    # Play_average_4MYW()
+    # Play_average_5MYQ()
+    # Play_average_6MYM()
+    # Play_average_6MYC()
+    # Play_average_6MYW()
+    # Play_average_6MNM()
+    # Play_average_6MNC()
+    # Play_average_6MNW()
+    # Play_average_6MYQ()
+    # Play_average_5SNC_long()
+    # Play_average_6SNM_long()
+    # Play_average_6SNC_long()
+    # Play_average_6SNW_long()
