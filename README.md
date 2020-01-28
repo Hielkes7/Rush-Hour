@@ -1,7 +1,7 @@
 # Mijn Project
 
 Hier staat een korte beschrijving van het probleem evt. met plaatje.
-![picture of the game Rush Hour](rush_hour.png)
+![picture of the game Rush Hour](pic_README/rush_hour.png)
 
 ## Aan de slag (Getting Started)
 
