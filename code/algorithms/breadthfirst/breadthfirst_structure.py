@@ -382,7 +382,6 @@ class Bfs_max_post_win2():
                 for grid in grid_moves:
                     self.q.append(Node(grid, parent))
 
-
 class Breadthfirst():
     def __init__(game, gridsize, csvfile, step_size, win_condition, pruning):
 
