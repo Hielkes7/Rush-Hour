@@ -63,70 +63,9 @@ def random_max_step(game):
         car = random.choice(game.cars)
         car_movable = game_functions.car_is_movable(game, car)
 
-<<<<<<< HEAD
     direction_car = direction(game, car)
     move_car(game, car, direction_car)
     return [car, car.x, car.y]
-=======
-
-    direction = move(game, car)
-    if direction == "y positive":
-        new_y = car.y
-
-        # check for border
-        while new_y + car.length < game.gridsize + 1:
-
-            # check if car can move up
-            if game.grid[car.x][new_y + car.length] == 0:
-                new_y += 1
-            else:
-                break
-        game_functions.update(game, car, car.x, new_y)
-        return car, car.x, new_y
-
-    elif direction == "y negative":
-        new_y = car.y
-
-        # check for border
-        while new_y > 0:
-
-            # check if car can move down
-            if game.grid[car.x][new_y -1] == 0:
-                new_y -= 1
-            else:
-                break
-        game_functions.update(game, car, car.x, new_y)
-        return car, car.x, new_y
-
-    elif direction == "x positive":
-        new_x = car.x
-
-        # check for border
-        while new_x + car.length < game.gridsize + 1:
-
-            # check if car can move right
-            if game.grid[new_x + car.length][car.y] == 0:
-                new_x += 1
-            else:
-                break
-        game_functions.update(game, car, new_x, car.y)
-        return car, new_x, car.y
-
-
-    else:
-        new_x = car.x
-
-        # check for border
-        while new_x > 0:
-
-            # check if car can move left
-            if game.grid[new_x - 1][car.y] == 0:
-                new_x -= 1
-            else:
-                break
-        game_functions.update(game, car, new_x, car.y)
-        return car, new_x, car.y
->>>>>>> f83a224bde57ae6045a7ca00b6b830862d821180
 
 def random_max_step_non_recurring(game):
     """
@@ -144,65 +83,8 @@ def random_max_step_non_recurring(game):
             car = random.choice(game.cars)
         car_movable = game_functions.car_is_movable(game, car)
 
-<<<<<<< HEAD
     direction_car = direction(game, car)
     move_car(game, car, direction_car)
-=======
-    direction = move(game, car)
-    if direction == "y positive":
-        new_y = car.y
-
-        # check for border
-        while new_y + car.length < game.gridsize + 1:
-
-            # check if car can move up
-            if game.grid[car.x][new_y + car.length] == 0:
-                new_y += 1
-
-            else:
-                break
-        game_functions.update(game, car, car.x, new_y)
-
-    elif direction == "y negative":
-        new_y = car.y
-
-        # check for border
-        while new_y > 0:
-
-            # check if car can move down
-            if game.grid[car.x][new_y -1] == 0:
-                new_y -= 1
-            else:
-                break
-        game_functions.update(game, car, car.x, new_y)
-
-    elif direction == "x positive":
-        new_x = car.x
-
-        # check for border
-        while new_x + car.length < game.gridsize + 1:
-
-            # check if car can move right
-            if game.grid[new_x + car.length][car.y] == 0:
-                new_x += 1
-            else:
-                break
-        game_functions.update(game, car, new_x, car.y)
-
-    elif direction == "x negative":
-        new_x = car.x
-
-        # check for border
-        while new_x > 0:
-
-            # check if car can move left
-            if game.grid[new_x - 1][car.y] == 0:
-                new_x -= 1
-            else:
-                break
-        game_functions.update(game, car, new_x, car.y)
-
->>>>>>> f83a224bde57ae6045a7ca00b6b830862d821180
     game.previous_car_id = car.id
     return [car, car.x, car.y]
 
@@ -412,7 +294,6 @@ def queue_algorithm(game):
 
     random_max_step_non_recurring(game)
     return False
-<<<<<<< HEAD
 
 def direction(game, car):
 
@@ -482,5 +363,3 @@ def car_is_movable(game, car):
         if movable_left(game, car) or movable_right(game, car):
             return True
     return False
-=======
->>>>>>> f83a224bde57ae6045a7ca00b6b830862d821180
