@@ -1,5 +1,5 @@
 import csv, os, random, statistics, time, copy
-import code.algorithms.algorithms
+from code.algorithms import algorithms
 import code.functions.gamefunctions
 import code.functions.functions
 import matplotlib.pyplot as plt
@@ -203,10 +203,6 @@ class Play():
         if animation:
             functions.plot(ax, game.grid)
 
-        print()
-        print(f"Done! It took {game.moves} moves to win the game.")
-        print(f"All moves have been writen in a csv file called 'output.csv' in the location: Rush-Hour/results/.")
-
         # writing all moves in an output.csv file
         with open('output.csv', mode='w') as output_file:
             output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -215,6 +211,6 @@ class Play():
             for move in game.list_moves:
                 output_writer.writerow([move[0], move[1]])
 
-
-if __name__ == "__main__":
-    Play()
+        self.moves = game.moves
+    def __str__(self):
+        return str(self.moves)

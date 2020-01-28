@@ -5,30 +5,15 @@ import code.algorithms.breadthfirst.breadthfirst_structure
 def main(algorithm):
 
     # change to other csv file when other game should be checked
-    csvfile = "Rushhour6x6_1.csv"
+    csv_file = "gameboards/Rushhour6x6_1.csv"
 
     # change gridsize if other csv file should be runned
-    gridsize = 6
+    grid_size = 6
 
     # algorithm options that can be runned
 
-    # backtrack algorithm
-    if algorithm == 'A':
-
-        #starts backtrack algorithm
-        backtrack_algorithm = Backtrack(csvfile, gridsize)
-
-        # arg 1: amount of dictionary games, arg 2: amount of last grids added
-        backtrack_algorithm.add_final_grids(100, 10)
-
-        # arg: amount of random games played
-        print(backtrack_algorithm.random_moves_backtrack(100))
-
-        # the average score of all moves is printed
-        # the steps of the last game that is played are saved in output.csv
-
     # random algorithms
-    if algorithm == 'B':
+    if algorithm == 'A':
 
         # step size can be "single" or "max"
         step_size = "max"
@@ -37,29 +22,32 @@ def main(algorithm):
         non_recurring = True
 
         # win condition can be "win", "check_path_free" or "make_path_free"
-        win_codition = "make_path_free"
+        win_condition = "make_path_free"
 
         # animation can be True or False
         animation = False
+        moves = Play(csv_file, grid_size, step_size, non_recurring, win_condition, animation)
+        print(f"Amount of moves: {moves}")
+        print("the steps of the game that is played are saved in output.csv")
 
-        Play(csvfile, gridsize, step_size, non_recurring, win_condition, animation)
+    # backtrack algorithm
+    if algorithm == 'B':
 
-        # the steps of the game that is played are saved in output.csv
+        #starts backtrack algorithm
+        backtrack_algorithm = Backtrack(csv_file, grid_size)
 
+        # arg 1: amount of dictionary games, arg 2: amount of last grids added
+        backtrack_algorithm.add_final_grids(100, 10)
 
+        # arg: amount of random games played
+        average = backtrack_algorithm.random_moves_backtrack(100)
+        print(f"the average score of all moves is: {average}")
 
+        print("The steps of the last game that is played are saved in output.csv")
 
-
-
-
-
-
-
-
-
-
-
-
+    # breadthfirst algorithm
+    if algorithm == 'C':
+        pass
 
 
 if __name__ == "__main__":
