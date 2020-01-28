@@ -1,6 +1,6 @@
 # Mijn Project
 
-in dit project bekijken een aantal manieren voor verschillende configuraties van een puzzelspel genaamd "Rush-Hour".
+In dit project bekijken een aantal manieren voor het oplossen van verschillende configuraties van een puzzelspel genaamd "Rush-Hour".
 
 Rush-Hour bestaat uit een 2D grid waarop auto's staan die horizontaal of verticaal kunnen shuiven.
 Het doel van Rush-hour is om de rode auto naar de uitgang te navigeren doormiddel van het wegschuiven van alle
