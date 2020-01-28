@@ -1,4 +1,4 @@
-import csv, os, random, statistics, xlsxwriter, algorithms, time
+import csv, os, random, statistics, algorithms, time
 import matplotlib.pyplot as plt
 
 class Game():
@@ -256,10 +256,11 @@ class Play():
 
         gamewon = False
         while not gamewon:
+            algorithms.random_max_step_non_recurring(game)
             if algorithms.make_path_free(game):
                 gamewon = True
                 break
-            algorithms.queue_algorithm(game)
+            # algorithms.queue_algorithm(game)
 
         print(f"Done! It took {game.moves} moves to win the game")
 
