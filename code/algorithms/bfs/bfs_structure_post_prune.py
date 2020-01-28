@@ -9,8 +9,6 @@ class Node():
         self.grid = grid
         self.parent = parent
 
-    # def __eq__(self, other)
-    #     if
 
 
 class Bfs():
@@ -24,48 +22,50 @@ class Bfs():
         self.q.append(Node(grid, "LUCA"))
 
 
-    def add_nodes(self, grid_moves, parent):
-        """
+    # def add_nodes(self, grid_moves, parent):
+    #     """
+    #
+    #     """
+    #     # temp = []
+    #     # for grid in grid_moves:
+    #     #     if self.duplicates(grid):
+    #     #         temp.append(grid)
+    #     for grid in moves:
+    #         self.q.append(Node(grid, parent))
 
-        """
-        temp = []
-        for grid in grid_moves:
-            if self.duplicates(grid):
-                temp.append(grid)
-        for grid in temp:
-            self.q.append(Node(grid, parent))
 
-
-    def duplicates(self, grid):
-
-        for node in self.explored:
-            if node.grid == grid:
-                return False
-
-        for node in self.q:
-            if node.grid == grid:
-                return False
-        return True
+    # def duplicates(self, grid):
+    #
+    #     for node in self.explored:
+    #         if node.grid == grid:
+    #             return False
+    #
+    #     for node in self.q:
+    #         if node.grid == grid:
+    #             return False
+    #     return True
 
     def search(self):
 
         parent = self.q.pop(0)
-        self.explored.append(parent)
+        if not any(node.grid == parent.grid for node in self.explored):
+            self.explored.append(parent)
 
-        if bfs_algorithms.game_won(self.game, parent.grid):
-            print()
-            print(bfs_algorithms.print_grid_terminal(parent.grid))
-            print("you won")
-            print()
-            win_path= bfs_algorithms.winning_path(self.game, parent)
-            return win_path
-        else:
-            grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
-            self.add_nodes(grid_moves, parent)
+            if bfs_algorithms.game_won(self.game, parent.grid):
+                print()
+                print(bfs_algorithms.print_grid_terminal(parent.grid))
+                print("you won")
+                print()
+                win_path= bfs_algorithms.winning_path(self.game, parent)
+                return win_path
+            else:
+                grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
+                for grid in grid_moves:
+                    self.q.append(Node(grid, parent))
 
 def Play():
     gridsize = 6
-    csvfile = "Rushhour6x6_1.csv"
+    csvfile = "Rushhour6x6_2.csv"
     game = structurecopy.Game(csvfile, gridsize)
     grid = game.grid
     bfs = Bfs(grid, game)
