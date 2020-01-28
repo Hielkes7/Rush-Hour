@@ -3,6 +3,7 @@ import algorithms
 import functions
 import random
 import sys
+import gamefunctions
 
 class Backtrack():
     """
@@ -45,7 +46,7 @@ class Backtrack():
                 game_moves.append(current_move)
 
                 # checks if the current gamestate is the winning gamestate
-                gamewon = algorithms.win(game)
+                gamewon = gamefunctions.win(game)
 
                 # if game is not won, add the current grid to the gridlist
                 if gamewon is False:
@@ -58,11 +59,13 @@ class Backtrack():
                 move_list = game_moves[-amount_of_steps+i:]
                 grid = game_grids[list_length - i]
 
-                if grid in self.grid_dictionary.keys():
+                if grid in self.grid_dictionary:
                     if len(self.grid_dictionary[grid]) > (i + 1):
                         self.grid_dictionary[grid] = move_list
                 else:
                     self.grid_dictionary[grid] = move_list
+        # for key, value in self.grid_dictionary.items():
+        #     print(key, value)
 
 
     def random_moves_backtrack(self, amount_of_games):
@@ -74,25 +77,34 @@ class Backtrack():
             game = Game(self.csvfile, self.gridsize)
             gamewon = False
             while not gamewon:
-                print(algorithms.random_max_step_non_recurring(game))
+                step = algorithms.random_max_step_non_recurring(game)
+                car_step = step[0]
+                x_step = step[1]
+                y_step = step[2]
+                print(car_step, x_step, y_step)
+                print
                 grid_string = functions.string(game.grid)
-                if grid_string in self.grid_dictionary.keys():
+                if grid_string in self.grid_dictionary:
                         moves = self.grid_dictionary[grid_string]
+                        print(moves)
                         amount_of_moves = len(self.grid_dictionary[grid_string])
+                        print(self.grid_dictionary[grid_string])
+                        print(amount_of_moves)
                         print("found a path!")
                         # print(f"moves: {moves}")
-                        while amount_of_moves > 0:
-                            move = moves[amount_of_moves-1]
-                            print(f"current move: {move}")
+                        for i in range(amount_of_moves):
+                            move = moves[i]
+                            # print(f"current move: {move}")
                             car = move[0]
                             x = move[1]
                             y = move[2]
-                            algorithms.update(game, car, x, y)
+                            print(f"current move: {car}, {x}, {y}")
+                            gamefunctions.update(game, car, x, y)
                             amount_of_moves -= 1
                         gamewon = True
                 else:
                     algorithms.check_path_free(game)
-                    gamewon = algorithms.win(game)
+                    gamewon = gamefunctions.win(game)
             print(f"done! Game was won in {game.moves} moves")
 
 
