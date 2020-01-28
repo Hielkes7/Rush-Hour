@@ -66,7 +66,7 @@ Er zijn twee verschillende wincondities
   - "path_free" kijkt of het pad naar de uitgang vrij is
   - "one_blocker" komt 1 stap eerder namelijk wanneer er enkel 1 auto is die de vrije doorgang blokkeert die genoeg ruimte heeft om weggeschoven te worden.
 
-      Ondanks dat de tweede win conditie meer rekenkracht per node vergt, vindt het de oplossing gemiddeld sneller omdat het 1 niveau eerder klaar is.
+Ondanks dat de tweede win conditie meer rekenkracht per node vergt, vindt het de oplossing gemiddeld sneller omdat het 1 niveau eerder klaar is.
 
 Er zijn twee prune mogelijkheden
 
