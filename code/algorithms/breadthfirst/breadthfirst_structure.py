@@ -4,16 +4,18 @@ import sys, timeit, time, csv
 
 class Node():
     """
-    Creates a node item.
+        Creates a node item.
     """
+
     def __init__(self, grid, parent):
         self.grid = grid
         self.parent = parent
 
 class Bfs_max_pre_win1():
     """
-    Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
-    this version uses pre-pruning and the first win-condition, while one move consists of the maxium possible distance.
+        Creates a tree containing nodes that can traverse all possible board
+        states for a single puzzle. This version uses pre-pruning and the first
+        win-condition, while one move consists of the maxium possible distance.
     """
 
     def __init__(self, grid, game):
@@ -25,8 +27,10 @@ class Bfs_max_pre_win1():
 
     def add_nodes(self, grid_moves, parent):
         """
-            Creates new children nodes for grids not already in q or explored, and appends them to end of q
+            Creates new children nodes for grids not already in q or explored,
+            and appends them to end of q.
         """
+
         temp = []
         for grid in grid_moves:
             if self.duplicates(grid):
@@ -37,7 +41,7 @@ class Bfs_max_pre_win1():
 
     def duplicates(self, grid):
         """
-            Checks if grids already exist in q or explored
+            Checks if grids already exist in q or explored.
         """
 
         for node in self.explored:
@@ -51,7 +55,9 @@ class Bfs_max_pre_win1():
 
     def search(self):
         """
-            Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
+            Goes through q until node with winning configuration is found,
+            after inspection nodes are removed from the list and children are
+            added to end of q.
         """
 
         parent = self.q.pop(0)
@@ -66,8 +72,9 @@ class Bfs_max_pre_win1():
 
 class Bfs_max_pre_win2():
     """
-        Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
-        This version uses pre-pruning and the second win-condition,while one move consists of the maxium possible distance.
+        Creates a tree containing nodes that can traverse all possible board
+        states for a single puzzle. This version uses pre-pruning and the second
+        win-condition,while one move consists of the maxium possible distance.
     """
 
     def __init__(self, grid, game):
@@ -79,8 +86,10 @@ class Bfs_max_pre_win2():
 
     def add_nodes(self, grid_moves, parent):
         """
-            Creates new children nodes for grids not already in q or explored, and appends them to end of q.
+            Creates new children nodes for grids not already in q or explored,
+            and appends them to end of q.
         """
+
         temp = []
         for grid in grid_moves:
             if self.duplicates(grid):
@@ -91,7 +100,7 @@ class Bfs_max_pre_win2():
 
     def duplicates(self, grid):
         """
-            Checks if grid is already in q or explored
+            Checks if grid is already in q or explored.
         """
 
         for node in self.explored:
@@ -105,7 +114,9 @@ class Bfs_max_pre_win2():
 
     def search(self):
         """
-            Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
+            Goes through q until node with winning configuration is found,
+            after inspection nodes are removed from the list and children are
+            added to end of q.
         """
 
         parent = self.q.pop(0)
@@ -121,9 +132,11 @@ class Bfs_max_pre_win2():
 
 class Bfs_max_post_win1():
     """
-    Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
-    This version uses post-pruning and the first win condition, while one move consists of the maxium possible distance.
+        Creates a tree containing nodes that can traverse all possible board
+        states for a single puzzle. This version uses post-pruning and the first
+        win condition, while one move consists of the maxium possible distance.
     """
+
     def __init__(self, grid, game):
         self.q = []
         self.explored = []
@@ -134,6 +147,7 @@ class Bfs_max_post_win1():
         """
             Checks if grid is already in q or explored
         """
+
         for node in self.explored:
             if node.grid == grid:
                 return False
@@ -141,8 +155,11 @@ class Bfs_max_post_win1():
 
     def search(self):
         """
-            Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
+            Goes through q until node with winning configuration is found,
+            after inspection nodes are removed from the list and children are
+            added to end of q.
         """
+
         parent = self.q.pop(0)
         if self.duplicates(parent.grid):
             self.explored.append(parent)
@@ -157,8 +174,9 @@ class Bfs_max_post_win1():
 
 class Bfs_max_post_win2():
     """
-    Creates a tree containing nodes that can traverse all possible board states for a single puzzle.
-    This version uses post-pruning and the second win condition, while one move consists of the maxium possible distance.
+        Creates a tree containing nodes that can traverse all possible board
+        states for a single puzzle. This version uses post-pruning and the second
+        win condition, while one move consists of the maxium possible distance.
     """
     def __init__(self, grid, game):
         self.q = []
@@ -177,7 +195,9 @@ class Bfs_max_post_win2():
 
     def search(self):
         """
-            Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
+            Goes through q until node with winning configuration is found,
+            after inspection nodes are removed from the list and children are
+            added to end of q.
         """
         parent = self.q.pop(0)
         if self.duplicates(parent.grid):
@@ -220,7 +240,8 @@ class Breadthfirst():
 
 
         with open('output.csv', mode='w') as output_file:
-            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            output_writer = csv.writer(output_file, delimiter=',', quotechar='"',
+                                       quoting=csv.QUOTE_MINIMAL)
             output_writer.writerow(['car', ' move'])
 
             for move in list_of_moves:

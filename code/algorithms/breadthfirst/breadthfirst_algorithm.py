@@ -3,7 +3,7 @@ import code.algorithms.breadthfirst.breadthfirst_structure
 
 def all_possible_max_moves(game, grid):
     """
-        Returns a list of all the possible single step moves of a board state
+        Returns a list of all the possible single step moves of a board state.
     """
 
     cars = game.cars
@@ -147,7 +147,7 @@ def movable_down_max_bfs(game, grid, car):
 
 def update_bfs(game, grid, car, x, y, move):
     """
-        Returns grid with updated configuration after the move
+        Returns grid with updated configuration after the move.
     """
     new_grid = copy.deepcopy(grid)
 
@@ -174,7 +174,7 @@ def update_bfs(game, grid, car, x, y, move):
 
 def game_won_1(game, grid):
     """
-        Returns true if the spots in front of the red car are free
+        Returns true if the spots in front of the red car are free.
     """
     y = game.redcar.y
     for i in range(game.gridsize + 1):
@@ -185,8 +185,9 @@ def game_won_1(game, grid):
 
 def game_won_2(game, grid):
     """
-        Returns true if there is only one removable car blocking the path of the red car
+        Returns true if there is only one removable car blocking the path of the red car.
     """
+
     y = game.redcar.y
     blocking_cars = []
 
@@ -248,8 +249,10 @@ def game_won_2(game, grid):
 
 def winning_path_1(game, node):
     """
-        Returns a list containing the traversed grids of the fastest path to the exit for gamewon_1.
+        Returns a list containing the traversed grids of the fastest path to
+        the exit for gamewon_1.
     """
+
     node = node
     moves_list = []
 
@@ -262,8 +265,10 @@ def winning_path_1(game, node):
 
 def winning_path_2(game, node, final_grid):
     """
-        Returns a list containing the traversed grids of the fastest path to the exit for gamewon_2.
+        Returns a list containing the traversed grids of the fastest path to
+        the exit for gamewon_2.
     """
+
     node = node
     moves_list = []
     moves_list.append(final_grid)
@@ -278,8 +283,10 @@ def winning_path_2(game, node, final_grid):
 
 def moves_list(game, win_path):
     """
-        Uses a list of all traversed board configurations to return a list of all moves used to get to the fastest exit.
+        Uses a list of all traversed board configurations to return a list of
+        all moves used to get to the fastest exit.
     """
+
     moves_list = []
 
     # loops over all grids in win_path except for the last
