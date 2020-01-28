@@ -1,15 +1,37 @@
-# Rush-Hour
+# Mijn Project
 
-## Monday 06-01-2020
--
+Hier staat een korte beschrijving van het probleem evt. met plaatje.
+![picture of the game Rush Hour](rush_hour.jpg)
 
-## Tuesday 07-01-2020
-Hiele: Made a program which translates a grid to a heatmap for visualization. A struggle is the different colors, they are to similar to distinguish car from each other.
-Liz: Made a program which reads the information from the csv file about the location of the cars and places them into a grid
-Coen: Working on a program which can move a car
+## Aan de slag (Getting Started)
 
-## Wednesday 08-01-2020
-Hiele: Dropped the heatmap and we now use matplotlib to visualize the grid. We didn't find a way to cleverly assign different colors to each car so I hard coded it and picked the colors for each car my self, 25 in total.
+### Vereisten (Prerequisites)
 
-## Thursday 09-01-2020
-Hiele:
+Deze codebase is volledig geschreven in [Python3.6.3](https://www.python.org/downloads/). In requirements.txt staan alle benodigde packages om de code succesvol te draaien. Deze zijn gemakkelijk te installeren via pip dmv. de volgende instructie:
+
+```
+pip install -r requirements.txt
+```
+
+### Structuur (Structure)
+
+Alle Python scripts staan in de folder Code. In de map Data zitten alle input waardes en in de map resultaten worden alle resultaten opgeslagen door de code.
+
+### Test (Testing)
+
+Om de code te draaien met de standaardconfiguratie (bv. brute-force en voorbeeld.csv) gebruik de instructie:
+
+```
+python main.py
+```
+
+## Auteurs (Authors)
+
+* Liz Mooij
+* Coen Prins
+* Hiele Wilkes
+
+## Dankwoord (Acknowledgments)
+
+* StackOverflow
+* minor programmeren van de UvA

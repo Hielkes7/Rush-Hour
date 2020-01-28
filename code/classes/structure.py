@@ -95,11 +95,11 @@ class Play():
     def __init__(self, csvfile, grid_size, step_size, non_recurring, win_condition, animation):
         """
             csvfile: Rushhour6x6_1, Rushhour6x6_2, ...
-            grid_size = 6, 9, 12
-            step_size = single, max
-            non_recurring = True, False
-            win_condition = win, check_path_free, make_path_free
-            animation = True, False
+            grid_size: 6, 9, 12
+            step_size: single, max
+            non_recurring: True, False
+            win_condition: win, check_path_free, make_path_free
+            animation: True, False
         """
         game = Game(csvfile, grid_size)
 
@@ -202,10 +202,6 @@ class Play():
         if animation:
             functions.plot(ax, game.grid)
 
-        print()
-        print(f"Done! It took {game.moves} moves to win the game.")
-        print(f"All moves have been writen in a csv file called 'output.csv' in the location: Rush-Hour/results/.")
-
         # writing all moves in an output.csv file
         with open('output.csv', mode='w') as output_file:
             output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -214,6 +210,7 @@ class Play():
             for move in game.list_moves:
                 output_writer.writerow([move[0], move[1]])
 
+        return game.moves
 
 if __name__ == "__main__":
     Play()
