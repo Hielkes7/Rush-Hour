@@ -1,6 +1,6 @@
 from code.algorithms.backtrack import Backtrack
 from code.classes.structure import Play
-from code.algorithms.breadthfirst.breadthfirst_structure import breadthfirst
+from code.algorithms.breadthfirst.breadthfirst_structure import Breadthfirst
 
 def main(algorithm):
 
