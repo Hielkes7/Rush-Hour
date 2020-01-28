@@ -397,19 +397,19 @@ class Breadthfirst():
                     bfs = Bfs_max_pre_win_1(grid, game)
                 else:
                     bfs = Bfs_max_post_win_1(grid, game)
-            elif win_condition == "one_blocker":
-                if pruning == "post":
+            else:
+                if pruning == "pre":
                     bfs = Bfs_max_pre_win_2(grid, game)
                 else:
                     bfs = Bfs_max_post_win_2(grid, game)
-        elif step_size == "single":
+        else:
             if win_condition == "path_free":
                 if pruning == "pre":
                     bfs = Bfs_single_pre_win_1(grid, game)
                 else:
                     bfs = Bfs_single_post_win_1(grid, game)
-            elif win_condition == "one_blocker":
-                if pruning == "post":
+            else:
+                if pruning == "pre":
                     bfs = Bfs_single_pre_win_2(grid, game)
                 else:
                     bfs = Bfs_single_post_win_2(grid, game)
