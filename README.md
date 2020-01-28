@@ -1,8 +1,9 @@
-# Mijn Project
+# Rush Hour
 
 In dit project bekijken een aantal manieren voor het oplossen van verschillende configuraties van een puzzelspel genaamd "Rush-Hour".
 
 Rush-Hour bestaat uit een 2D grid waarop auto's staan die horizontaal of verticaal kunnen schuiven.
+
 Het doel van Rush-hour is om de rode auto naar de uitgang te navigeren doormiddel van het wegschuiven van alle andere auto's die de weg versperren.
 
 Hoewel Rush-Hour berust op een simpel spelprincipes, kunnen bordconfiguraties al snel erg ingewikkeld worden om op te lossen. Voor dit project zijn 7 verschillende bord configuraties verstrekt die allemaal met behulp van verscheidene algoritmes zijn opgelost.
@@ -58,9 +59,6 @@ Het backtrack algoritme runt een bepaald aantal games. Dit aantal is zelf aan te
 * Aantal keer uitvoeren van het random algoritme voor het vergelijken met de grid dictionary.
 
 #### C: Breadthfirst algoritme
-
-Het breadthfirst algoritme (BFS) vindt de oplossing van een puzzelconfiguratie doormiddel van het creeeren van een complete stamboom van nodes waarin elke mogelijke move configuratie wordt doorlopen tot de oplossing gevonden is.
-
 Het breadthfirst algoritme (BFS) vindt de oplossing van een game doormiddel van het berekenen van alle mogelijke "states" van het spelbord. Een "state" is een bepaalde combinatie van hoe de autootjes op het bord staan. Het algoritme blijft nieuwe states berekenen tot dat er een oplossing gevonden is. Deze oplossing is altijd de snelste oplossing omdat het algoritme vanaf de begin opstelling begint met states berekenen. Het nadeel van dit algoritme is dat het erg veel geheugen en rekenkracht vraagt om te runnen. Hierdoor kunnen enkel de eerste 4 puzzelconfiguraties opgelost worden, binnen een praktische tijdsduur.
 
 

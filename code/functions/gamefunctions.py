@@ -1,7 +1,3 @@
-"""
-    This file contains functions that supporting the algorithms and games that can be played.
-"""
-
 import random
 
 def win(game):
