@@ -1,6 +1,6 @@
 import code.algorithms.breadthfirst.save_plots
 import code.algorithms.breadthfirst.breadthfirst_algorithm
-import code.classes.structure
+from code.classes.structure import Game
 import sys, timeit, time
 
 class Node():
@@ -383,37 +383,34 @@ class Bfs_max_post_win2():
                     self.q.append(Node(grid, parent))
 
 
-class Play():
-    def __init__(game, gridsize, csvfile, max_step, win_condition, pre_pruning):
+class Breadthfirst():
+    def __init__(game, gridsize, csvfile, step_size, win_condition, pruning):
 
-        max_step = True
-        win_condition =
-        pre_pruning = True
 
         gridsize = gridsize
         csvfile = csvfile
-        game = structurecopy.Game(csvfile, gridsize)
+        game = Game(csvfile, gridsize)
         grid = game.grid
 
-        if max_step:
+        if step_size == "max":
             if win_condition == "path_free":
-                if pre_pruning:
+                if pruning == "pre":
                     bfs = Bfs_max_pre_win_1(grid, game)
                 else:
                     bfs = Bfs_max_post_win_1(grid, game)
             elif win_condition == "one_blocker":
-                if pre_pruning:
+                if pruning == "post":
                     bfs = Bfs_max_pre_win_2(grid, game)
                 else:
                     bfs = Bfs_max_post_win_2(grid, game)
-        else:
+        elif step_size == "single":
             if win_condition == "path_free":
-                if pre_pruning:
+                if pruning == "pre":
                     bfs = Bfs_single_pre_win_1(grid, game)
                 else:
                     bfs = Bfs_single_post_win_1(grid, game)
             elif win_condition == "one_blocker":
-                if pre_pruning:
+                if pruning == "post":
                     bfs = Bfs_single_pre_win_2(grid, game)
                 else:
                     bfs = Bfs_single_post_win_2(grid, game)
