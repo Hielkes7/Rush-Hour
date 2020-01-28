@@ -212,5 +212,6 @@ class Play():
                 output_writer.writerow([move[0], move[1]])
 
         self.moves = game.moves
+
     def __str__(self):
         return str(self.moves)
