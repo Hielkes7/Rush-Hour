@@ -1,6 +1,16 @@
 # Mijn Project
 
-Hier staat een korte beschrijving van het probleem evt. met plaatje.
+in dit project berekent oplossingen voor verschillende configuraties van een puzzelspel genaamd "Rush-Hour"
+
+Rush-Hour bestaat uit een 2D grid waarop auto's staan die ofwel op & neer ofwel links & rechts kunnen shuiven.
+Het doel van Rush-hour is om de rode auto naar de exit te navigeren doormiddel van het wegschuiven van alle
+andere auto's die de weg versperren.
+
+Hoewel Rush-Hour berust op een simpel spelprincipes, kunnen bordconfiguraties al te ingewikkeld worden om gemakkelijk op te lossen.
+Ook is er momenteel nog geen algemene heuristiek ontwikkeld die het oplossen van elke mogelijke individuele rush hour puzzel vergemakkelijkt.
+
+Voor dit project zijn 7 verschillende bord configuraties verstrekt die allemaal met behulp van verscheidene algoritmes zijn opgelost.
+
 ![picture of the game Rush Hour](rush_hour.jpg)
 
 ## Aan de slag (Getting Started)
@@ -27,9 +37,6 @@ python main.py
 
 In main.py kunnen er een aantal aanpassingen gedaan worden om verschillende algoritmes te testen:
 
-#### State space
-Een NxN grid bestaat uit 2N lanen, N horizontaal en N verticaal. Elke laan heeft een eigen state space. De totale state space van de hele grid is het product van alle state spaces van de lanen. Wanneer we de state space, van een horizontale lijn, bepalen kijken we alleen naar de horizontale auto's en niet naar de verticale auto's. Visa versa voor de verticale lanen. Zodra de state spaces van deze lanen bepaald zijn hoeft er alleen nog maar geteld te worden per grid hoeveel van welke soort lanen er zijn. In het "state_space.py" bestand staat per laan vernoemd wat de bijbehorende state space is. De functie in dat bestand berekent de state space van een grid. Er moet handmatig ingevuld welke soorten lanen er aanwezig zijn in een bepaalde grid.
-
 #### A: Random algoritmes
 Bij random algoritmes wordt het gameboard door middel van random steps opgelost. Dit kan op een aantal verschillende manieren.  
 * Allereerst kunnen alle auto's random een enkele stap doen ("single") of een maximale stap doen ("max").
@@ -46,6 +53,9 @@ Het backtrack algoritme runt een bepaald aantal games. Dit aantal is zelf aan te
 
 #### C: Breadthfirst algoritme
 
+
+
+
 #### Andere waarden
 
 ## Auteurs (Authors)
@@ -58,3 +68,4 @@ Het backtrack algoritme runt een bepaald aantal games. Dit aantal is zelf aan te
 
 * StackOverflow
 * minor programmeren van de UvA
+* Our supervisors Nigel van Herwijnen & Reitze Jansen
