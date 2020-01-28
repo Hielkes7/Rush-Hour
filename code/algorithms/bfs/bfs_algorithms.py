@@ -283,7 +283,7 @@ def update_bfs(game, grid, car, x, y, move):
             new_grid[x + i + move][y] = car.id
     return new_grid
 
-def game_won(game, grid):
+def game_won_1(game, grid):
     """
         Returns true if the spots in front of the red car are free
     """
@@ -349,18 +349,33 @@ def game_won_2(game, grid):
             move_down = False
             break
 
-    if move_up or move_down:
-        return True
+    # if move is possible return the corresponding grid
+    if move_up:
+        return movable_up_max_bfs(game, grid, blocking_car)
+    if move_down:
+        return movable_down_max_bfs(game,grid, blocking_car)
     else:
         return False
 
-
-def winning_path(game, node):
+def winning_path(game, node, final_grid):
     """
-        Returns a list containing the traversed grids of the fastest path to the exit.
+        Returns a list containing the traversed grids of the fastest path to the exit for gamewon_1.
     """
     node = node
     moves_list = []
+
+    while node.parent != "LUCA":
+        moves_list.insert(0, node.grid)
+        node = node.parent
+    moves_list.insert(0, node.grid)
+
+def winning_path_2(game, node, final_grid):
+    """
+        Returns a list containing the traversed grids of the fastest path to the exit for gamewon_2.
+    """
+    node = node
+    moves_list = []
+    moves_list.append(final_grid)
     while node.parent != "LUCA":
         moves_list.insert(0, node.grid)
         node = node.parent
@@ -368,6 +383,7 @@ def winning_path(game, node):
 
     return moves_list
 
+    return moves_list
 
 def moves_list(game, win_path):
     """
@@ -419,9 +435,12 @@ def moves_list(game, win_path):
                     old_x.append(x)
                 if next_grid[x][y] == move_car.id:
                     new_x.append(x)
+
             movement = (sum(new_x) - sum(old_x))/len(new_x)
             moves_list.append([move_car.id, movement])
 
+    grid = win_path[-1]
+    print_grid_terminal(grid)
     red_car = game.redcar
     y = red_car.y
     min_move = red_car.length
@@ -433,6 +452,8 @@ def moves_list(game, win_path):
                 break
     return moves_list
 
+
+
 def print_grid_terminal(grid):
     """
         Prints the grid in the terminal
@@ -441,3 +462,17 @@ def print_grid_terminal(grid):
         for x in range(len(grid)):
             print(grid[y][x], " ", end="")
         print()
+
+def excelwriter(list, string):
+    """
+        Writes list of data into an excel sheet
+    """
+
+    workbook = xlsxwriter.Workbook(string)
+    sheet = workbook.add_worksheet()
+
+    # declare data
+    for item in range(len(list)):
+        sheet.write(item, 0, list[item])
+
+    workbook.close()
