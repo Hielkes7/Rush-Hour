@@ -207,7 +207,7 @@ class Play():
         print(f"All moves have been writen in a csv file called 'output.csv' in the location: Rush-Hour/results/.")
 
         # writing all moves in an output.csv file
-        with open('../../results/output.csv', mode='w') as output_file:
+        with open('output.csv', mode='w') as output_file:
             output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             output_writer.writerow(['car', ' move'])
 
