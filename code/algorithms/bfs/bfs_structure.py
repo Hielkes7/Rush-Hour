@@ -50,14 +50,14 @@ class Bfs_win_1():
 
     def search(self):
         """
-                Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
+            Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
         """
 
         parent = self.q.pop(0)
         self.explored.append(parent)
 
-        if bfs_algorithms.game_won(self.game, parent.grid):
-            win_path= bfs_algorithms.winning_path(self.game, parent)
+        if bfs_algorithms.game_won_1(self.game, parent.grid):
+            win_path= bfs_algorithms.winning_path_1(self.game, parent)
             return win_path
         else:
             grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
@@ -130,7 +130,9 @@ class Bfs_post_1():
         self.q.append(Node(grid, "LUCA"))
 
     def duplicates(self, grid):
-
+        """
+            Checks if grid is already in q or explored
+        """
         for node in self.explored:
             if node.grid == grid:
                 return False
@@ -141,12 +143,11 @@ class Bfs_post_1():
             Goes through q until node with winning configuration is found, after inspection nodes are removed from the list and children are added to end of q.
         """
         parent = self.q.pop(0)
-
-        if duplicates(parent):
+        if self.duplicates(parent.grid):
             self.explored.append(parent)
 
-            if bfs_algorithms.game_won(self.game, parent.grid):
-                win_path= bfs_algorithms.winning_path(self.game, parent)
+            if bfs_algorithms.game_won_1(self.game, parent.grid):
+                win_path= bfs_algorithms.winning_path_1(self.game, parent)
                 return win_path
             else:
                 grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
@@ -184,7 +185,7 @@ class Bfs_post_2():
             self.explored.append(parent)
 
             if bfs_algorithms.game_won_2(self.game, parent.grid):
-                win_path= bfs_algorithms.winning_path(self.game, parent)
+                win_path= bfs_algorithms.winning_path_2(self.game, parent)
                 return win_path
             else:
                 grid_moves = bfs_algorithms.all_possible_max_moves(self.game, parent.grid)
@@ -193,10 +194,11 @@ class Bfs_post_2():
 
 def Play():
     gridsize = 6
-    csvfile = "Rushhour6x6_1.csv"
+    csvfile = "boards/Rushhour6x6_1.csv"
+
     game = structurecopy.Game(csvfile, gridsize)
     grid = game.grid
-    bfs = Bfs_win_2(grid, game)
+    bfs = Bfs_win_1(grid, game)
     gamewon = False
 
     while not gamewon:
@@ -204,7 +206,7 @@ def Play():
 
     print("moves made", len(gamewon))
     save_plots.save_all_plots(gamewon)
-    list_of_moves = bfs_algorithms.moves_list_1(game, gamewon)
+    list_of_moves = bfs_algorithms.moves_list(game, gamewon)
     print(list_of_moves)
     print(len(list_of_moves))
 
@@ -215,4 +217,4 @@ if __name__ == "__main__":
     Play()
     end = time.time()
 
-    print("time it took", start - end)
+    print("time it took", end - start)

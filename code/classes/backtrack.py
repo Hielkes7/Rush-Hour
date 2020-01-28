@@ -1,5 +1,5 @@
 from structure import Game, Car
-import algorithms
+import algorithms, csv
 import functions
 import random
 import sys
@@ -115,6 +115,14 @@ class Backtrack():
             totalmoves += game.moves
         average_moves = totalmoves / amount_of_games
         return int(average_moves)
+
+            # writing all moves in an output.csv file
+            with open('output.csv', mode='w') as output_file:
+                output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                output_writer.writerow(['car', ' move'])
+
+                for move in game.list_moves:
+                    output_writer.writerow([move[0], move[1]])
 
 
 if __name__ == "__main__":

@@ -58,69 +58,13 @@ def random_max_step(game):
     # keep looping untill a randomly picked car is able to move
     car_movable = False
     while not car_movable:
-
-        # pick random car
         car = random.choice(game.cars)
         car_movable = gamefunctions.car_is_movable(game, car)
 
-
+    # move the car in a possible direction
     direction_car = gamefunctions.direction(game, car)
-    if direction_car == "y positive":
-        new_y = car.y
-
-        # check for border
-        while new_y + car.length < game.gridsize + 1:
-
-            # check if car can move up
-            if game.grid[car.x][new_y + car.length] == 0:
-                new_y += 1
-            else:
-                break
-        gamefunctions.update(game, car, car.x, new_y)
-        return car, car.x, new_y
-
-    elif direction_car == "y negative":
-        new_y = car.y
-
-        # check for border
-        while new_y > 0:
-
-            # check if car can move down
-            if game.grid[car.x][new_y -1] == 0:
-                new_y -= 1
-            else:
-                break
-        gamefunctions.update(game, car, car.x, new_y)
-        return car, car.x, new_y
-
-    elif direction_car == "x positive":
-        new_x = car.x
-
-        # check for border
-        while new_x + car.length < game.gridsize + 1:
-
-            # check if car can move right
-            if game.grid[new_x + car.length][car.y] == 0:
-                new_x += 1
-            else:
-                break
-        gamefunctions.update(game, car, new_x, car.y)
-        return car, new_x, car.y
-
-
-    else:
-        new_x = car.x
-
-        # check for border
-        while new_x > 0:
-
-            # check if car can move left
-            if game.grid[new_x - 1][car.y] == 0:
-                new_x -= 1
-            else:
-                break
-        gamefunctions.update(game, car, new_x, car.y)
-        return car, new_x, car.y
+    gamefunctions.move_car(game, car, direction_car)
+    return [car, car.x, car.y]
 
 def random_max_step_non_recurring(game):
     """
@@ -138,60 +82,9 @@ def random_max_step_non_recurring(game):
             car = random.choice(game.cars)
         car_movable = gamefunctions.car_is_movable(game, car)
 
+    # move the car in a possible direction
     direction_car = gamefunctions.direction(game, car)
-    if direction_car == "y positive":
-        new_y = car.y
-
-        # check for border
-        while new_y + car.length < game.gridsize + 1:
-
-            # check if car can move up
-            if game.grid[car.x][new_y + car.length] == 0:
-                new_y += 1
-
-            else:
-                break
-        gamefunctions.update(game, car, car.x, new_y)
-
-    elif direction_car == "y negative":
-        new_y = car.y
-
-        # check for border
-        while new_y > 0:
-
-            # check if car can move down
-            if game.grid[car.x][new_y -1] == 0:
-                new_y -= 1
-            else:
-                break
-        gamefunctions.update(game, car, car.x, new_y)
-
-    elif direction_car == "x positive":
-        new_x = car.x
-
-        # check for border
-        while new_x + car.length < game.gridsize + 1:
-
-            # check if car can move right
-            if game.grid[new_x + car.length][car.y] == 0:
-                new_x += 1
-            else:
-                break
-        gamefunctions.update(game, car, new_x, car.y)
-
-    elif direction_car == "x negative":
-        new_x = car.x
-
-        # check for border
-        while new_x > 0:
-
-            # check if car can move left
-            if game.grid[new_x - 1][car.y] == 0:
-                new_x -= 1
-            else:
-                break
-        gamefunctions.update(game, car, new_x, car.y)
-
+    gamefunctions.move_car(game, car, direction_car)
     game.previous_car_id = car.id
     return [car, car.x, car.y]
 
@@ -342,4 +235,73 @@ def queue_algorithm(game):
             return True
 
     random_max_step_non_recurring(game)
+    return False
+
+def direction(game, car):
+
+    move_y_positive = False
+    move_y_negative = False
+    move_x_positive = False
+    move_x_negative = False
+
+    # check if the car can move up or down
+    if car.orientation == "V":
+        move_y_positive = movable_up(game, car)
+        move_y_negative = movable_down(game, car)
+
+    # else car can only move left or right
+    else:
+        move_x_positive = movable_right(game, car)
+        move_x_negative = movable_left(game, car)
+
+    if move_y_positive or move_y_negative:
+
+        # if the car can move both up and down, randomly pick one
+        if move_y_positive and move_y_negative:
+            random_choice =  random.choice([0, 1])
+            if random_choice == 1:
+                move_y_positive = False
+            else:
+                move_y_negative = False
+
+        # keep moving the car up untill it is blocked
+        if move_y_positive:
+            return "y positive"
+
+        # keep moving the car down untill it's blocked
+        if move_y_negative:
+            return "y negative"
+
+    if move_x_negative or move_x_positive:
+
+        # if the car can move both left and right, randomly pick one
+        if move_x_positive and move_x_negative:
+            random_choice =  random.choice([0, 1])
+            if random_choice == 1:
+                move_x_positive = False
+            else:
+                move_x_negative = False
+
+        # keep moving the car right untill it's it blocked
+        if move_x_positive:
+            return "x positive"
+
+        # keep moving the car left untill it's it blocked
+        if move_x_negative:
+            return "x negative"
+
+    else:
+        return False
+
+def car_is_movable(game, car):
+    """
+        Checks if a car can move in to at least one direction.
+    """
+
+    if car.orientation == 'V':
+         if movable_up(game, car) or movable_down(game, car):
+             return True
+    elif car.orientation == 'H':
+        if movable_left(game, car) or movable_right(game, car):
+            return True
     return False
