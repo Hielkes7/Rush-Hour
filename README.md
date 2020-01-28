@@ -13,9 +13,9 @@ Deze codebase is volledig geschreven in [Python3.6.3](https://www.python.org/dow
 pip install -r requirements.txt
 ```
 
-### Structuur (Structure)
+### Structuur
 
-Alle Python scripts staan in de folder Code. In de map Data zitten alle input waardes en in de map resultaten worden alle resultaten opgeslagen door de code.
+Alle Python scripts staan in de folder Code. Deze map bestaat uit een aantal submappen: Algorithms, classes en functions. In de map algoritms staat de code voor de random algoritmes, de breadthfirst search en het backtrack algoritme. De map classes bevat de structuur van een game: Hier wordt een nieuwe game en de game auto's in geinitialiseerd. Daarnaast staat hier de hoofd play methode in. In de map functions staan een bestand gamefunctions.py die ondersteunend zijn voor een game, zoals het checken van een winnende conditie of het vinden van een valide zet. Het bestand functions.py bevat algemeen ondersteunende functies zoals het maken van een string van de grid.
 
 ### Test (Testing)
 
@@ -27,8 +27,10 @@ python main.py
 
 In main.py kunnen er een aantal aanpassingen gedaan worden om verschillende algoritmes te testen:
 
-#### State space
-Een NxN grid bestaat uit 2N lanen, N horizontaal en N verticaal. Elke laan heeft een eigen state space. De totale state space van de hele grid is het product van alle state spaces van de lanen. Wanneer we de state space, van een horizontale lijn, bepalen kijken we alleen naar de horizontale auto's en niet naar de verticale auto's. Visa versa voor de verticale lanen. Zodra de state spaces van deze lanen bepaald zijn hoeft er alleen nog maar geteld te worden per grid hoeveel van welke soort lanen er zijn. In het "state_space.py" bestand staat per laan vernoemd wat de bijbehorende state space is. De functie in dat bestand berekent de state space van een grid. Er moet handmatig ingevuld welke soorten lanen er aanwezig zijn in een bepaalde grid.
+#### Game grids
+Allereerst kan er in main.py ingesteld worden welke game van Rushhour er wordt gespeeld. Hierin moet de volgende aanpassingen gedaan worden:
+* De naam van het CSV file moet veranderd worden
+* De gridsize moet aangepast worden op het moment dat er een grotere grid bekeken wordt. 
 
 #### A: Random algoritmes
 Bij random algoritmes wordt het gameboard door middel van random steps opgelost. Dit kan op een aantal verschillende manieren.  
@@ -46,7 +48,11 @@ Het backtrack algoritme runt een bepaald aantal games. Dit aantal is zelf aan te
 
 #### C: Breadthfirst algoritme
 
-#### Andere waarden
+
+
+#### State space
+Een NxN grid bestaat uit 2N lanen, N horizontaal en N verticaal. Elke laan heeft een eigen state space. De totale state space van de hele grid is het product van alle state spaces van de lanen. Wanneer we de state space, van een horizontale lijn, bepalen kijken we alleen naar de horizontale auto's en niet naar de verticale auto's. Visa versa voor de verticale lanen. Zodra de state spaces van deze lanen bepaald zijn hoeft er alleen nog maar geteld te worden per grid hoeveel van welke soort lanen er zijn. In het "state_space.py" bestand staat per laan vernoemd wat de bijbehorende state space is. De functie in dat bestand berekent de state space van een grid. Er moet handmatig ingevuld welke soorten lanen er aanwezig zijn in een bepaalde grid.
+
 
 ## Auteurs (Authors)
 
