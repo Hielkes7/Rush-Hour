@@ -72,10 +72,6 @@ Er zijn twee verschillende wincondities
 
       Ondanks dat de tweede win conditie meer rekenkracht per node vergt, vindt het de oplossing gemiddeld sneller omdat het 1 niveau eerder klaar is.
 
-Er zijn ook twee mogelijkheden voor het aantal hokjes dat een auto verplaatst per move:
-  -"max_step" hierbij beweegt een auto het maximaal aantal mogelijke stappen
-  -"single_step" hierbij beweegt een auto 1 hokje
-
 Er zijn twee prune mogelijkheden
 
 - "pre" checkt voordat het een node toevoegd aan de wachtrij van BFS of de bordconfiguratie niet al eerder is doorlopen

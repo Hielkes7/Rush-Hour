@@ -47,16 +47,13 @@ def main(algorithm):
     # breadthfirst algorithm
     if algorithm == 'C':
 
-        # step size can be "single" or "max"
-        step_size = "max"
-
         # win condition can be "path_free" or "one_blocker"
         win_condition = "make_path_free"
 
         # pruning can be "pre" or "post"
         pruning = "pre"
 
-        moves = Breadthfirst(grid_size, csv_file, step_size, win_condition, pruning)
+        moves = Breadthfirst(grid_size, csv_file, win_condition, pruning)
         print(f"The minimum amount of moves is: {moves}")
         print("The steps of the best game that is played are saved in output.csv")
 
