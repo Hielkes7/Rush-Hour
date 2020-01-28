@@ -102,3 +102,47 @@ def frame(ax, grid):
     plt.draw()
     plt.pause(0.3)
     plt.cla()
+
+def plot(ax, grid):
+    """
+    This function returns a live plot of the given grid
+    """
+    colors = {'A': "#cc3399",
+              'B': "#FFF000",
+              'C': "#008000",
+              'D': "#0000FF",
+              'E': "#000000",
+              'F': "#00FFFF",
+              'G': "#FF00FF",
+              'H': "#FFA500",
+              'I': "#FFE455",
+              'J': "#BC8F8F",
+              'K': "#DA70D6",
+              'L': "#00ff00",
+              'M': "#0066ff",
+              'N': "#663300",
+              'O': "#003366",
+              'P': "#660066",
+              'Q': "#666699",
+              'R': "#339966",
+              'S': "#666633",
+              'T': "#00cc00",
+              'U': "#ff0066",
+              'V': "#cc3300",
+              'W': "#ff9999",
+              'X': "#FF0000",
+              'Y': "#99cc00"
+            }
+
+    grid_size = len(grid)
+
+    for x in range(grid_size):
+        for y in range(grid_size):
+            if grid[x][y] != 0:
+                block = plt.Rectangle((x, y), 1, 1, fc=colors[grid[x][y]])
+                ax.add_patch(block)
+
+    plt.xlim(0, grid_size)
+    plt.ylim(0, grid_size)
+    plt.grid()
+    plt.show()
