@@ -1,7 +1,7 @@
 # Mijn Project
 
 Hier staat een korte beschrijving van het probleem evt. met plaatje.
-![picture of the game Rush Hour](rush_hour.jpg)
+![picture of the game Rush Hour](pic_README/rush_hour.png)
 
 ## Aan de slag (Getting Started)
 
@@ -17,6 +17,7 @@ pip install -r requirements.txt
 
 Alle Python scripts staan in de folder Code. Deze map bestaat uit een aantal submappen: Algorithms, classes en functions. In de map algoritms staat de code voor de random algoritmes, de breadthfirst search en het backtrack algoritme. De map classes bevat de structuur van een game: Hier wordt een nieuwe game en de game auto's in geinitialiseerd. Daarnaast staat hier de hoofd play methode in. In de map functions staan een bestand gamefunctions.py die ondersteunend zijn voor een game, zoals het checken van een winnende conditie of het vinden van een valide zet. Het bestand functions.py bevat algemeen ondersteunende functies zoals het maken van een string van de grid.
 
+
 ### Test (Testing)
 
 Om de code te draaien met de standaardconfiguratie (bv. brute-force en voorbeeld.csv) gebruik de instructie:
@@ -30,7 +31,7 @@ In main.py kunnen er een aantal aanpassingen gedaan worden om verschillende algo
 #### Game grids
 Allereerst kan er in main.py ingesteld worden welke game van Rushhour er wordt gespeeld. Hierin moet de volgende aanpassingen gedaan worden:
 * De naam van het CSV file moet veranderd worden
-* De gridsize moet aangepast worden op het moment dat er een grotere grid bekeken wordt. 
+* De gridsize moet aangepast worden op het moment dat er een grotere grid bekeken wordt.
 
 #### A: Random algoritmes
 Bij random algoritmes wordt het gameboard door middel van random steps opgelost. Dit kan op een aantal verschillende manieren.  
