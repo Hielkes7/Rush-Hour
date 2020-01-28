@@ -236,7 +236,6 @@ def move_car(game, car, direction):
                 break
         update(game, car, new_x, car.y)
 
-
 def queue_algorithm(game):
     """
         Checks which cars are in the way of the red car and moves these cars first.

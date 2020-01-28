@@ -1,5 +1,5 @@
 from structure import Game, Car
-import algorithms
+import algorithms, csv
 import functions
 import random
 import sys
@@ -17,7 +17,7 @@ class Backtrack():
 
         # initializes game information
         self.gridsize = 6
-        self.csvfile = "Rushhour6x6_1.csv"
+        self.csvfile = "gameboards/Rushhour6x6_1.csv"
         self.grid_dictionary = {}
 
     def add_final_grids(self, amount_of_games, amount_of_steps):
@@ -94,6 +94,14 @@ class Backtrack():
                     algorithms.check_path_free(game)
                     gamewon = algorithms.win(game)
             print(f"done! Game was won in {game.moves} moves")
+
+            # writing all moves in an output.csv file
+            with open('output.csv', mode='w') as output_file:
+                output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                output_writer.writerow(['car', ' move'])
+
+                for move in game.list_moves:
+                    output_writer.writerow([move[0], move[1]])
 
 
 if __name__ == "__main__":

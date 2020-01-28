@@ -275,8 +275,43 @@ class Write_csv():
             for move in game.list_moves:
                 output_writer.writerow([move[0], move[1]])
 
+class Play_average():
+    """
+        This function solves the game and then returns in how many moves it
+        has done so.
+    """
+    def __init__(self):
+
+        print("Hi! Let's play Rush-Hour!")
+        gridsize = 6
+        csvfile = "gameboards/Rushhour6x6_1.csv"
+
+        moves = []
+        amount_of_games = 5000
+        begin_time = time.time()
+        for i in range(amount_of_games):
+            if i%(amount_of_games/100) == 0 and i != 0:
+                current_time = time.time()
+                time_difference = current_time - begin_time
+                estimated_time = time_difference * 100 / (i/(amount_of_games/100))
+                tot_sec_remaining = estimated_time - time_difference
+                sec_remaining = tot_sec_remaining % 60
+                min_remaining = (tot_sec_remaining - sec_remaining)%60
+                hours_remainig = tot_sec_remaining / 3600
+                print(i/(amount_of_games/100), "%    time remaining:", int(tot_sec_remaining), "s")
+            game = Game(csvfile, gridsize)
 
 
+            gamewon = False
+            while not gamewon:
+                if algorithms.win(game):
+                    gamewon = True
+                    break
+                algorithms.random_max_step(game)
+            moves.append(game.moves)
+
+        average = sum(moves)/amount_of_games
+        print(f"Done! It took an average of ", average, " moves to win the game. 4MNW")
 
 class Play_average_4MNW():
     """
@@ -1053,8 +1088,8 @@ if __name__ == "__main__":
     # Play()
     # Save_first_frame()
 
-    Write_csv()
-
+    # Write_csv()
+    Play_average()
     # average moves
     # Play_average_4MNC()
     # Play_average_4MNM()
