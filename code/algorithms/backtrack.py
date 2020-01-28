@@ -2,16 +2,16 @@ from code.classes.structure import Game, Car
 from code.algorithms import algorithms
 from code.functions.functions import string
 from code.functions import gamefunctions
-import csv, random, sys
+import csv, random
 
 
 class Backtrack():
     """
-        This class represents an algorithm that uses function "add final grids" to
-        find final grids or grids that are a variable steps before final grids
-        and uses function "random moves backtrack" to randomly move and check if the
-        current grid is known in the grid dictionary thus it known how many moves until
-        the end.
+        This class represents an algorithm that uses function "add final grids"
+        to find final grids or grids that are a variable steps before final grids
+        and uses function "random moves backtrack" to randomly move and check if
+        the current grid is known in the grid dictionary thus it known how many
+        moves until the end.
     """
 
     def __init__(self, csvfile, gridsize):
@@ -53,65 +53,75 @@ class Backtrack():
                     grid_string = string(game.grid)
                     game_grids.append(grid_string)
 
-            # print(game_grids)
-            # print(game_moves)
-            # if game.moves < 10:
-            #     print(game.moves)
             list_length = game.moves - 1
             amount_of_steps = list_length
 
+            # adds a predetermined amount of items to the dictionary
             for i in range(amount_of_steps):
-                move_list = game_moves[-amount_of_steps+i:]
+
+                # current game grid
                 grid = game_grids[-amount_of_steps+i]
-                # print(move_list)
-                # print(grid)
+
+                # moves that should be done from that gamegrid to find the endstate
+                move_list = game_moves[-amount_of_steps+i:]
+
+                # checks if grid is already in dictionary
                 if grid in self.grid_dictionary:
+
+                    # checks if amount of moves in dictionary are less than
+                    # the current amount of moves
                     if len(self.grid_dictionary[grid]) > len(move_list):
                         self.grid_dictionary[grid] = move_list
                 else:
                     self.grid_dictionary[grid] = move_list
-        # print(f"grid dictionary")
-        # for key, value in self.grid_dictionary.items():
-        #     print(key, value)
-
 
     def random_moves_backtrack(self, amount_of_games):
         """
             Moves random and checks if current grid is already known.
         """
+
         totalmoves = 0
+
+        # executes a predetermined amount of games
         for i in range(amount_of_games):
             game = Game(self.csvfile, self.gridsize)
             gamewon = False
+
+            # executes steps until the winning gamestate is found
             while not gamewon:
-                step = algorithms.random_max_step_non_recurring(game)
-                # car_step = step[0]
-                # x_step = step[1]
-                # y_step = step[2]
-                # print(car_step, x_step, y_step)
+
+                # takes a random step
+                algorithms.random_max_step_non_recurring(game)
+
+                # changes the grid into a string
                 grid_string = string(game.grid)
+
+                # checks if the grid is already known
                 if grid_string in self.grid_dictionary:
+
+                        # executes the moves that should be done to find the endstate
                         moves = self.grid_dictionary[grid_string]
-                        # print(moves)
                         amount_of_moves = len(self.grid_dictionary[grid_string])
-                        # print(self.grid_dictionary[grid_string])
-                        # print(amount_of_moves)
-                        # print("found a path!")
-                        # print(f"moves: {moves}")
                         for i in range(amount_of_moves):
                             move = moves[i]
-                            # print(f"current move: {move}")
                             car = move[0]
                             x = move[1]
                             y = move[2]
-                            # print(f"current move: {car}, {x}, {y}")
                             gamefunctions.update(game, car, x, y)
                             amount_of_moves -= 1
                         gamewon = True
                 else:
+
+                    # checks if path is free
                     algorithms.check_path_free(game)
+
+                    # checks if game is won
                     gamewon = gamefunctions.win(game)
+
+            # saves the total moves done in all games to calculate the average
             totalmoves += game.moves
+
+        # calculates the average moves
         average_moves = totalmoves / amount_of_games
 
         # writing all moves in an output.csv file
@@ -122,4 +132,5 @@ class Backtrack():
             for move in game.list_moves:
                 output_writer.writerow([move[0], move[1]])
 
+        # returns the average moves
         return int(average_moves)
