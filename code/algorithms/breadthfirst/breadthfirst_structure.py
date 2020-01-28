@@ -1,4 +1,3 @@
-import code.algorithms.breadthfirst.save_plots
 from code.algorithms.breadthfirst import breadthfirst_algorithm
 from code.classes.structure import Game
 import sys, timeit, time, csv
