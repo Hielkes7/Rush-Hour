@@ -126,7 +126,8 @@ class Backtrack():
 
         # writing all moves in an output.csv file
         with open('output.csv', mode='w') as output_file:
-            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            output_writer = csv.writer(output_file, delimiter=',', quotechar='"',
+                                       quoting=csv.QUOTE_MINIMAL)
             output_writer.writerow(['car', ' move'])
 
             for move in game.list_moves:

@@ -5,7 +5,7 @@ from code.algorithms.breadthfirst.breadthfirst_structure import Breadthfirst
 def main(algorithm):
 
     # change to other csv file when other game should be checked
-    csv_file = "gameboards/Rushhour6x6_1csv"
+    csv_file = "gameboards/Rushhour6x6_1.csv"
 
     # change gridsize if other csv file should be runned
     grid_size = 6
@@ -60,4 +60,4 @@ def main(algorithm):
 if __name__ == "__main__":
 
     # change letter to algorithm that you want to run
-    main("A")
+    main("C")

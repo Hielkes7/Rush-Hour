@@ -1,37 +1,6 @@
 import random, copy, sys
 import code.algorithms.breadthfirst.breadthfirst_structure
 
-
-def all_possible_single_moves(game, grid):
-    """
-        Returns a list of all the possible single step moves of a board state
-    """
-    cars = game.cars
-    grid = grid
-    moves = []
-
-    # append all possible moves on
-    for car in cars:
-        if car.orientation == 'V':
-            move_y_positive = movable_up_single_bfs(game, grid, car)
-            move_y_negative = movable_down_single_bfs(game, grid, car)
-
-            if move_y_positive:
-                moves.append(move_y_positive)
-            if move_y_negative:
-                moves.append(move_y_negative)
-
-        else:
-            move_x_positive = movable_right_single_bfs(game, grid, car)
-            move_x_negative = movable_left_single_bfs(game, grid, car)
-
-            if move_x_positive:
-                moves.append(move_x_positive)
-            if move_x_negative:
-                moves.append(move_x_negative)
-
-    return moves
-
 def all_possible_max_moves(game, grid):
     """
         Returns a list of all the possible single step moves of a board state
@@ -59,86 +28,6 @@ def all_possible_max_moves(game, grid):
                 moves.append(move_x_negative)
     return moves
 
-def movable_left_single_bfs(game, grid, car):
-    """
-        If spot left of car is empty, returns a single step move left.
-    """
-    y = car.y
-
-    # loops over x-axis until car is found
-    for x in range(game.gridsize):
-        if grid[x][y] == car.id:
-
-            # returns False if car is outside board
-            if x - 1 >= 0:
-
-                # returns updated grid if spot left of car is empty else returns false
-                if grid[x - 1][y] == 0:
-                    move = -1
-                    return update_bfs(game, grid, car, x, y, move)
-            else:
-                return False
-
-def movable_right_single_bfs(game, grid, car):
-    """
-        If spot right of car is empty, returns single step move right.
-    """
-    y = car.y
-
-    # loops over x-axis until car is found
-    for x in range(game.gridsize):
-        if grid[x][y] == car.id:
-
-            # checks if car is not outside of  board
-            if x + car.length <= game.gridsize:
-
-                # returns updated grid if spot right of car is empty else returns false
-                if grid[x + car.length][y] == 0:
-                    move = 1
-                    return update_bfs(game, grid, car, x, y, move)
-            else:
-                return False
-
-def movable_up_single_bfs(game, grid, car):
-    """
-        If spot above car is empty, returns a single step move up.
-    """
-
-    x = car.x
-
-    # loops over y-axis until car is found
-    for y in range(game.gridsize):
-        if grid[x][y] == car.id:
-
-            # returns False if car is outside board
-            if y  + car.length <= game.gridsize:
-
-                # returns updated grid if spot above car is empty else returns false
-                if grid[x][y + car.length] == 0:
-                    move = 1
-                    return update_bfs(game, grid, car, x, y, move)
-            else:
-                return False
-
-def movable_down_single_bfs(game, grid, car):
-    """
-        If spot below car is empty, returns a single step move.
-    """
-    x = car.x
-
-    # loops over y-axis until car is found
-    for y in range(game.gridsize):
-        if grid[x][y] == car.id:
-
-            # returns False if car is outside board
-            if x - 1 <= game.gridsize:
-
-                # returns updated grid if spot above car is empty else returns false
-                if grid[x][y - 1] == 0:
-                    move = -1
-                    return update_bfs(game, grid, car, x, y, move)
-            else:
-                return False
 
 def movable_left_max_bfs(game, grid, car):
     """
@@ -364,7 +253,7 @@ def winning_path_1(game, node):
     node = node
     moves_list = []
 
-    while node.parent != "LUCA":
+    while node.parent != "start_board":
         moves_list.insert(0, node.grid)
         node = node.parent
     moves_list.insert(0, node.grid)
@@ -378,7 +267,7 @@ def winning_path_2(game, node, final_grid):
     node = node
     moves_list = []
     moves_list.append(final_grid)
-    while node.parent != "LUCA":
+    while node.parent != "start_board":
         moves_list.insert(0, node.grid)
         node = node.parent
     moves_list.insert(0, node.grid)

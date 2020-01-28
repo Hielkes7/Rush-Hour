@@ -88,9 +88,10 @@ class Car():
 
 class Play():
     """
-        This function solves the game according to a given combination of algorithms. It then returns
-        how many steps it took and creates a file output.csv in the folder Rush-Hour/results/ with all the
-        moves made to solve the problem.
+        This function solves the game according to a given combination of
+        algorithms. It then returns how many steps it took and creates a file
+        output.csv in the folder Rush-Hour/results/ with all the moves made to
+        solve the problem.
     """
 
     def __init__(self, csvfile, grid_size, step_size, non_recurring, win_condition, animation):
@@ -102,7 +103,7 @@ class Play():
             win_condition: win, check_path_free, make_path_free
             animation: True, False
         """
-        
+
         game = Game(csvfile, grid_size)
 
         # frame of the begin state
@@ -206,7 +207,8 @@ class Play():
 
         # writing all moves in an output.csv file
         with open('output.csv', mode='w') as output_file:
-            output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            output_writer = csv.writer(output_file, delimiter=',', quotechar='"',
+                                       quoting=csv.QUOTE_MINIMAL)
             output_writer.writerow(['car', ' move'])
 
             for move in game.list_moves:
