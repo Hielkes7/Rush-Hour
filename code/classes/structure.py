@@ -96,11 +96,11 @@ class Play():
     def __init__(self, csvfile, grid_size, step_size, non_recurring, win_condition, animation):
         """
             csvfile: Rushhour6x6_1, Rushhour6x6_2, ...
-            grid_size = 6, 9, 12
-            step_size = single, max
-            non_recurring = True, False
-            win_condition = win, check_path_free, make_path_free
-            animation = True, False
+            grid_size: 6, 9, 12
+            step_size: single, max
+            non_recurring: True, False
+            win_condition: win, check_path_free, make_path_free
+            animation: True, False
         """
         game = Game(csvfile, grid_size)
 
@@ -210,7 +210,6 @@ class Play():
 
             for move in game.list_moves:
                 output_writer.writerow([move[0], move[1]])
-
         self.moves = game.moves
 
     def __str__(self):
