@@ -442,39 +442,12 @@ def moves_list(game, win_path):
             moves_list.append([move_car.id, movement])
 
     grid = win_path[-1]
-    print_grid_terminal(grid)
     red_car = game.redcar
     y = red_car.y
-    min_move = red_car.length
 
     # adds the move that takes red car to exit
     for i in range(game.gridsize + 1):
         if grid[game.gridsize - i][y] == red_car.id:
-                moves_list.append([red_car.id, i + min_move])
+                moves_list.append([red_car.id, i])
                 break
     return moves_list
-
-
-
-def print_grid_terminal(grid):
-    """
-        Prints the grid in the terminal
-    """
-    for y in range(len(grid)):
-        for x in range(len(grid)):
-            print(grid[y][x], " ", end="")
-        print()
-
-def excelwriter(list, string):
-    """
-        Writes list of data into an excel sheet
-    """
-
-    workbook = xlsxwriter.Workbook(string)
-    sheet = workbook.add_worksheet()
-
-    # declare data
-    for item in range(len(list)):
-        sheet.write(item, 0, list[item])
-
-    workbook.close()
