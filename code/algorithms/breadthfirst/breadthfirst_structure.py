@@ -1,7 +1,7 @@
 import code.algorithms.breadthfirst.save_plots
-import code.algorithms.breadthfirst.breadthfirst_algorithm
+from code.algorithms.breadthfirst import breadthfirst_algorithm
 from code.classes.structure import Game
-import sys, timeit, time
+import sys, timeit, time, csv
 
 class Node():
     """
@@ -383,36 +383,34 @@ class Bfs_max_post_win2():
                     self.q.append(Node(grid, parent))
 
 class Breadthfirst():
-    def __init__(game, gridsize, csvfile, step_size, win_condition, pruning):
 
+    def __init__(self, gridsize, csvfile, step_size, win_condition, pruning):
 
-        gridsize = gridsize
-        csvfile = csvfile
         game = Game(csvfile, gridsize)
         grid = game.grid
 
         if step_size == "max":
             if win_condition == "path_free":
                 if pruning == "pre":
-                    bfs = Bfs_max_pre_win_1(grid, game)
+                    bfs = Bfs_max_pre_win1(grid, game)
                 else:
-                    bfs = Bfs_max_post_win_1(grid, game)
+                    bfs = Bfs_max_post_win1(grid, game)
             else:
                 if pruning == "pre":
-                    bfs = Bfs_max_pre_win_2(grid, game)
+                    bfs = Bfs_max_pre_win2(grid, game)
                 else:
-                    bfs = Bfs_max_post_win_2(grid, game)
+                    bfs = Bfs_max_post_win2(grid, game)
         else:
             if win_condition == "path_free":
                 if pruning == "pre":
-                    bfs = Bfs_single_pre_win_1(grid, game)
+                    bfs = Bfs_single_pre_win1(grid, game)
                 else:
-                    bfs = Bfs_single_post_win_1(grid, game)
+                    bfs = Bfs_single_post_win1(grid, game)
             else:
                 if pruning == "pre":
-                    bfs = Bfs_single_pre_win_2(grid, game)
+                    bfs = Bfs_single_pre_win2(grid, game)
                 else:
-                    bfs = Bfs_single_post_win_2(grid, game)
+                    bfs = Bfs_single_post_win2(grid, game)
 
         gamewon = False
         while not gamewon:
@@ -432,4 +430,4 @@ class Breadthfirst():
         self.moves = len(list_of_moves)
 
     def __str__(self):
-        return self.moves
+        return str(self.moves)
