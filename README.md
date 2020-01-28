@@ -1,4 +1,4 @@
-# Mijn Project
+# Rush Hour 
 
 In dit project bekijken een aantal manieren voor het oplossen van verschillende configuraties van een puzzelspel genaamd "Rush-Hour".
 
