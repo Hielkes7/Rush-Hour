@@ -1,6 +1,6 @@
 from code.algorithms.backtrack import Backtrack
 from code.classes.structure import Play
-import code.algorithms.breadthfirst.breadthfirst_structure
+from code.algorithms.breadthfirst.breadthfirst_structure import breadthfirst
 
 def main(algorithm):
 
@@ -42,15 +42,25 @@ def main(algorithm):
         # arg: amount of random games played
         average = backtrack_algorithm.random_moves_backtrack(100)
         print(f"the average score of all moves is: {average}")
-
         print("The steps of the last game that is played are saved in output.csv")
 
     # breadthfirst algorithm
     if algorithm == 'C':
-        pass
 
+        # step size can be "single" or "max"
+        step_size = "max"
+
+        # win condition can be "path_free" or "one_blocker"
+        win_condition = "make_path_free"
+
+        # pruning can be "pre" or "post"
+        pruning = "pre"
+
+        moves = Breadthfirst(grid_size, csv_file, step_size, win_condition, pruning)
+        print(f"The minimum amount of moves is: {moves}")
+        print("The steps of the best game that is played are saved in output.csv")
 
 if __name__ == "__main__":
 
     # change letter to algorithm that you want to run
-    main("B")
+    main("C")
