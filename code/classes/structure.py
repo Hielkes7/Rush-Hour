@@ -102,6 +102,7 @@ class Play():
             win_condition: win, check_path_free, make_path_free
             animation: True, False
         """
+        
         game = Game(csvfile, grid_size)
 
         # frame of the begin state
@@ -213,4 +214,5 @@ class Play():
         self.moves = game.moves
 
     def __str__(self):
+
         return str(self.moves)
