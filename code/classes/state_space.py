@@ -145,7 +145,7 @@ H = 3
 I = 1
 # print(state_space2_9x9(A, B, C, D, E, F, G, H, I))
 
-# method 3, game 6
+# method 3, game 7
 A = 5
 B = 2
 C = 2
