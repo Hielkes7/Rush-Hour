@@ -87,92 +87,132 @@ class Car():
 
 class Play():
     """
-        This function solves the game and then returns in how many moves it
-        has done so.
+        This function solves the game according to a given combination of algorithms. It then returns
+        how many steps it took and creates a file output.csv in the folder Rush-Hour/results/ with all the
+        moves made to solve the problem.
     """
-    def __init__(self):
 
-        print("Hi! Let's play Rush-Hour!")
-
-        # user input way
-        game_number = input("What game do you want to play? 1, 2, 3, 4, 5, 6 or 7: ")
-        if game_number == "1" or game_number == "2" or game_number == "3":
-            game_size = "6x6_"
-            gridsize = 6
-        elif game_number == "4" or game_number == "5" or game_number == "6":
-            game_size = "9x9_"
-            gridsize = 9
-        elif game_number == "7":
-            game_size = "12x12_"
-            gridsize = 12
-        else:
-            print("Wrong input. Quiting")
-            quit()
-        csvfile = "gameboards/Rushhour" + game_size + game_number + ".csv"
-
-        # prompting user for option to give an animation and/or save frames.
-        animation = input("Do you want to see an animation of the solution? 'yes' or 'no': ")
-        plots = input("Do you want all moves saved as png images? 'yes' or 'no': ")
-
-        game = Game(csvfile, gridsize)
+    def __init__(self, csvfile, grid_size, step_size, non_recurring, win_condition, animation):
+        """
+            csvfile: Rushhour6x6_1, Rushhour6x6_2, ...
+            grid_size = 6, 9, 12
+            step_size = single, max
+            non_recurring = True, False
+            win_condition = win, check_path_free, make_path_free
+            animation = True, False
+        """
+        game = Game(csvfile, grid_size)
 
         # frame of the begin state
-        if animation == "yes":
+        if animation:
             plt.figure()
             ax = plt.axes()
             functions.frame(ax, game.grid)
 
-        # save plot begin state
-        if plots == "yes":
-            all_grids = []
-            all_grids.append(copy.deepcopy(game.grid))
-
         # loop through game with algorithms until the win condition is matched
         gamewon = False
-        while not gamewon:
-            algorithms.random_max_step_non_recurring(game)
-            if algorithms.make_path_free(game):
-                gamewon = True
-                break
 
-            algorithms.random_max_step_non_recurring(game)
+        # all possible combinations of algorithms
+        if step_size == "single":
+            if win_condition == "win":
+                while not gamewon:
+                    algorithms.random_single_step(game)
+                    if animation:
+                        functions.frame(ax, game.grid)
+                    if algorithms.win(game):
+                        gamewon = True
+                        break
 
-            if animation == "yes":
-                functions.frame(ax, game.grid)
+            elif win_condition == "check_path_free":
+                while not gamewon:
+                    algorithms.random_single_step(game)
+                    if animation:
+                        functions.frame(ax, game.grid)
+                    if algorithms.check_path_free(game):
+                        gamewon = True
+                        break
 
-            if plots == "yes":
-                all_grids.append(copy.deepcopy(game.grid))
+            elif win_condition == "make_path_free":
+                while not gamewon:
+                    algorithms.random_single_step(game)
+                    if animation:
+                        functions.frame(ax, game.grid)
+                    if algorithms.make_path_free(game):
+                        gamewon = True
+                        break
+
+        elif step_size == "max":
+            if not non_recurring:
+                if win_condition == "win":
+                    while not gamewon:
+                        algorithms.random_max_step(game)
+                        if animation:
+                            functions.frame(ax, game.grid)
+                        if algorithms.win(game):
+                            gamewon = True
+                            break
+
+                elif win_condition == "check_path_free":
+                    while not gamewon:
+                        algorithms.random_max_step(game)
+                        if animation:
+                            functions.frame(ax, game.grid)
+                        if algorithms.check_path_free(game):
+                            gamewon = True
+                            break
+
+                elif win_condition == "make_path_free":
+                    while not gamewon:
+                        algorithms.random_max_step(game)
+                        if animation:
+                            functions.frame(ax, game.grid)
+                        if algorithms.make_path_free(game):
+                            gamewon = True
+                            break
+
+            elif non_recurring:
+                if win_condition == "win":
+                    while not gamewon:
+                        algorithms.random_max_step_non_recurring(game)
+                        if animation:
+                            functions.frame(ax, game.grid)
+                        if algorithms.win(game):
+                            gamewon = True
+                            break
+
+                elif win_condition == "check_path_free":
+                    while not gamewon:
+                        algorithms.random_max_step_non_recurring(game)
+                        if animation:
+                            functions.frame(ax, game.grid)
+                        if algorithms.check_path_free(game):
+                            gamewon = True
+                            break
+
+                elif win_condition == "make_path_free":
+                    while not gamewon:
+                        algorithms.random_max_step_non_recurring(game)
+                        if animation:
+                            functions.frame(ax, game.grid)
+                        if algorithms.make_path_free(game):
+                            gamewon = True
+                            break
 
         # frame of the final state
-        if animation == "yes":
-            functions.frame(ax, game.grid)
-
-        # save final frame
-        if plots == "yes":
-            all_grids.append(copy.deepcopy(game.grid))
+        if animation:
+            functions.plot(ax, game.grid)
 
         print()
         print(f"Done! It took {game.moves} moves to win the game.")
-        print(f"All moves have been writen in a csv file called 'output.csv'.")
+        print(f"All moves have been writen in a csv file called 'output.csv' in the location: Rush-Hour/results/.")
 
         # writing all moves in an output.csv file
-        with open('output.csv', mode='w') as output_file:
+        with open('../../results/output.csv', mode='w') as output_file:
             output_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             output_writer.writerow(['car', ' move'])
 
             for move in game.list_moves:
                 output_writer.writerow([move[0], move[1]])
-
-        # save all plots
-        if plots == "yes":
-            counter = 0
-            for grid in all_grids:
-                file_name = "frame" + str(counter) + ".png"
-                functions.save_plot(file_name, grid)
-                counter += 1
-            print()
-            print("All frames have been saved in the folder 'frames'.")
-            print("SIDENOTE: the amount of frames does not match the amount of moves due to our 'make_path_free' win condition.")
 
 
 if __name__ == "__main__":
