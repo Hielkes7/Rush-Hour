@@ -5,7 +5,7 @@ from code.algorithms.breadthfirst.breadthfirst_structure import Breadthfirst
 def main(algorithm):
 
     # change to other csv file when other game should be checked
-    csv_file = "gameboards/Rushhour6x6_1.csv"
+    csv_file = "gameboards/Rushhour6x6_1csv"
 
     # change gridsize if other csv file should be runned
     grid_size = 6
@@ -28,7 +28,7 @@ def main(algorithm):
         animation = False
         moves = Play(csv_file, grid_size, step_size, non_recurring, win_condition, animation)
         print(f"Amount of moves: {moves}")
-        print("the steps of the game that is played are saved in output.csv")
+        print("The steps of the game that is played are saved in output.csv")
 
     # backtrack algorithm
     if algorithm == 'B':
@@ -41,7 +41,7 @@ def main(algorithm):
 
         # arg: amount of random games played
         average = backtrack_algorithm.random_moves_backtrack(100)
-        print(f"the average score of all moves is: {average}")
+        print(f"The average score of all moves is: {average}")
         print("The steps of the last game that is played are saved in output.csv")
 
     # breadthfirst algorithm
@@ -63,4 +63,4 @@ def main(algorithm):
 if __name__ == "__main__":
 
     # change letter to algorithm that you want to run
-    main("C")
+    main("A")
