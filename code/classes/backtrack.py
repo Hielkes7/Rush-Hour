@@ -17,8 +17,8 @@ class Backtrack():
     def __init__(self):
 
         # initializes game information
-        self.gridsize = 6
-        self.csvfile = "Rushhour6x6_1.csv"
+        self.gridsize = 9
+        self.csvfile = "Rushhour9x9_4.csv"
         self.grid_dictionary = {}
 
     def add_final_grids(self, amount_of_games, amount_of_steps):
@@ -53,17 +53,24 @@ class Backtrack():
                     grid_string = functions.string(game.grid)
                     game_grids.append(grid_string)
 
+            # print(game_grids)
+            # print(game_moves)
+            # if game.moves < 10:
+            #     print(game.moves)
             list_length = game.moves - 1
+            amount_of_steps = list_length
 
             for i in range(amount_of_steps):
                 move_list = game_moves[-amount_of_steps+i:]
-                grid = game_grids[list_length - i]
-
+                grid = game_grids[-amount_of_steps+i]
+                # print(move_list)
+                # print(grid)
                 if grid in self.grid_dictionary:
-                    if len(self.grid_dictionary[grid]) > (i + 1):
+                    if len(self.grid_dictionary[grid]) > len(move_list):
                         self.grid_dictionary[grid] = move_list
                 else:
                     self.grid_dictionary[grid] = move_list
+        # print(f"grid dictionary")
         # for key, value in self.grid_dictionary.items():
         #     print(key, value)
 
@@ -72,25 +79,24 @@ class Backtrack():
         """
             Moves random and checks if current grid is already known.
         """
-
+        totalmoves = 0
         for i in range(amount_of_games):
             game = Game(self.csvfile, self.gridsize)
             gamewon = False
             while not gamewon:
                 step = algorithms.random_max_step_non_recurring(game)
-                car_step = step[0]
-                x_step = step[1]
-                y_step = step[2]
-                print(car_step, x_step, y_step)
-                print
+                # car_step = step[0]
+                # x_step = step[1]
+                # y_step = step[2]
+                # print(car_step, x_step, y_step)
                 grid_string = functions.string(game.grid)
                 if grid_string in self.grid_dictionary:
                         moves = self.grid_dictionary[grid_string]
-                        print(moves)
+                        # print(moves)
                         amount_of_moves = len(self.grid_dictionary[grid_string])
-                        print(self.grid_dictionary[grid_string])
-                        print(amount_of_moves)
-                        print("found a path!")
+                        # print(self.grid_dictionary[grid_string])
+                        # print(amount_of_moves)
+                        # print("found a path!")
                         # print(f"moves: {moves}")
                         for i in range(amount_of_moves):
                             move = moves[i]
@@ -98,14 +104,17 @@ class Backtrack():
                             car = move[0]
                             x = move[1]
                             y = move[2]
-                            print(f"current move: {car}, {x}, {y}")
+                            # print(f"current move: {car}, {x}, {y}")
                             gamefunctions.update(game, car, x, y)
                             amount_of_moves -= 1
                         gamewon = True
                 else:
                     algorithms.check_path_free(game)
                     gamewon = gamefunctions.win(game)
-            print(f"done! Game was won in {game.moves} moves")
+            # print(f"done! Game was won in {game.moves} moves")
+            totalmoves += game.moves
+        average_moves = totalmoves / amount_of_games
+        return int(average_moves)
 
 
 if __name__ == "__main__":
@@ -114,8 +123,8 @@ if __name__ == "__main__":
     backtrack = Backtrack()
 
     # add the 5 last grids from 10 games to the dictionary
-    backtrack.add_final_grids(1000, 5)
+    backtrack.add_final_grids(5000, 100)
 
 
     # check from 10 games if the grids are in the dictionary
-    backtrack.random_moves_backtrack(10)
+    print(backtrack.random_moves_backtrack(5000))
