@@ -170,3 +170,60 @@ def direction(game, car):
 
     else:
         return False
+
+def move_car(game, car, direction):
+    """
+        This function moves the given car as far as possible in the given direction
+    """
+    if direction == "y positive":
+        new_y = car.y
+
+        # check for border
+        while new_y + car.length < game.gridsize + 1:
+
+            # check if car can move up
+            if game.grid[car.x][new_y + car.length] == 0:
+                new_y += 1
+
+            else:
+                break
+        update(game, car, car.x, new_y)
+
+    elif direction == "y negative":
+        new_y = car.y
+
+        # check for border
+        while new_y > 0:
+
+            # check if car can move down
+            if game.grid[car.x][new_y -1] == 0:
+                new_y -= 1
+            else:
+                break
+        update(game, car, car.x, new_y)
+
+    elif direction == "x positive":
+        new_x = car.x
+
+        # check for border
+        while new_x + car.length < game.gridsize + 1:
+
+            # check if car can move right
+            if game.grid[new_x + car.length][car.y] == 0:
+                new_x += 1
+            else:
+                break
+        update(game, car, new_x, car.y)
+
+    elif direction == "x negative":
+        new_x = car.x
+
+        # check for border
+        while new_x > 0:
+
+            # check if car can move left
+            if game.grid[new_x - 1][car.y] == 0:
+                new_x -= 1
+            else:
+                break
+        update(game, car, new_x, car.y)
